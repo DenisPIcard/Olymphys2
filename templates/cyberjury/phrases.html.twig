@@ -1,0 +1,25 @@
+{% extends "base.html.twig" %}
+{% block title %} Phrases amusantes {% endblock %}
+
+{% block titre3 %} 
+	<a {% if (progression) %} class ="btn btn-primary btn-lg" {% else %} class ="btn btn-default btn-lg" {% endif %} 
+	href="{{ path('cyberjury_evaluer_une_equipe', {'id': equipe.id} ) }}" > {{ equipe.lettre }} </a>  
+	{{ equipe.titreProjet}} 
+<a href="https://odpf.org/images/archives_docs/26eme/memoires/Equipe{{ equipe.lettre }}/memoire.pdf" class="fas fa-book-reader" title="Accéder au mémoire de l'équipe" target="_blank"> </a>
+
+<a href="{{ path('cyberjury_infos_equipe', {'id': equipe.id} ) }}" class="fas fa-info-circle" title="En savoir plus sur cette équipe"> </a>
+
+{% endblock %} 
+
+{% block navigation %}
+<button type="button" class="btn btn-outline-primary btn-lg btn-bloc"  > <span class="fas fa-user">  </span>           
+{{ jure.prenomJure|title }} {{ jure.nomJure|title }} 
+  </button>
+
+{#{{ knp_menu_render('jury', {'currentClass': 'active'}) }}#}
+{{ include ('cyberjury/navigation.html.twig') }}
+{% endblock %}
+{% block body %}
+
+{{ include ("cyberjury/form-phrases.html.twig") }}
+{% endblock %}

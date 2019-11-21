@@ -1,0 +1,35 @@
+# config/packages/easy_admin.yaml
+
+imports :
+      - { resource: easy_admin/basic.yml }
+      - { resource: easy_admin/design.yml }
+      - { resource: easy_admin/equipes.yml }
+      - { resource: easy_admin/jures.yml }
+      - { resource: easy_admin/memoires.yml }
+      - { resource: easy_admin/recompenses.yml }   
+      - { resource: easy_admin/users.yml }   
+      - { resource: easy_admin/equipesadmin.yml }   
+      - { resource: easy_admin/edition.yml }   
+      - { resource: easy_admin/memoiresinter.yml }  
+      - { resource: easy_admin/fichessecur.yml }  
+      - { resource: easy_admin/photosinter.yml }  
+      - { resource: easy_admin/centrescia.yml } 
+      - { resource: easy_admin/elevesinter.yml } 
+      - { resource: easy_admin/resumes.yml } 
+easy_admin:   
+    user:
+        name_property_path: 'Nom'
+    entities:
+        # change the following to the namespaces of your own entities
+         Eleves :
+            class : App\Entity\Eleves
+         Totalequipes :
+               class : App\Entity\Totalequipes
+               list : 
+                   max_results: 30
+                   fields : ['lettreEquipe','nomEquipe', 'lycee', 'prof1', 'prof2']
+                   sort: ['lettreEquipe','ASC']
+    site_name: <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/Logo_odpf_long.png"" alt="logo des OdpF"  width="160"/>
+    design:
+        assets:
+            favicon: '/assets/backend/favicon.ico'

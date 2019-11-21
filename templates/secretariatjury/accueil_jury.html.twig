@@ -1,0 +1,56 @@
+{% extends "base.html.twig" %}
+{% block title %} Accueil {% endblock %}
+
+{% block titre3 %} Les équipes participantes {% endblock %}
+
+{% block navigation %}
+
+	{{ include ("secretariatjury/navigation.html.twig") }}
+{% endblock %}
+
+{% block body %}
+
+<div class="table-responsive">
+
+  <table class="table">  
+
+	{% for equipe in listEquipes %}
+      
+      <tr class="active">
+          <th><button type="button" class="btn btn-primary btn-lg">{{ equipe.lettre }}</button></th>
+        <td>  {{ equipe.titreProjet }} </td>
+      </tr>
+
+      <tr>
+      	<th>Les élèves</th> 
+        <td>
+      		{% set lettre = equipe.lettre %}
+            {% for eleve in lesEleves[lettre] %}
+            {% if loop.index < lesEleves[lettre]|length %}
+                {{ eleve.prenom|title }} {{ eleve.nom|title }} ({{eleve.classe}}),  
+            {% else %}
+              {{ eleve.prenom|title }} {{ eleve.nom|title }} ({{eleve.classe}})
+            {% endif %}
+          	{% endfor %}
+        </td>
+      </tr>
+
+      <tr>
+      	<th>Les enseignants</th> 
+        <td> 
+			{{ equipe.infoequipe.prenomProf1|title}} {{ equipe.infoequipe.nomProf1|upper}} - 
+        	{{ equipe.infoequipe.prenomProf2|title}} {{ equipe.infoequipe.nomProf2|upper}} 
+        </td>
+      </tr>
+
+      <tr>
+      	<th>L'établissement</th> 
+        <td> 
+        	{{ equipe.infoequipe.denominationLycee|title}} <i>{{ equipe.infoequipe.nomLycee|title}}</i>, <b> ville : </b> {{ equipe.infoequipe.lyceeLocalite |title}}  - <b>{{ equipe.infoequipe.lyceeAcademie|upper}} </b>
+        </td>
+      </tr>
+
+	{% endfor %}
+  </table>
+</div>
+{% endblock %}

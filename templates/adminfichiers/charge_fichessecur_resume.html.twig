@@ -1,0 +1,66 @@
+{% extends "base.html.twig" %}
+{% block title %} Fiche sécurité{% endblock %}
+{% block titre3 %}  <center> Concours {{phase}} <br>
+    
+    Transfert  {% if typefichier=='fichesecur' %}
+        de la fiche sécurité 
+    {% endif %}
+    {% if typefichier=='resume' %}
+        du résumé 
+    {% endif %} d'une de mes équipes
+
+   {% if donnees_equipe is defined %} 
+    {{donnees_equipe}} 
+    {% endif %}
+{% endblock %}
+
+{% block navigation %}
+	
+{% endblock %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+{% block body %}
+    <div class="well">
+     
+         {%if phase == 'interacadémique' %}  
+ 
+             {{ form_start(form) }}
+    <div class="my-custom-class-for-errors">
+        {{ form_errors(form) }}
+    </div>
+    <div class="form-inline" >
+  <div class="row">       
+   <div class="col">   
+             {{ form_row(form.numero, {'class' : 'choice_custom'}) }}
+ </div> 
+ <div class="col"  id="some-custom-id">   
+             {{ form_row(form.OK, { 'label': 'Choisir cette équipe' }) }}
+             
+    </div>
+ 
+     {{ form_end(form) }}
+             {%endif %}
+             {%if phase == 'nationale' %}  
+  {{ form_start(form) }}
+    <div class="my-custom-class-for-errors">
+        {{ form_errors(form) }}
+    </div>
+    <div class="form-inline" >
+  <div class="row">                  
+ <div class="col">  
+     
+     
+             {{ form_row(form.lettre,{'class' : 'choice_custom'}) }}
+ </div>
+             <div class="col"  id="some-custom-id">   
+             {{ form_widget(form.OK, { 'label': 'Choisir cette équipe' }) }}
+             
+    </div>
+ {{ form_end(form) }}
+             {%endif %}
+   
+
+  
+    </div>
+    </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+<form method="post">
+    {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+
+    <h1 class="h3 mb-3 font-weight-normal">Se connecter</h1>
+    <label for="inputUsername" class="sr-only">Username</label>
+    <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
+    <label for="inputPassword" class="sr-only">Password</label>
+    <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Mot de Passe" required>
+    <br />
+    <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" name="_remember_me">Se rappeler de moi
+            </label>
+    </div>  
+    <input type="hidden" name="_csrf_token"
+           value="{{ csrf_token('authenticate') }}"
+    >
+     <button class="btn btn-lg btn-primary" type="submit">
+        Se connecter
+    </button>   
+  
+</form>
+    <br />       
+    <div>              
+            <a  href="{{ path('forgotten_password') }}">Mot de passe oublié</a>
+    </div>
+{% endblock %}

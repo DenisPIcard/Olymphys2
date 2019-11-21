@@ -1,0 +1,36 @@
+{% extends "base.html.twig" %}
+{% block title %} Accueil Jury {% endblock %}
+
+
+
+{% block navigation %}
+<button type="button" class="btn btn-outline-primary btn-lg btn-bloc"  > <span class="fas fa-user">  </span>           
+{{ jure.prenomJure|title }} {{ jure.nomJure|title }} 
+  </button>
+{{ include ('cyberjury/navigation.html.twig') }}
+{#{{ knp_menu_render('jury', {'currentClass': 'active'}) }}#}
+
+{% endblock %}
+{% block titre3 %} Mes équipes {% endblock %}
+
+{% block body %}
+{% for equipes in listEquipes %}
+    <p>
+    <a
+    
+        {% if (progression[equipes.lettre]) and (equipes.isef) %}  class ="btn btn-outline-success btn-lg"
+        {% elseif (progression[equipes.lettre]) and not(equipes.isef) %} class ="btn btn-outline-primary btn-lg" 
+        {% elseif (progression[equipes.lettre]) and (equipes.isef) %} class ="btn btn-success btn-lg"
+        {% else %}class ="btn btn-primary btn-lg"
+        {% endif %}
+ 
+    href="{{ path('cyberjury_evaluer_une_equipe', {'id': equipes.id} ) }}" >{{ equipes.lettre }}</a>
+    {{ equipes.titreProjet }}
+    <a href="#" class="fas fa-clock" title="{{equipes.heure}} {{equipes.salle}}"> </a>
+    <a href="https://odpf.org/images/archives_docs/26eme/memoires/Equipe{{ equipes.lettre }}/memoire.pdf" class="fas fa-book-reader" title="Accéder au mémoire de l'équipe" target="_blank"> </a>
+    <a href="{{ path('cyberjury_infos_equipe', {'id': equipes.id} ) }}" class="fas fa-info-circle" title="En savoir plus sur cette équipe"> </a>
+    <a href="{{ path('cyberjury_phrases_amusantes', {'id': equipes.id} ) }}" class="fas fa-pencil-alt" title="Les phrases amusantes" > </a>
+    <p />
+
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base.html.twig" %}
+{% block title %} Fichiers{% endblock %}
+{% block titre3 %}  Liste des fichiers de mes équipes
+
+    
+{% endblock %}
+
+{% block navigation %}
+
+{% endblock %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+{% block body %}
+    <div class="well">
+       {{form(form)}}
+        
+
+    </div> 
+
+
+
+   
+{% endblock %}

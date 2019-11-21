@@ -1,0 +1,42 @@
+# config/validator/validation.yaml
+App\Entity\Fichessecur:
+    properties:
+       ficheFile:
+            - File:
+                maxSize: 1024k
+                mimeTypes: [application/pdf, application/x-pdf,  "application/msword",
+                        application/octet-stream,
+                           application/vnd.oasis.opendocument.text,
+                           image/jpeg]
+                mimeTypesMessage: Veuillez télécharger un fichier du bon format
+    
+App\Entity\Memoiresinter:
+    properties:
+       memoireFile:
+            - File:
+                maxSize: 2600k
+                mimeTypes: [application/pdf, application/x-pdf] 
+                mimeTypesMessage: Veuillez télécharger un fichier du bon format
+
+App\Entity\Memoires:
+    properties:
+       memoireFile:
+            - File:
+                maxSize: 2600k
+                mimeTypes: [application/pdf, application/x-pdf] 
+                mimeTypesMessage: Veuillez télécharger un fichier du bon format
+
+App\Entity\Resumes:
+    properties:
+       resumeFile:
+            - File:
+                maxSize: 1000k
+                mimeTypes: [application/pdf, application/x-pdf] 
+                mimeTypesMessage: Veuillez télécharger un fichier du bon format
+                
+App\Entity\Photosinter:
+    properties:
+       photoFile:
+            - File:
+                mimeTypes: [image/jpeg] 
+                mimeTypesMessage: Veuillez télécharger un fichier du bon format

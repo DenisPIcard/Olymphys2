@@ -1,0 +1,51 @@
+{% extends "base.html.twig" %}
+{% block title %} Les équipes du centre  {{centre}}{% endblock %}
+
+
+
+{% block titre3 %}Liste des équipes du centre :  {{centre}} {% endblock %}
+
+
+{% block body %}
+    <div class="well">
+{% for message in app.session.flashbag.get('info') %}
+    <div class="alert alert-info"> {{ message }}</div>
+  {% endfor %}       
+   
+        <table> 
+            {%set i = 0 %} 
+    {% for equipe in liste_equipes %}
+        <div class="row">
+            <div class="col">
+                {{ equipe.numero }} - {{ equipe.titreProjet }} / {{nombre_fichiers[i]}} fichier(s) déposé(s)
+                {% set i = i +1 %} 
+                 <hr>
+                </div>
+                <div class="col">
+     <a class="btn btn-primary" href="{{ path('fichiers_afficher_liste_fichiers_prof', {'numero_equipe': equipe.numero} ) }}" >Voir</a>
+                  
+                </div>
+                 
+     </div>
+    {% endfor %}
+           
+        </table>
+    </div>
+   
+      {% if is_granted('ROLE_COMITE') %}   
+      
+    <center><a href="{{ path('fichiers_afficherlesmemoiresinter_orgacia')  }}" >Retour à la liste des centres</a></center>
+    {% endif %}
+      
+ {% block javascripts %}
+        <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js" ></script> 
+        {#<script src="./coverage/bs-custom-file-input.js"></script>#}
+        <script>
+            {# $(document).ready(function () {
+                bsCustomFileInput.init()
+            })#}
+                bsCustomFileInput.init()
+        </script>
+    {% endblock %}  
+    
+{% endblock %}

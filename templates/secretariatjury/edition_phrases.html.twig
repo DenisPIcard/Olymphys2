@@ -1,0 +1,41 @@
+{% extends "base.html.twig" %}
+{% block title %} Édition des phrases et des prix amusants {% endblock %}
+
+{% block titre3 %} Édition des phrases et des prix amusants {% endblock %}
+
+{% block navigation %}
+	{{ include ("secretariatjury/navigation.html.twig") }}
+{% endblock %}
+{% block body %}
+
+<div class="container">
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+      	<th>Lettre</th>
+      	<th>Titre projet</th>
+        <th>Classement</th>
+        <th>Phrases et prix amusants</th> 
+     </tr>
+    </thead>
+
+      <tbody>
+
+     	{% for equipes in listEquipes %}
+     		<tr>
+			<th><span  class ="btn btn-primary btn-lg" >{{ equipes.lettre }} </span></th>
+      		<td>{{ equipes.titreProjet }}</td>
+          <td>{{ equipes.classement }} prix</td>
+          <td>{% if equipes.phrases != NULL %}
+              {{ equipes.phrases.phrase}} {{ equipes.liaison.liaison}} {{ equipes.phrases.prix}}
+              {% endif %}
+          </td>
+      		</tr>
+		{% endfor %}
+
+    </tbody>
+    </table>
+</div>
+
+{% endblock %}

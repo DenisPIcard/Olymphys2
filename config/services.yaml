@@ -1,0 +1,39 @@
+parameters:
+    locale: 'fr'
+    repertoire_memoire_interacademiques: '%kernel.project_dir%/public/upload/equipes/memoires/inter'
+    repertoire_fiches_securite: '%kernel.project_dir%/public/upload/equipes/fichessecur'
+    repertoire_resumes :  '%kernel.project_dir%/public/upload/equipes/resumes'
+    repertoire_fichessecur : /upload/equipes/fichessecur
+    app.path.memoires_inter : /../public/upload/equipes/memoires/inter
+    repertoire_memoire_national :  '%kernel.project_dir%/public/upload/equipes/memoires/nat'
+    repertoire_photosinter :  '%kernel.project_dir%/public/upload/images/27/int'
+    repertoire_photos_inter : /../public/upload/images/27/int
+    app.path.memoires_nat : /../public/upload/equipes/memoires/nat
+    app.path.fichessecur : /../public/upload/equipes/fichessecur
+    app.path.fichessecurvich : /upload/equipes/fichessecur
+    app.path.resumes : /../public/upload/equipes/resumes
+    app.path.resumesvich : /upload/equipes/resumes
+    app.path.photosinter : /../public/upload/images/27/int
+    
+    app.path.photosnat : /../upload/images/27/nat
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        public: false       # Allows optimizing the container by removing unused services; this also means
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/*'
+        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+
+    # controllers are imported separately to make sure services can be injected
+    # as action arguments even if you don't extend any base controller class
+    App\Controller\:
+        resource: '../src/Controller'
+        tags: ['controller.service_arguments']
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones

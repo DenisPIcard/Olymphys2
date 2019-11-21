@@ -1,0 +1,43 @@
+easy_admin :
+    entities :
+        User :
+            class :  App\Entity\User
+            label : 'Utilisateurs'
+            list :
+                permission: 'ROLE_SUPER_ADMIN'
+                fields : ['username','roles','email', { property : centrecia.centre, label: 'Centres interacadémiques'},{ property: 'is_active',  type: 'boolean' }]
+            
+                #form:  # <-- 'form' is applied to both 'new' and 'edit' views
+            new :
+                  fields: 
+                       ['username', 'email', { property: 'roles', type: 'choice', 
+                       type_options: { multiple: true, choices: 
+                       { 'ROLE_SUPER_ADMIN':'ROLE_SUPER_ADMIN',
+                       'ROLE_ADMIN':'ROLE_ADMIN',
+                       'ROLE_PROF' : 'ROLE_PROF', 
+                       'ROLE_COMITE': 'ROLE_COMITE' ,
+                       'ROLE_JURY': 'ROLE_JURY',
+                       'ROLE_ORGACIA':'ROLE_ORGACIA',
+                       'ROLE_JURYCIA':'ROLE_JURYCIA'} } },
+                        { property: 'password', type : 'password',}
+                        { property : 'centrecia', label: 'Centres interacadémiques', type: 'entity' , required : false, type_options : { class : 'App\Entity\Centrescia',
+                              query_builder : 'App\Repository\CentresciaRepository::getCentres', 'choice_label' : 'getCentre' }}
+                       { property: 'is_active', type: 'checkbox'}]
+            password_encoding: { algorithm: 'auto' }
+             
+            edit :
+               fields: 
+                       ['username', 'email', { property: 'roles',required: false, type: 'choice', 
+                       type_options: { multiple: true, choices: 
+                       { 'ROLE_SUPER_ADMIN':'ROLE_SUPER_ADMIN',
+                       'ROLE_ADMIN':'ROLE_ADMIN',
+                       'ROLE_PROF' : 'ROLE_PROF', 
+                       'ROLE_COMITE': 'ROLE_COMITE' ,
+                       'ROLE_JURY': 'ROLE_JURY',
+                       'ROLE_ORGACIA':'ROLE_ORGACIA',
+                       'ROLE_JURYCIA':'ROLE_JURYCIA'} } },
+                        { property: 'password', type : 'password',required : false}
+                       { property : centrecia,  type: 'entity' , required : 'false', type_options : { class : 'App\Entity\Centrescia',
+                              query_builder : 'App\Repository\CentresciaRepository::getCentres', 'choice_label' : 'getCentre' }}
+                       { property: 'is_active', type: 'checkbox'}]
+            

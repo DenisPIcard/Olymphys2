@@ -1,0 +1,42 @@
+easy_admin:       
+    entities:
+        # change the following to the namespaces of your own entities
+         Equipes :
+            class : App\Entity\Equipes
+            
+            list:
+                title : 'Le palmares des  équipes au concours national'
+                max_results: 30
+                fields: ['lettre', 'titreprojet', 'classement',  'prix.prix', 'visite.intitule','cadeau.contenu']
+                sort: ['classement','ASC']
+            edit:
+                title: 'Modifier les récompenses de l''équipe'
+                
+                       
+                fields: 
+                       - { property : 'lettre', type : 'text' , type_options :{disabled: true}}
+                       - { property : 'titreprojet', type : 'text' , type_options :{disabled: false}}
+                       - { property : 'classement', type : 'text' , type_options :{disabled: true}}
+                       - { property : 'prix', type : 'easyadmin_autocomplete'}
+                       - { property : 'prix', label: 'Prix' ,type : 'entity' , type_options : { class : 'App\Entity\Prix',
+                           query_builder : 'App\Repository\PrixRepository::getListPrix', 'choice_label' : 'getPrix'}} 
+                       - { property : 'cadeau', type : 'entity' , type_options : { class : 'App\Entity\Cadeaux',
+                           query_builder : 'App\Repository\CadeauxRepository::getCadeaux', 'choice_label' : 'getContenu'}}
+                       - { property : 'visite', type : 'entity' , type_options : { class : 'App\Entity\Visites',
+                           query_builder : 'App\Repository\VisitesRepository::getVisites', 'choice_label' : 'getIntitule'}}     
+            new :
+                title: 'Nouvelle équipe'
+                   
+                fields: 
+                       - { property : 'lettre', type : 'text' , type_options :{disabled: false}}
+                       - { property : 'titreprojet', type : 'text' , type_options :{disabled: false}}
+                       - { property : 'classement', type : 'text' , type_options :{disabled: true}}
+                       - { property : 'memoire', type : 'entity' , type_options : { class : 'App\Entity\Memoires',
+                           query_builder : 'App\Repository\MemoiresRepository::getMemoire', 'choice_label' : 'getMemoire'}}      
+                         #{ property : 'prix', type : 'easyadmin_autocomplete'}]
+                       - { property : 'prix', label: 'Prix' ,type : 'entity' , type_options : { class : 'App\Entity\Prix',
+                           query_builder : 'App\Repository\PrixRepository::getListPrix', 'choice_label' : 'getPrix'}} 
+                       - { property : 'cadeau', type : 'entity' , type_options : { class : 'App\Entity\Cadeaux',
+                           query_builder : 'App\Repository\CadeauxRepository::getCadeaux', 'choice_label' : 'getContenu'}}
+                       - { property : 'visite', type : 'entity' , type_options : { class : 'App\Entity\Visites',
+                           query_builder : 'App\Repository\VisitesRepository::getVisites', 'choice_label' : 'getIntitule'}}                 

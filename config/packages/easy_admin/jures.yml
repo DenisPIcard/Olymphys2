@@ -1,0 +1,42 @@
+easy_admin:       
+    entities:
+        # change the following to the namespaces of your own entities
+         
+         Jures :
+            class :  App\Entity\Jures
+            label : 'Affectation des jurés'
+            list : 
+                max_results: 30
+                fields : [{ property : 'nom', type: 'raw'}
+                  'initialesJure','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y']
+                sort: ['nomJure','ASC']
+            form :
+                  fields: [{ property : 'nomJure'},{ property : 'prenomJure'},
+                             {property : 'A', type : 'choice', type_options :{multiple : false, choices :{'0' :'0', '1' :'1','NA':null}}}, 
+                             {property : 'B', type : 'choice', type_options :{multiple : false, choices :{'0' :'0', '1' :'1','NA':null}}},
+                             {property : 'C', type : 'choice', type_options :{multiple : false, choices :{'0' :'0', '1' :'1','NA':null}}}, 
+                             {property : 'D', type : 'choice', type_options :{multiple : false, choices :{'0' :'0', '1' :'1','NA':null}}}, 
+                             {property : 'E', type : 'choice', type_options :{multiple : false, choices :{'0' :'0', '1' :'1','NA':null}}},
+                             {property : 'F', type : 'choice', type_options :{multiple : false, choices :{'0' :'0', '1' :'1','NA':null}}},
+                             {property : 'G', type : 'choice', type_options :{multiple : false, choices :{'0' :'0', '1' :'1','NA':null}}},
+                             {property : 'H', type : 'choice', type_options :{multiple : false, choices :{'0' :'0', '1' :'1','NA':null}}},
+                             {property : 'I', type : 'choice', type_options :{multiple : false, choices :{'0' :'0', '1' :'1','NA':null}}},
+                             {property : 'J', type : 'choice', type_options :{multiple : false, choices :{'0' :'0', '1' :'1','NA':null}}},
+                             {property : 'K', type : 'choice', type_options :{multiple : false, choices :{'0' :'0', '1' :'1','NA':null}}},
+                             {property : 'L', type : 'choice', type_options :{multiple : false, choices :{'0' :'0', '1' :'1','NA':null}}},
+                             {property : 'M', type : 'choice', type_options :{multiple : false, choices :{'0' :'0', '1' :'1','NA':null}}},
+                             {property : 'N', type : 'choice', type_options :{multiple : false, choices :{'0' :'0', '1' :'1','NA':null}}},
+                             {property : 'O', type : 'choice', type_options :{multiple : false, choices :{'0' :'0', '1' :'1','NA':null}}},
+                             {property : 'P', type : 'choice', type_options :{multiple : false, choices :{'0' :'0', '1' :'1','NA':null}}},
+                             {property : 'Q', type : 'choice', type_options :{multiple : false, choices :{'0' :'0', '1' :'1','NA':null}}},
+                             {property : 'R', type : 'choice', type_options :{multiple : false, choices :{'0' :'0', '1' :'1','NA':null}}},
+                             {property : 'S', type : 'choice', type_options :{multiple : false, choices :{'0' :'0', '1' :'1','NA':null}}},
+                             {property : 'T', type : 'choice', type_options :{multiple : false, choices :{'0' :'0', '1' :'1','NA':null}}},
+                             {property : 'U', type : 'choice', type_options :{multiple : false, choices :{'0' :'0', '1' :'1','NA':null}}},
+                             {property : 'V', type : 'choice', type_options :{multiple : false, choices :{'0' :'0', '1' :'1','NA':null}}},
+                             {property : 'W', type : 'choice', type_options :{multiple : false, choices :{'0' :'0', '1' :'1','NA':null}}},
+                             {property : 'X', type : 'choice', type_options :{multiple : false, choices :{'0' :'0', '1' :'1','NA':null}}},
+                             {property : 'Y', type : 'choice', type_options :{multiple : false, choices :{'0' :'0', '1' :'1','NA':null}}}] 
+                      
+                      
+                      

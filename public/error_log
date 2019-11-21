@@ -1,0 +1,83 @@
+[09-Nov-2019 16:24:08 Europe/Paris] PHP Fatal error:  Uncaught Symfony\Component\DependencyInjection\Exception\InvalidArgumentException: There is no extension able to load the configuration for "debug" (in /home/olymphys/public_html/config/packages/debug.yml). Looked for namespace "debug", found "framework", "sensio_framework_extra", "doctrine_cache", "doctrine", "doctrine_migrations", "security", "swiftmailer", "twig", "monolog", "easy_admin", "vich_uploader", "webpack_encore" in /home/olymphys/public_html/vendor/symfony/dependency-injection/Loader/YamlFileLoader.php:682
+Stack trace:
+#0 /home/olymphys/public_html/vendor/symfony/dependency-injection/Loader/YamlFileLoader.php(652): Symfony\Component\DependencyInjection\Loader\YamlFileLoader->validate(Array, '/home/olymphys/...')
+#1 /home/olymphys/public_html/vendor/symfony/dependency-injection/Loader/YamlFileLoader.php(119): Symfony\Component\DependencyInjection\Loader\YamlFileLoader->loadFile('/home/olymphys/...')
+#2 /home/olymphys/public_html/vendor/symfony/config/Loader/FileLoader.php(151): Symfony\Component\D in /home/olymphys/public_html/vendor/symfony/config/Loader/FileLoader.php on line 166
+[09-Nov-2019 16:24:08 Europe/Paris] PHP Fatal error:  Uncaught Symfony\Component\DependencyInjection\Exception\InvalidArgumentException: There is no extension able to load the configuration for "debug" (in /home/olymphys/public_html/config/packages/debug.yml). Looked for namespace "debug", found "framework", "sensio_framework_extra", "doctrine_cache", "doctrine", "doctrine_migrations", "security", "swiftmailer", "twig", "monolog", "easy_admin", "vich_uploader", "webpack_encore" in /home/olymphys/public_html/vendor/symfony/dependency-injection/Loader/YamlFileLoader.php:682
+Stack trace:
+#0 /home/olymphys/public_html/vendor/symfony/dependency-injection/Loader/YamlFileLoader.php(652): Symfony\Component\DependencyInjection\Loader\YamlFileLoader->validate(Array, '/home/olymphys/...')
+#1 /home/olymphys/public_html/vendor/symfony/dependency-injection/Loader/YamlFileLoader.php(119): Symfony\Component\DependencyInjection\Loader\YamlFileLoader->loadFile('/home/olymphys/...')
+#2 /home/olymphys/public_html/vendor/symfony/config/Loader/FileLoader.php(151): Symfony\Component\D in /home/olymphys/public_html/vendor/symfony/config/Loader/FileLoader.php on line 166
+[09-Nov-2019 16:24:08 Europe/Paris] PHP Fatal error:  Uncaught Symfony\Component\DependencyInjection\Exception\InvalidArgumentException: There is no extension able to load the configuration for "debug" (in /home/olymphys/public_html/config/packages/debug.yml). Looked for namespace "debug", found "framework", "sensio_framework_extra", "doctrine_cache", "doctrine", "doctrine_migrations", "security", "swiftmailer", "twig", "monolog", "easy_admin", "vich_uploader", "webpack_encore" in /home/olymphys/public_html/vendor/symfony/dependency-injection/Loader/YamlFileLoader.php:682
+Stack trace:
+#0 /home/olymphys/public_html/vendor/symfony/dependency-injection/Loader/YamlFileLoader.php(652): Symfony\Component\DependencyInjection\Loader\YamlFileLoader->validate(Array, '/home/olymphys/...')
+#1 /home/olymphys/public_html/vendor/symfony/dependency-injection/Loader/YamlFileLoader.php(119): Symfony\Component\DependencyInjection\Loader\YamlFileLoader->loadFile('/home/olymphys/...')
+#2 /home/olymphys/public_html/vendor/symfony/config/Loader/FileLoader.php(151): Symfony\Component\D in /home/olymphys/public_html/vendor/symfony/config/Loader/FileLoader.php on line 166
+[09-Nov-2019 16:32:16 Europe/Paris] PHP Fatal error:  Uncaught Symfony\Component\Dotenv\Exception\FormatException: A value containing spaces must be surrounded by quotes in "/home/olymphys/public_html/.env" at line 6.
+...ENV=prod APP_DEBUG=0\nAPP_SECRET=05e91113...
+                      ^ line 6 offset 355 in /home/olymphys/public_html/vendor/symfony/dotenv/Dotenv.php:477
+Stack trace:
+#0 /home/olymphys/public_html/vendor/symfony/dotenv/Dotenv.php(326): Symfony\Component\Dotenv\Dotenv->createFormatException('A value contain...')
+#1 /home/olymphys/public_html/vendor/symfony/dotenv/Dotenv.php(200): Symfony\Component\Dotenv\Dotenv->lexValue()
+#2 /home/olymphys/public_html/vendor/symfony/dotenv/Dotenv.php(487): Symfony\Component\Dotenv\Dotenv->parse('# This file is ...', '/home/olymphys/...')
+#3 /home/olymphys/public_html/vendor/symfony/dotenv/Dotenv.php(65): Symfony\Component\Dotenv\Dotenv->doLoad(false, Array)
+#4 /home/olymphys/public_html/vendor/symfony/dotenv/Dotenv.php(85): Symfony\Component\Dotenv\Dotenv->load('/home/olymphys/...')
+#5 /home/olymphys/public_html in /home/olymphys/public_html/vendor/symfony/dotenv/Dotenv.php on line 477
+[09-Nov-2019 16:32:42 Europe/Paris] PHP Fatal error:  Uncaught Symfony\Component\DependencyInjection\Exception\InvalidArgumentException: There is no extension able to load the configuration for "debug" (in /home/olymphys/public_html/config/packages/debug.yml). Looked for namespace "debug", found "framework", "sensio_framework_extra", "doctrine_cache", "doctrine", "doctrine_migrations", "security", "swiftmailer", "twig", "monolog", "easy_admin", "vich_uploader", "webpack_encore" in /home/olymphys/public_html/vendor/symfony/dependency-injection/Loader/YamlFileLoader.php:682
+Stack trace:
+#0 /home/olymphys/public_html/vendor/symfony/dependency-injection/Loader/YamlFileLoader.php(652): Symfony\Component\DependencyInjection\Loader\YamlFileLoader->validate(Array, '/home/olymphys/...')
+#1 /home/olymphys/public_html/vendor/symfony/dependency-injection/Loader/YamlFileLoader.php(119): Symfony\Component\DependencyInjection\Loader\YamlFileLoader->loadFile('/home/olymphys/...')
+#2 /home/olymphys/public_html/vendor/symfony/config/Loader/FileLoader.php(151): Symfony\Component\D in /home/olymphys/public_html/vendor/symfony/config/Loader/FileLoader.php on line 166
+[09-Nov-2019 16:48:10 Europe/Paris] PHP Fatal error:  Uncaught Symfony\Component\DependencyInjection\Exception\InvalidArgumentException: There is no extension able to load the configuration for "debug" (in /home/olymphys/public_html/config/packages/debug.yml). Looked for namespace "debug", found "framework", "sensio_framework_extra", "doctrine_cache", "doctrine", "doctrine_migrations", "security", "swiftmailer", "twig", "monolog", "easy_admin", "vich_uploader", "webpack_encore" in /home/olymphys/public_html/vendor/symfony/dependency-injection/Loader/YamlFileLoader.php:682
+Stack trace:
+#0 /home/olymphys/public_html/vendor/symfony/dependency-injection/Loader/YamlFileLoader.php(652): Symfony\Component\DependencyInjection\Loader\YamlFileLoader->validate(Array, '/home/olymphys/...')
+#1 /home/olymphys/public_html/vendor/symfony/dependency-injection/Loader/YamlFileLoader.php(119): Symfony\Component\DependencyInjection\Loader\YamlFileLoader->loadFile('/home/olymphys/...')
+#2 /home/olymphys/public_html/vendor/symfony/config/Loader/FileLoader.php(151): Symfony\Component\D in /home/olymphys/public_html/vendor/symfony/config/Loader/FileLoader.php on line 166
+[10-Nov-2019 10:08:59 Europe/Paris] PHP Fatal error:  Uncaught Symfony\Component\DependencyInjection\Exception\InvalidArgumentException: There is no extension able to load the configuration for "debug" (in /home/olymphys/public_html/config/packages/debug.yml). Looked for namespace "debug", found "framework", "sensio_framework_extra", "doctrine_cache", "doctrine", "doctrine_migrations", "security", "swiftmailer", "twig", "monolog", "easy_admin", "vich_uploader", "webpack_encore" in /home/olymphys/public_html/vendor/symfony/dependency-injection/Loader/YamlFileLoader.php:682
+Stack trace:
+#0 /home/olymphys/public_html/vendor/symfony/dependency-injection/Loader/YamlFileLoader.php(652): Symfony\Component\DependencyInjection\Loader\YamlFileLoader->validate(Array, '/home/olymphys/...')
+#1 /home/olymphys/public_html/vendor/symfony/dependency-injection/Loader/YamlFileLoader.php(119): Symfony\Component\DependencyInjection\Loader\YamlFileLoader->loadFile('/home/olymphys/...')
+#2 /home/olymphys/public_html/vendor/symfony/config/Loader/FileLoader.php(151): Symfony\Component\D in /home/olymphys/public_html/vendor/symfony/config/Loader/FileLoader.php on line 166
+[10-Nov-2019 16:53:16 Europe/Paris] PHP Fatal error:  Uncaught Error: Class 'ComposerAutoloaderInit4881c5b75477a491f3e303475f776d75' not found in /home/olymphys/public_html/vendor/autoload.php:7
+Stack trace:
+#0 /home/olymphys/public_html/config/bootstrap.php(5): require()
+#1 /home/olymphys/public_html/public/index.php(7): require('/home/olymphys/...')
+#2 {main}
+  thrown in /home/olymphys/public_html/vendor/autoload.php on line 7
+[10-Nov-2019 16:53:16 Europe/Paris] PHP Fatal error:  Uncaught Error: Class 'ComposerAutoloaderInit4881c5b75477a491f3e303475f776d75' not found in /home/olymphys/public_html/vendor/autoload.php:7
+Stack trace:
+#0 /home/olymphys/public_html/config/bootstrap.php(5): require()
+#1 /home/olymphys/public_html/public/index.php(7): require('/home/olymphys/...')
+#2 {main}
+  thrown in /home/olymphys/public_html/vendor/autoload.php on line 7
+[10-Nov-2019 17:17:47 Europe/Paris] PHP Fatal error:  Uncaught Error: Class 'ComposerAutoloaderInit4881c5b75477a491f3e303475f776d75' not found in /home/olymphys/public_html/vendor/autoload.php:7
+Stack trace:
+#0 /home/olymphys/public_html/config/bootstrap.php(5): require()
+#1 /home/olymphys/public_html/public/index.php(7): require('/home/olymphys/...')
+#2 {main}
+  thrown in /home/olymphys/public_html/vendor/autoload.php on line 7
+[10-Nov-2019 17:17:48 Europe/Paris] PHP Fatal error:  Uncaught Error: Class 'ComposerAutoloaderInit4881c5b75477a491f3e303475f776d75' not found in /home/olymphys/public_html/vendor/autoload.php:7
+Stack trace:
+#0 /home/olymphys/public_html/config/bootstrap.php(5): require()
+#1 /home/olymphys/public_html/public/index.php(7): require('/home/olymphys/...')
+#2 {main}
+  thrown in /home/olymphys/public_html/vendor/autoload.php on line 7
+[10-Nov-2019 17:18:47 Europe/Paris] PHP Fatal error:  Uncaught RuntimeException: Please run "composer require symfony/dotenv" to load the ".env" files configuring the application. in /home/olymphys/public_html/config/bootstrap.php:14
+Stack trace:
+#0 /home/olymphys/public_html/public/index.php(7): require()
+#1 {main}
+  thrown in /home/olymphys/public_html/config/bootstrap.php on line 14
+[10-Nov-2019 17:20:46 Europe/Paris] PHP Fatal error:  Class 'Symfony\Component\Validator\Mapping\CascadingStrategy' not found in /home/olymphys/public_html/vendor/symfony/validator/Mapping/Factory/LazyLoadingMetadataFactory.php on line 102
+[10-Nov-2019 17:21:03 Europe/Paris] PHP Fatal error:  Class 'Symfony\Component\Validator\Mapping\CascadingStrategy' not found in /home/olymphys/public_html/vendor/symfony/validator/Mapping/Factory/LazyLoadingMetadataFactory.php on line 102
+[10-Nov-2019 17:21:34 Europe/Paris] PHP Fatal error:  Class 'Symfony\Component\Validator\Mapping\CascadingStrategy' not found in /home/olymphys/public_html/vendor/symfony/validator/Mapping/Factory/LazyLoadingMetadataFactory.php on line 102
+[10-Nov-2019 17:23:14 Europe/Paris] PHP Fatal error:  Class 'Symfony\Component\Validator\Mapping\CascadingStrategy' not found in /home/olymphys/public_html/vendor/symfony/validator/Mapping/Factory/LazyLoadingMetadataFactory.php on line 102
+[10-Nov-2019 17:23:50 Europe/Paris] PHP Fatal error:  Class 'Symfony\Component\Validator\Mapping\CascadingStrategy' not found in /home/olymphys/public_html/vendor/symfony/validator/Mapping/Factory/LazyLoadingMetadataFactory.php on line 102
+[10-Nov-2019 17:26:55 Europe/Paris] PHP Fatal error:  Class 'Symfony\Component\Validator\Mapping\CascadingStrategy' not found in /home/olymphys/public_html/vendor/symfony/validator/Mapping/Factory/LazyLoadingMetadataFactory.php on line 102
+[10-Nov-2019 17:27:44 Europe/Paris] PHP Fatal error:  Class 'Symfony\Component\Validator\Mapping\CascadingStrategy' not found in /home/olymphys/public_html/vendor/symfony/validator/Mapping/Factory/LazyLoadingMetadataFactory.php on line 102
+[10-Nov-2019 17:31:24 Europe/Paris] PHP Fatal error:  Class 'Symfony\Component\Validator\Mapping\CascadingStrategy' not found in /home/olymphys/public_html/vendor/symfony/validator/Mapping/Factory/LazyLoadingMetadataFactory.php on line 102
+[10-Nov-2019 17:33:11 Europe/Paris] PHP Fatal error:  Class 'Symfony\Component\Validator\Mapping\CascadingStrategy' not found in /home/olymphys/public_html/vendor/symfony/validator/Mapping/Factory/LazyLoadingMetadataFactory.php on line 102
+[10-Nov-2019 17:34:39 Europe/Paris] PHP Fatal error:  Class 'Symfony\Component\Validator\Mapping\CascadingStrategy' not found in /home/olymphys/public_html/vendor/symfony/validator/Mapping/Factory/LazyLoadingMetadataFactory.php on line 102
+[10-Nov-2019 17:37:09 Europe/Paris] PHP Fatal error:  Class 'Symfony\Component\Validator\Mapping\CascadingStrategy' not found in /home/olymphys/public_html/vendor/symfony/validator/Mapping/Factory/LazyLoadingMetadataFactory.php on line 102
+[10-Nov-2019 17:44:04 Europe/Paris] PHP Fatal error:  Class 'Symfony\Component\Validator\Mapping\CascadingStrategy' not found in /home/olymphys/public_html/vendor/symfony/validator/Mapping/Factory/LazyLoadingMetadataFactory.php on line 102
+[10-Nov-2019 17:47:27 Europe/Paris] PHP Fatal error:  Class 'Symfony\Component\Validator\Mapping\CascadingStrategy' not found in /home/olymphys/public_html/vendor/symfony/validator/Mapping/Factory/LazyLoadingMetadataFactory.php on line 102
+[10-Nov-2019 17:48:33 Europe/Paris] PHP Fatal error:  Class 'Symfony\Component\Validator\Mapping\CascadingStrategy' not found in /home/olymphys/public_html/vendor/symfony/validator/Mapping/Factory/LazyLoadingMetadataFactory.php on line 102

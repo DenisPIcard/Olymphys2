@@ -1,0 +1,15 @@
+easy_admin :
+    entities :
+       Adminsite :
+            class: App\Entity\Edition
+    
+            list:
+                title : 'Réglage du site'
+                max_results: 30
+                fields: ['ed', 'ville', 'date' ,'lieu' , 'dateouverturesite', 'datelimcia', 'datelimnat']
+        
+            edit : 
+                fields :  ['ed', 'ville', 'date' , 'lieu', 'dateouverturesite', 'datelimcia', 'datelimnat']
+                
+            new : 
+                fields :  ['ed', 'ville', 'date' , 'lieu', 'dateouverturesite', 'datelimcia', 'datelimnat']

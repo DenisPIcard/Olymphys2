@@ -1,0 +1,54 @@
+{% extends "base.html.twig" %}
+{% block title %} Memoire-annexe {% endblock %}
+{% block titre3 %} <center> Concours {{phase}} <br>
+    Transfert du memoire ou de l'annexe d'une de mes équipes 
+
+    {% if donnees_equipe is defined %} 
+        {{donnees_equipe}} 
+    {% endif %}</center>
+{% endblock %}
+
+{% block navigation %}
+
+{% endblock %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+{% block body %}
+    <div class="well">
+     
+         {{ form_start(form) }}
+    <div class="my-custom-class-for-errors">
+        {{ form_errors(form) }}
+    </div>
+    <div class="form-inline" >
+  <div class="row">       
+   
+          
+         {%if phase == 'interacadémique' %}  
+ <div class="col">
+    
+             {{ form_row(form.numero, {'class' : 'choice_custom'}) }}
+ </div> 
+ <div class="col"  id="some-custom-id">   
+             {{ form_row(form.OK, { 'label': 'Choisir cette équipe' }) }}
+             
+    </div>
+ 
+ 
+             {%endif %}
+             {%if phase == 'nationale' %}  
+ <div class="col">  
+             {{ form_row(form.lettre,{'class' : 'choice_custom'}) }}
+ </div>
+             <div class="col"  id="some-custom-id">   
+             {{ form_widget(form.OK, { 'label': 'Choisir cette équipe' }) }}
+             
+    </div>
+ 
+             {%endif %}
+   
+{{ form_end(form) }}
+  
+    </div>
+    </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,12 @@
+# config/packages/easy_admin/basic.yml
+easy_admin:
+        site_name: '<font color="red">Administration du site Olymphys</font>'
+        formats:
+            date:     'd/m/Y'
+            time:     'H:i'
+            datetime: 'd/m/Y H:i:s'
+        show:
+            max_results: 30
+            # show the 'restock' action for all entities except those which remove it
+
+        list : 

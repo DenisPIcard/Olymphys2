@@ -1,0 +1,73 @@
+{% extends "base.html.twig" %}
+{% block title %} Memoire{% endblock %}
+{% block titre3 %}  
+    {% if centre=='comite' %} 
+        Transfert du mémoire (ou de son annexe) d'une équipe à choisir dans la liste.
+    {% endif %}
+     {%     if centre!='comite' %} 
+        
+    Transfert du mémoire (ou de son annexe) d'une équipe du centre de {{centre}}
+{% endif %}
+   
+{% endblock %}
+
+{% block navigation %}
+	
+{% endblock %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+{% block body %}
+    {# On affiche tous les messages flash dont le nom est « info » et « alert  » #}
+  {% for message in app.session.flashbag.get('info') %}
+    <div class="alert alert-info"> {{ message }}</div>
+  {% endfor %}
+  {% for message in app.session.flashbag.get('alert') %}
+    <div class="alert alert-danger"> {{ message }}</div>
+  {% endfor %}
+    <div class="well">
+       
+         {{ form_start(form) }}
+    <div class="my-custom-class-for-errors">
+        {{ form_errors(form) }}
+    </div>
+     
+        
+    <div class="row">
+        
+        
+         <div class="form-group col-md-4">   
+        
+            {{ form_row(form.Equipe) }}
+        </div>
+      
+       <div class="form-group col-md-6">
+           
+            {{ form_row(form.memoireFile) }}
+        
+        </div>
+      </div>  
+        <div class="row">
+            {{ form_row(form.annexe, { 'label': 'Cliquer ici pour une annexe'}) }}
+        </div>
+      
+       <div class="row">  
+        <div class="col" id="some-custom-id">
+            {{ form_widget(form.save, { 'label': 'Déposer ce fichier' }) }}
+        </div>
+    </div>
+{{ form_end(form) }}
+       
+            
+       
+       
+    </div>
+{% block javascripts %}
+        <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js" ></script> 
+        {#<script src="./coverage/bs-custom-file-input.js"></script>#}
+        <script>
+            {# $(document).ready(function () {
+                bsCustomFileInput.init()
+            })#}
+                bsCustomFileInput.init()
+        </script>
+    {% endblock %}  
+{% endblock %}

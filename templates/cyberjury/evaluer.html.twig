@@ -1,0 +1,23 @@
+{% extends "base.html.twig" %}
+{% block title %} Évaluer une équipe {% endblock %}
+
+{% block titre3 %} <span {% if (progression) %} class ="btn btn-primary btn-lg" {% else %} class ="btn btn-outline-primary btn-lg" {% endif %} > 
+	{{equipe.lettre}} </span>  {{ equipe.titreProjet}} 
+<a href="https://odpf.org/images/archives_docs/26eme/memoires/Equipe{{ equipe.lettre }}/memoire.pdf" class="fas fa-book-reader" title="Accéder au mémoire de l'équipe" target="_blank"> </a>
+
+<a href="{{ path('cyberjury_infos_equipe', {'id': equipe.id} ) }}" class="fas fa-info-circle" title="En savoir plus sur cette équipe"> </a>
+
+<a href="{{ path('cyberjury_phrases_amusantes', {'id': equipe.id} ) }}" class="fas fa-pencil-alt" title="Les phrases amusantes" > </a>
+{% endblock %} 
+{% block navigation %}
+<button type="button" class="btn btn-outline-primary btn-lg btn-bloc"  > <span class="fas fa-user">  </span>           
+{{ jure.prenomJure|title }} {{ jure.nomJure|title }} 
+  </button>
+{{ include ('cyberjury/navigation.html.twig') }}
+{#{{ knp_menu_render('jury', {'currentClass': 'active'}) }}#}
+{% endblock %}
+{% block body %}
+{{ include ("cyberjury/form.html.twig") }}
+{% endblock %}
+{% block pied_de_page %} 
+{% endblock %}

@@ -1,0 +1,7 @@
+easy_admin :
+    entities :
+       Adminsite :
+            class: App\Entity\Adminsite
+    
+    
+        

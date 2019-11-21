@@ -1,0 +1,9 @@
+easy_admin :
+     entities :
+            Centrescia :
+                         class : App\Entity\Centrescia 
+                         label : 'Centres interacadémiques'
+                         list : 
+                             fields : 
+                             - { property :  'centre' , type : 'text' }
+        

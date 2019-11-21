@@ -1,0 +1,15 @@
+{% extends "base.html.twig" %}
+{% block title %} Accueil {% endblock %}
+
+{% block titre3 %} Accueil Secrétariat {% endblock %}
+
+{% block navigation %}
+
+	{{ include ("secretariatjury/navigation.html.twig") }}
+{% endblock %}
+
+{% block body %}
+     
+ <a class='north' href="{{ asset('app/public/upload/equipes/memoires/nat/{{memoire}}f') }}" target="_blank" title="Download.pdf"><img src="{{ asset('bundles/TP/images/icn-save.jpg') }}" alt="Download the pdf version" /></a>
+      
+{% endblock %}

@@ -1,0 +1,10 @@
+easy_admin :
+    entities :
+        Prix :
+            class : App\Entity\Prix 
+            
+        Visites :
+            class : App\Entity\Visites
+            
+        Cadeaux :
+              class : App\Entity\Cadeaux       

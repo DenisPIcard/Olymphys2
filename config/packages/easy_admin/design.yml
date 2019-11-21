@@ -1,0 +1,42 @@
+easy_admin :
+    design:
+                brand_color: '#FF0000'
+                assets:
+                    css:
+                        # ...
+                        - 'css/admin.css'
+                menu:
+                    - { entity: 'Adminsite' , permission: 'ROLE_SUPER_ADMIN', icon : 'cogs'}
+                    - { entity: 'User', label : 'Utilisateurs', permission: 'ROLE_SUPER_ADMIN', icon : 'user' }
+                    - { entity: 'Jures' , permission: 'ROLE_SUPER_ADMIN', icon : 'graduation-cap'}
+                    - label : 'Concours interacadémique'
+                      icon : 
+                      css_class: 'text-bold'
+                      children :
+                         - { entity : 'Centrescia', 'label' : 'Centres interacadémiques', icon : 'city'}
+                         - { entity : 'Equipesadmin', 'label' : 'Equipes des cia', icon : 'user-friends'}
+                         - { entity : 'Elevesinter', 'label' : 'Elèves inscrits', icon : 'child' }
+                         - { entity : 'Memoiresinter', 'label' : ' Mémoires interacadémiques', icon : 'book'}
+                         - { entity : 'Resumes', 'label' : ' Les résumés', icon : 'book'}
+                         - { entity : 'Fichessecur', 'label' : ' Les fiches sécurités', icon : 'book'}
+                         - { entity : 'Photosinter', 'label' : ' Lesphotos', icon : 'images'}
+                    - label : 'Concours national'
+                      icon : ''
+                      children :
+                        - label: 'Equipes'
+                        - { label : 'Palmares des équipes', entity: 'Equipes' , icon : 'asterisk'}
+                        - { label : 'Administration des équipes' , entity : 'Totalequipes', icon : 'user-friends'}
+                        - { entity: 'Memoires' , icon : 'asterisk'}
+                        - { entity: 'Eleves' , icon : 'asterisk'}
+                        - label : 'Les recompenses'
+                        - { entity:  'Prix' , icon : 'asterisk'}
+                        - { entity: 'Visites' , icon : 'asterisk'}
+                        - { entity: 'Cadeaux' , icon : 'asterisk'}
+                        
+                    - { label: 'Retour à la page d''accueil', route: 'core_home' , icon : 'home'}
+                    - { label : 'Deconnexion' , route: 'logout', icon : 'door-open'}
+                   #- {  label: 'Retour à la page d''accueil', url: '/public/index.php' , icon : 'home'}
+                   # - { label : 'Deconnexion' , url : '/public/index.php/logout', icon : 'door-open'
+                form_theme:
+                - '@EasyAdmin/form/bootstrap_4.html.twig'
+                - '@VichUploader/Form/fields.html.twig'    

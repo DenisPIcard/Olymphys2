@@ -1,0 +1,56 @@
+vich_uploader:
+    db_driver: orm
+    
+    mappings:
+        memoiresinter:
+            uri_prefix: '%app.path.memoires_inter%'
+            upload_destination: '%kernel.project_dir%/public%app.path.memoires_inter%'
+            inject_on_load: true
+            delete_on_update: true
+            delete_on_remove: true
+            namer: 
+                service: vich_uploader.namer_property
+                options: { property: 'personalNamer'}       
+        
+        memoires:
+            uri_prefix: '%app.path.memoires_nat%'
+            upload_destination: '%kernel.project_dir%/public\upload\equipes\memoires\nat'
+            inject_on_load: true
+            delete_on_update: true
+            delete_on_remove: true
+            namer: 
+                service: vich_uploader.namer_property
+                options: { property: 'personalNamer'}
+                
+         
+        fichessecur:
+            uri_prefix: '%app.path.fichessecurvich%'
+            upload_destination: '%kernel.project_dir%/public%app.path.fichessecurvich%'
+            inject_on_load: true
+            delete_on_update: true
+            delete_on_remove: true
+            namer: 
+                service: vich_uploader.namer_property
+                options: { property: 'personalNamer'}
+                
+                
+        photosinter :
+            uri_prefix: '%app.path.photosinter%'
+            upload_destination: '%kernel.project_dir%/public%app.path.photosinter%'
+            inject_on_load: true
+            delete_on_update: true
+            delete_on_remove: true
+            namer: 
+                service: vich_uploader.namer_property
+                options: { property: 'personalNamer'}
+                
+        resumes : 
+            uri_prefix: '%app.path.resumesvich%'
+            upload_destination: '%kernel.project_dir%/public%app.path.resumesvich%' 
+            inject_on_load: true
+            delete_on_update: true
+            delete_on_remove: true
+            namer: 
+                service: vich_uploader.namer_property
+                options: { property: 'personalNamer'}
+        
