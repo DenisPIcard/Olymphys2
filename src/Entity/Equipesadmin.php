@@ -141,13 +141,13 @@ class Equipesadmin
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\User", mappedBy="id")
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $idProf1;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\User", mappedBy="id")
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $idProf2; 
     
