@@ -2,7 +2,7 @@
 
 {% extends "@EasyAdmin/form/bootstrap_4_layout.html.twig" %}
 {% block vich_image_widget %}
-    {% spaceless %}
+    {% apply spaceless %}
         <div class="easyadmin-vich-image">
             {{ form_widget(form.file) }}
             {% if form.delete is defined %}
@@ -12,7 +12,7 @@
                 <img src="{{ asset(image_uri) }}">
             {% endif %}
         </div>
-    {% endspaceless %}
+    {% endapply %}
 {% endblock %}
 {% block javascripts %}
         <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js" ></script> 

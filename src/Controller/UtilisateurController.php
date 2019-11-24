@@ -139,8 +139,8 @@ class UtilisateurController extends AbstractController
 
             $em = $this->getDoctrine()->getManager();
 
-            $user = $em->getRepository(User::class)->loadUserByUsername($form->getData()['email']);
-
+            //$user = $em->getRepository(User::class)->loadUserByUsername($form->getData()['email']);
+            $user = $em->getRepository(User::class)->findOneByEmail($form->getData()['email']);
             // aucun email associé à ce compte.
             if (!$user) {
                 $request->getSession()->getFlashBag()->add('warning', "Cet email ne correspond pas à un compte.");
