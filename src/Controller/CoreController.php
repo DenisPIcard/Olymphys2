@@ -17,8 +17,11 @@ class CoreController extends AbstractController
     $user=$this->getUser();
     if (null != $user)
     {
- 
+     
+     
+     $session->start();
      $session->set('user', $user);
+    
      $roles=$user->getRoles();
     foreach($roles as $role){
         if ($role=='ROLE_ORGACIA'){

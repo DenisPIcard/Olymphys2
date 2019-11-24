@@ -21,16 +21,18 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         parent::__construct($registry, User::class);
     }
     
-    public function loadUserByUsername($username)
+    public function loadUserByUsername($usernameOrEmail)
     {
-        return $this->createQueryBuilder('u')
-            ->where('u.username = :username OR u.email = :email')
-            ->setParameter('username', $username)
-            ->setParameter('email', $username)
+        return $this->createQuery(
+                'SELECT u
+                FROM App\Entity\User u
+                WHERE u.username = :query
+                OR u.email = :query'
+            )
+            ->setParameter('query', $usernameOrEmail)
             ->getQuery()
             ->getOneOrNullResult();
     }
-
     // /**
     //  * @return User[] Returns an array of User objects
     //  */

@@ -15,7 +15,7 @@ security:
         our_db_provider:
             entity:
                 class: App\Entity\User
-                property: username
+                #property: username
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -30,15 +30,19 @@ security:
                 login_path: login
                 check_path: login
                 csrf_token_generator: security.csrf.token_manager
+                csrf_parameter: _csrf_security_token
+                csrf_token_id: a_private_string
+                
             logout:
                 path: /logout
                 target: /
             guard:
                 authenticators:
                     - App\Security\LoginFormAuthenticator
+                   # - App\Security\TockenAuthenticator
             remember_me:
                 secret:   '%kernel.secret%'
-                lifetime: 2592000 
+                lifetime: 3600 
 
 
 

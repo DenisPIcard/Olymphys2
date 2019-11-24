@@ -41,13 +41,12 @@
         "symfony/validator": "4.3.*",
         "symfony/var-dumper": "4.3.*",
         "symfony/web-link": "4.3.*",
-        "symfony/web-server-bundle": "4.3.*",
         "symfony/webpack-encore-bundle": "^1.6",
         "symfony/yaml": "4.3.*",
         "vich/uploader-bundle": "^1.10"
     },
     "require-dev": {
-        
+        "symfony/web-server-bundle": "4.3.*"
     },
     "config": {
         "preferred-install": {
