@@ -16,6 +16,5 @@ easy_admin :
             form :
                   fields: 
                        ['nom', 'prenom','genre','courriel', { property: 'equipe', type: 'entity' , type_options : { class : 'App\Entity\Equipesadmin',
-                              query_builder : 'App\Repository\EquipesadminRepository::getEquipeInter', 'choice_label' : 'getInfoequipe'}}
-                              ]
+                              query_builder : 'App\Repository\EquipesadminRepository::getEquipeInter', 'choice_label' : 'getInfoequipe'}}]
             

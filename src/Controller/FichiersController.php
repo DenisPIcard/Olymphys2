@@ -105,8 +105,306 @@ class FichiersController extends AbstractController
          public $Fiche;
          public $Equipe_choisie;
          //public $Fichesecur;
+         
+         /**
+         * @Route("memoires", name="memoires")
+         * 
+         */
+             public function memoires(Request $request)
+    {
+      
+        $repositoryEquipesadmin= $this->getDoctrine()
+		->getManager()
+		->getRepository('App:Equipesadmin');
+        $repositoryCentrescia= $this->getDoctrine()
+		->getManager()
+		->getRepository('App:Centrescia');
+        $repositoryMemoiresinter= $this->getDoctrine()
+		->getManager()
+		->getRepository('App:Memoiresinter');
+        $repositoryResumes= $this->getDoctrine()
+		->getManager()
+		->getRepository('App:Resumes');
+        $repositoryFichessecur= $this->getDoctrine()
+		->getManager()
+		->getRepository('App:Fichessecur');
+        $listecentres=$repositoryCentrescia->findAll();
+        if($listecentres){
+            $content = $this
+                 ->renderView('adminfichiers\choix_centre_jury.html.twig', array('liste_centres'=>$listecentres)
+                                );
+            return new Response($content);  
+        }
+ 
+    }
+    
+         /**
+         * @Route("/fichiers/liste_equipes,{centre}", name="liste_equipes")
+         * 
+         */           
+    public function liste_equipes(Request $request, $centre) {
+        $repositoryEquipesadmin= $this->getDoctrine()
+		->getManager()
+		->getRepository('App:Equipesadmin');
+        $repositoryCentrescia= $this->getDoctrine()
+		->getManager()
+		->getRepository('App:Centrescia');
+        $repositoryMemoiresinter= $this->getDoctrine()
+		->getManager()
+		->getRepository('App:Memoiresinter');
+        $repositoryResumes= $this->getDoctrine()
+		->getManager()
+		->getRepository('App:Resumes');
+        $repositoryFichessecur= $this->getDoctrine()
+		->getManager()
+		->getRepository('App:Fichessecur');
+        $centrecia=$repositoryCentrescia->find(['id'=>$centre]);
+        $ville=$centrecia->getCentre();
+        $liste_equipes= $repositoryEquipesadmin->findByCentre(['centre'=>$centrecia]); 
+        if($liste_equipes){
+          $i=0;
+          foreach($liste_equipes as $equipe){
+            $nombre_memoires= count($repositoryMemoiresinter->findByEquipe(['equipe'=>$equipe]));
+            $nombre_fiche= count($repositoryFichessecur->findByEquipe(['equipe'=>$equipe]));
+            $nombre_resume= count($repositoryResumes->findByEquipe(['equipe'=>$equipe]));
+            $nombre_fichiers[$i] = $nombre_memoires+ $nombre_fiche+$nombre_resume;            
+            $i=$i+1;
+             
+            }
+            $content = $this
+                 ->renderView('adminfichiers\equipe_liste.html.twig', array(
+                     'liste_equipes'=>$liste_equipes, 
+                     'nombre_fichiers'=>$nombre_fichiers,
+                     'centre'=>$ville,
+                     'centrecia'=>$centrecia)
+                                );
+            return new Response($content);  
+        }
+        else{ 
+             $request->getSession()
+                         ->getFlashBag()
+                         ->add('info', 'Il n\'y a pas encore de fichier déposé pour le centre de'.$ville) ;
+                   
+             return $this->redirectToRoute('memoires');   
+        }
+    }
+         
+         /**
+         * @Route("liste_fichiers/{numero_equipe}", name="liste_fichiers")
+         * 
+         */          
+         public function liste_fichiers(Request $request , $numero_equipe){
+             $repositoryMemoires= $this->getDoctrine()
+		->getManager()
+		->getRepository('App:Memoires');
+             $repositoryMemoiresinter= $this->getDoctrine()
+		->getManager()
+		->getRepository('App:Memoiresinter');
+             $repositoryMemoiresnat= $this->getDoctrine()
+		->getManager()
+		->getRepository('App:Memoires');
+             $repositoryEquipes= $this->getDoctrine()
+		->getManager()
+		->getRepository('App:Equipes');
+             $repositoryEquipesadmin= $this->getDoctrine()
+                ->getManager()
+		->getRepository('App:Equipesadmin');
+             $repositoryResumes= $this->getDoctrine()
+		->getManager()
+		->getRepository('App:Resumes');
+             $repositoryFichessecur= $this->getDoctrine()
+		->getManager()
+		->getRepository('App:Fichessecur');
+             
+             $equipe_choisie= $repositoryEquipesadmin->findOneByNumero(['numero'=>$numero_equipe]);
+             $memoiresinter= $repositoryMemoiresinter->findByEquipe(['equipe'=>$equipe_choisie]);
+             $memoiresnat =   $repositoryMemoires->findByEquipe(['equipe'=>$equipe_choisie]);
+             $fiche_securit = $repositoryFichessecur->findOneByEquipe(['equipe'=>$equipe_choisie]);    
+             $resume= $repositoryResumes->findOneByEquipe(['equipe'=>$equipe_choisie]); 
+             $centre=$equipe_choisie->getCentre()->getId();
+           
+             $i=0;
+             foreach($memoiresinter as $memoireinter){
+                $id=$memoireinter->getId();
+                $formBuilder[$i]=$this->get('form.factory')->createNamedBuilder('Form'.$i, FormType::class,$memoireinter);  
+                $formBuilder[$i] ->add('id',  HiddenType::class, ['disabled'=>true, 'label'=>false])
+                                            ->add('memoire', TextType::class,['disabled'=>true,  'label'=>false])
+                                            ->add('save', submitType::class);
+                $Form[$i]=$formBuilder[$i]->getForm();
+                $formtab[$i]=$Form[$i]->createView();
+                if ($request->isMethod('POST') ) 
+                {
+                    if ($request->request->has('Form'.$i)) {
+                        $id=$Form[$i]->get('id')->getData();
+                        $memoire=$repositoryMemoiresinter->find(['id'=>$id]);
+                        $memoireName=$this->getParameter('repertoire_memoire_interacademiques').'/'.$memoire->getMemoire();
+                        if(null !==$memoireName)
+                            {
+                            $response = new BinaryFileResponse($memoireName);
+                            $disposition = HeaderUtils::makeDisposition(
+                                    HeaderUtils::DISPOSITION_ATTACHMENT,
+                                    $memoire->getMemoire()
+                                          );
+                            $response->headers->set('Content-Type', 'application/pdf'); 
+                            $response->headers->set('Content-Disposition', $disposition);
+                            return $response;    
+                             }            
+                    }
+                }
+                $i=$i+1;
+             }
+                  
+            foreach($memoiresnat as $memoirenat){
+                $id=$memoirenat->getId();
+                $formBuilder[$i]=$this->get('form.factory')->createNamedBuilder('Form'.$id, FormType::class,$memoirenat);  
+                $formBuilder[$i] ->add('id',  HiddenType::class, ['disabled'=>true, 'label'=>false])
+                                            ->add('memoire', TextType::class,['disabled'=>true,  'label'=>false])
+                                            ->add('save',SubmitType::class);
+                $Form[$i]=$formBuilder[$i]->getForm();
+                $formtab[$i]=$Form[$i]->createView();
+                   
+                if ($request->isMethod('POST') ) 
+                {
+                     if ($request->request->has('Form'.$i)) {
+                        $id=$Form[$i]->get('id')->getData();
+                        $memoirenat=$repositoryMemoiresnat->find(['id'=>$i]);
+                        $memoireName=$this->getParameter('repertoire_memoire_national').'/'.$memoirenat->getMemoire();
+                        if(null !==$memoireName)
+                        {
+                            $response = new BinaryFileResponse($memoireName);
+                            $disposition = HeaderUtils::makeDisposition(
+                                    HeaderUtils::DISPOSITION_ATTACHMENT,
+                                    $memoirenat->getMemoire()
+                                          );
+                            $response->headers->set('Content-Type', 'application/pdf'); 
+                            $response->headers->set('Content-Disposition', $disposition);
+                            return $response; 
+                         }
+                                 
+                    }
+                                                       
+                }
+                $i=$i+1;
+            }
+            if ($fiche_securit){
+                $id = $fiche_securit->getId();
+                $formBuilder[$i]=$this->get('form.factory')->createNamedBuilder('Form'.$i, FormType::class,$fiche_securit);  
+                $formBuilder[$i] ->add('id',  HiddenType::class, ['disabled'=>true, 'label'=>false])
+                                 ->add('memoire',TextType::class, ['disabled'=>true,  'label'=>false, 'data' =>$fiche_securit->getFiche(), 'mapped'=>false])
+                                 ->add('save', submitType::class);
+                $Form[$i]=$formBuilder[$i]->getForm();
+                $formtab[$i]=$Form[$i]->createView();
+                if ($request->isMethod('POST') ) 
+                {
+                    if ($request->request->has('Form'.$i)) {
+                        $id=$Form[$i]->get('id')->getData();
+                        $fiche_securit=$repositoryFichessecur->find(['id'=>$id]);
+                        $FicheName=$this->getParameter('repertoire_fiches_securite').'/'.$fiche_securit->getFiche();
+                        if(null !==$FicheName)
+                        {  
+                            $file=new File($FicheName);
+                            $response = new BinaryFileResponse($FicheName);
+                            $disposition = HeaderUtils::makeDisposition(
+                                    HeaderUtils::DISPOSITION_ATTACHMENT,
+                                    $fiche_securit->getFiche()
+                                );
+                            $response->headers->set('Content-Type', $file->guessExtension()); 
+                            $response->headers->set('Content-Disposition', $disposition);
+                            return $response; 
+                         } 
+                    }
+                }
+            $i=$i+1;}
+            if ($resume){
+                $id = $resume->getId();
+                $formBuilder[$i]=$this->get('form.factory')->createNamedBuilder('Form'.$i, FormType::class,$resume);  
+                $formBuilder[$i] ->add('id',  HiddenType::class, ['disabled'=>true, 'label'=>false])
+                                            ->add('memoire', TextType::class,['disabled'=>true,  'label'=>false,'data'=>$resume->getResume(), 'mapped'=>false])
+                                           ->add('save', submitType::class);
+                $Form[$i]=$formBuilder[$i]->getForm();
+                $formtab[$i]=$Form[$i]->createView();
+                if ($request->isMethod('POST') ) 
+                {
+                   if ($request->request->has('Form'.$i)) {
+                       $id=$Form[$i]->get('id')->getData();
+                       $resume=$repositoryResumes->find(['id'=>$id]);
+                       $resumeName=$this->getParameter('repertoire_resumes').'/'.$resume->getResume();
+                       if(null !==$resumeName)
+                       {
+                           $response = new BinaryFileResponse($resumeName);
+                           $disposition = HeaderUtils::makeDisposition(
+                                        HeaderUtils::DISPOSITION_ATTACHMENT,
+                                            $resume->getResume()
+                               );
+                            $response->headers->set('Content-Type', 'application/pdf'); 
+                            $response->headers->set('Content-Disposition', $disposition);
+                            return $response; 
+                        }
+                    }
+                }
+            $i=$i+1;
+            }
+            if ($request->isMethod('POST') ) 
+            {
+               if ($request->request->has('FormAll')) {         
+                   $zipFile = new \ZipArchive();
+                   $FileName= $equipe_choisie->getCentre()->getCentre().'-Fichiers-eq-'.$equipe_choisie->getNumero().'-'.date('now');
+                   if ($zipFile->open($FileName, ZipArchive::CREATE) === TRUE){
+                       $memoires= $repositoryMemoiresinter->findByEquipe(['equipe'=>$equipe_choisie]);
+                       foreach($memoires as $memoire){
+                           $Memoire=$this->getParameter('repertoire_memoire_interacademiques').'/'.$memoire->getMemoire();
+                           if($Memoire){
+                               $zipFile->addFromString(basename($Memoire),  file_get_contents($Memoire));}//voir https://stackoverflow.com/questions/20268025/symfony2-create-and-download-zip-file
+                        }
+                        $resume=$repositoryResumes->findOneByEquipe(['equipe'=>$equipe_choisie]);
+                        $fichesecurit=$repositoryFichessecur->findOneByEquipe(['equipe'=>$equipe_choisie]);
+                        if ($resume){
+                            $Resume=$this->getParameter('repertoire_resumes').'/'.$resume->getResume();
+                            if ($Resume){
+                               $zipFile->addFromString(basename($Resume),  file_get_contents($Resume));}
+                        }
+                        if ($fichesecurit){
+                            $fichesecur=$this->getParameter('repertoire_fiches_securite').'/'.$fichesecurit->getFiche();
+                            if($fichesecur){
+                                $zipFile->addFromString(basename($fichesecur),  file_get_contents($fichesecur));}
+                        }
+                        $zipFile->close();
+                        $response = new Response(file_get_contents($FileName));//voir https://stackoverflow.com/questions/20268025/symfony2-create-and-download-zip-file
+                        $disposition = HeaderUtils::makeDisposition(
+                                            HeaderUtils::DISPOSITION_ATTACHMENT,
+                                            $FileName
+                                );
+                        $response->headers->set('Content-Type', 'application/zip'); 
+                        $response->headers->set('Content-Disposition', $disposition);
+                        @unlink($FileName);
+                        return $response; 
+                    }
+                }
+            }
+            if(isset($formtab)){      
+                $fichier=new Memoiresinter();
+                $formBuilder=$this->get('form.factory')->createNamedBuilder('FormAll', ListmemoiresinterallType::class,$fichier);  
+                $formBuilder->add('save',      SubmitType::class );
+                                        $Form=$formBuilder->getForm();
+                $formtab[$i]=$Form->createView();//Ajoute le bouton  tout télécharger
+                ($formtab);   
+                $content = $this
+                        ->renderView('adminfichiers\liste_fichiers.html.twig', array('formtab'=>$formtab,
+                            'infoequipe'=>$equipe_choisie->getInfoequipe(), 'centrecia' =>$equipe_choisie->getCentre())
+                        ); 
+                return new Response($content); 
+            }
+            if(!isset($formtab)){
+                $request->getSession()
+                         ->getFlashBag()
+                         ->add('info', 'Il n\'y a pas encore de fichier déposé pour l\'equipe n°'.$numero_equipe) ;
+                return $this->redirectToRoute('liste_equipes',array('centre'=>$centre)); 
+            }
+        }
+ 
+    
         /**
-         * @Security("has_role('ROLE_JURYCIA')")
+         * @Security("is_granted('ROLE_JURYCIA')")
          * 
          * @Route("/fichiers/afficherlesmemoiresinter_orgacia", name="fichiers_afficherlesmemoiresinter_orgacia")
          * 
@@ -134,39 +432,39 @@ class FichiersController extends AbstractController
         
         
          $centre = $user->getCentrecia();
-                 if ($centre){ //c'est un organisateur on va afficher les équipes
-         $centreville = $user->getCentrecia()->getCentre();            
-         $liste_equipes= $repositoryEquipesadmin->findByCentre(['centre'=>$centre]);            
-         $i=0;
-         foreach($liste_equipes as $equipe){
-             $nombre_memoires= count($repositoryMemoiresinter->findByEquipe(['equipe'=>$equipe]));
-             $nombre_fiche= count($repositoryFichessecur->findByEquipe(['equipe'=>$equipe]));
-            $nombre_resume= count($repositoryResumes->findByEquipe(['equipe'=>$equipe]));
-             $nombre_fichiers[$i] = $nombre_memoires+ $nombre_fiche+$nombre_resume;            
-             $i=$i+1;
+         if ($centre){ //c'est un organisateur on va afficher les équipes
+            $centreville = $user->getCentrecia()->getCentre();            
+            $liste_equipes= $repositoryEquipesadmin->findByCentre(['centre'=>$centre]);            
+            $i=0;
+            foreach($liste_equipes as $equipe){
+                $nombre_memoires= count($repositoryMemoiresinter->findByEquipe(['equipe'=>$equipe]));
+                $nombre_fiche= count($repositoryFichessecur->findByEquipe(['equipe'=>$equipe]));
+                $nombre_resume= count($repositoryResumes->findByEquipe(['equipe'=>$equipe]));
+                $nombre_fichiers[$i] = $nombre_memoires+ $nombre_fiche+$nombre_resume;            
+                $i=$i+1;
              
-         }
+            }
                 ;//Le nom des organisateurs cia et membres jury est générique : celui du centre donc  même session pour tous
         
-         if($liste_equipes){
-             $content = $this
-                 ->renderView('adminfichiers\choix_equipe_liste_inter_orgacia.html.twig', 
+            if($liste_equipes){
+                $content = $this
+                    ->renderView('adminfichiers\choix_equipe_liste_inter_orgacia.html.twig', 
                          array('liste_equipes'=>$liste_equipes,
                            'nombre_fichiers'=>$nombre_fichiers, 
                            'centre'=>$centreville)
                                 );
         
-                          }
-         else{
-                     $request->getSession()
+                  }
+            else{
+                $request->getSession()
                          ->getFlashBag()
                          ->add('info', 'Il n\'y a pas encore de fichier déposé pour votre centre.') ;
                     
-                    return $this->redirectToRoute('fichiers_afficherlesmemoiresinter_orgacia');   
-                     }
-                  return new Response($content);  
+                return $this->redirectToRoute('fichiers_afficherlesmemoiresinter_orgacia');   
+            }
+            return new Response($content);  
              
-    }
+         }
          if(!$centre){      //c'est un membre du comité : on lui fait choisir le centre 
              $listecentres=$repositoryCentrescia->findAll();
              if($listecentres){
@@ -175,14 +473,12 @@ class FichiersController extends AbstractController
                  ->renderView('adminfichiers\choix_centre_liste_comite.html.twig', array('liste_centres'=>$listecentres)
                                 );
                return new Response($content);  
-             }
-             
-             
+             } 
          }   
-         }
+     }
          
        /**
-         * @Security("has_role('ROLE_COMITE')")
+         * @Security("is_granted('ROLE_COMITE')")
          * 
          * @Route("/fichiers/afficher_liste_equipe_comite,{centre}", name="fichiers_afficher_liste_equipe_comite")
          * 
@@ -238,7 +534,7 @@ public function afficher_liste_equipe_comite(Request $request, $centre) {
    
 }
 /**
-         * @Security("has_role('ROLE_PROF')")
+         * @Security("is_granted('ROLE_PROF')")
          * 
          * @Route("/fichiers/choix_equipe_prof,{type_fichier}", name="fichiers_choix_equipe_prof")
          * 
@@ -311,7 +607,7 @@ public function choix_equipe_prof(Request $request, $type_fichier) {
         
  
        /**
-         * @Security("has_role('ROLE_ORGACIA')")
+         * @Security("is_granted('ROLE_ORGACIA')")
          * 
          * @Route("/fichiers/depose_memoire_orgacia", name="fichiers_depose_memoire_orgacia")
          * 
@@ -500,7 +796,7 @@ public function depose_memoire_orgacia(Request $request) //Pour les organisateur
 
 
        /**
-         * @Security("has_role('ROLE_PROF')")
+         * @Security("is_granted('ROLE_PROF')")
          * 
          * @Route("/fichiers/charge_fiche_securite_resume/{type_fichier}", name="fichiers_charge_fiche_securite_resume")
          * 
@@ -653,7 +949,7 @@ public function charge_fiche_securite_resume(Request $request, $type_fichier)//P
 }
  
 /**
-         * @Security("has_role('ROLE_PROF')")
+         * @Security("is_granted('ROLE_PROF')")
          * @var Symfony\Component\HttpFoundation\File\UploadedFile $file 
          * @Route("/fichiers/confirme_charge_fichessecur_resume/{infos}", name="fichiers_confirme_charge_fichessecur_resume")
          * 
@@ -752,7 +1048,7 @@ public function charge_fiche_securite_resume(Request $request, $type_fichier)//P
          }
 
  /**
-         * @Security("has_role('ROLE_PROF')")
+         * @Security("is_granted('ROLE_PROF')")
          * @var Symfony\Component\HttpFoundation\File\UploadedFile $file 
          * @Route("/fichiers/charge_fichessecur_resume_fichier/{infos}", name="fichiers_charge_fichessecur_resume_fichier")
          * 
@@ -1080,7 +1376,7 @@ public function charge_fiche_securite_resume(Request $request, $type_fichier)//P
                  }
                 
               /**
-         * @Security("has_role('ROLE_PROF')")
+         * @Security("is_granted('ROLE_PROF')")
          * 
          * @Route("/fichiers/charge_memoires}", name="fichiers_charge_memoires")
          * 
@@ -1212,7 +1508,7 @@ public function charge_fiche_securite_resume(Request $request, $type_fichier)//P
                         
                   }
                    /**
-         * @Security("has_role('ROLE_PROF')")
+         * @Security("is_granted('ROLE_PROF')")
          * @var Symfony\Component\HttpFoundation\File\UploadedFile $file 
          * @Route("/fichiers/confirme_charge_memoires_fichier/{numero_equipe}", name="fichiers_confirme_charge_memoires_fichier")
          * 
@@ -1319,7 +1615,7 @@ public function charge_fiche_securite_resume(Request $request, $type_fichier)//P
          }      
        
           /**
-         * @Security("has_role('ROLE_PROF')")
+         * @Security("is_granted('ROLE_PROF')")
          * @var Symfony\Component\HttpFoundation\File\UploadedFile $file 
          * @Route("/fichiers/charge_memoires_fichier/{numero_equipe}", name="fichiers_charge_memoires_fichier")
          * 
@@ -1661,7 +1957,7 @@ public function charge_fiche_securite_resume(Request $request, $type_fichier)//P
                  }  
              
                   /**
-         * @Security("has_role('ROLE_PROF')")
+         * @Security("is_granted('ROLE_PROF')")
          * 
          * @Route("/fichiers/voir_mesfichiers", name="fichiers_voir_mesfichiers")
          * 
@@ -1718,8 +2014,9 @@ public function charge_fiche_securite_resume(Request $request, $type_fichier)//P
                                      ->renderView('adminfichiers\liste_fichiers_prof.html.twig', array('form'=>$form1->createView()));
 	return new Response($content);      
          }   
+         
         /**
-         * @Security("has_role('ROLE_PROF')")
+         * @Security("is_granted('ROLE_PROF')")
          * 
          * @Route("/fichiers/afficher_liste_fichiers_prof/{numero_equipe}", name="fichiers_afficher_liste_fichiers_prof")
          * 
