@@ -15,13 +15,13 @@ class CoreController extends AbstractController
   {
     $centre='';
     $user=$this->getUser();
-    if (null != $user)
+    if (null !== $user)
     {
      
      
      $session->start();
      $session->set('user', $user);
-    
+    session_write_close();
      $roles=$user->getRoles();
     foreach($roles as $role){
         if ($role=='ROLE_ORGACIA'){

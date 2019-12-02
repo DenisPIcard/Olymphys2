@@ -15,10 +15,13 @@ easy_admin :
                       - {name : 'telecharger', icon : 'download'}
                     
                   title : '<font color="yellow"><h2>Fiches sécurités</h2></font>' 
-                  fields: [{property : 'equipe.numero', label: 'Numero équipe'}, {property : 'equipe.lettre', 
-                            label: 'Lettre équipe'}, {property : 'equipe.centre.centre', label: 'Centre'}, {property: 'equipe.titreprojet', label : 'Projet'}, 
-                            {property : 'fiche', label : 'Fichier', template : 'Admin\customizations\vich_uploader_memoiresinter.html.twig', base_path: '%app.path.fichessecur%'},
-                            {property: 'updatedat', type: 'datetime',label : 'Déposé le '} ]
+                  fields:
+                      - {property : 'equipe.numero', label: 'Numero équipe'}
+                      - {property : 'equipe.lettre', label: 'Lettre équipe'}
+                      - {property : 'equipe.centre.centre', label: 'Centre'}
+                      - {property: 'equipe.titreprojet', label : 'Projet'}
+                      - {property : 'fiche', label : 'Fichier', template : 'Admin\customizations\vich_uploader_memoiresinter.html.twig', base_path: '%app.path.fichessecur%'}
+                      - {property: 'updatedat', type: 'datetime',label : 'Déposé le '} 
                   sort: ['equipe.numero','ASC']
                   
              edit :
@@ -27,8 +30,7 @@ easy_admin :
                          
                       
                       - { type: 'group', columns: 6, label: '<font color="red" > Choisir l''équipe </font> ' } 
-                      - {property : 'equipe', type: 'entity' , type_options : { class : 'App\Entity\Equipesadmin',
-                              query_builder : 'App\Repository\EquipesadminRepository::getEquipeInter', 'choice_label' : 'getNumero'}}
+                      - {property : 'equipe', type: 'entity' , type_options : { class : 'App\Entity\Equipesadmin', query_builder : 'App\Repository\EquipesadminRepository::getEquipeInter', 'choice_label' : 'getNumero'}}
                       - { property : 'ficheFile', label: Choisir la fiche',  type : 'vich_file',  type_options : {'allow_delete' : false}}
                           
                  
@@ -37,8 +39,7 @@ easy_admin :
                   fields: 
                      
                       - { type: 'group', columns: 6, label: '<font color="red" > Choisir l''équipe</font> ' } 
-                      - {property : 'equipe', type: 'entity' , type_options : { class : 'App\Entity\Equipesadmin',
-                              query_builder : 'App\Repository\EquipesadminRepository::getEquipeInter', 'choice_label' : 'getInfoEquipe'}}
+                      - {property : 'equipe', type: 'entity' , type_options : { class : 'App\Entity\Equipesadmin', query_builder : 'App\Repository\EquipesadminRepository::getEquipeInter', 'choice_label' : 'getInfoEquipe'}}
                       - { type: 'group', columns: 6, label: '<font color="red" > Choisir le fichier à déposer </font>'}       
                       - { property : 'ficheFile', label: 'Fichier(1M maxi, .pdf, .doc,.docx,.odt,.jpg)',  type : 'vich_file',  type_options : {}}
                        

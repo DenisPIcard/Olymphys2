@@ -9,6 +9,7 @@
         "easycorp/easyadmin-bundle": "^2.3",
         "howtomakeaturn/pdfinfo": "1.*",
         "league/flysystem-ziparchive": "^1.0",
+        "lexik/jwt-authentication-bundle": "^2.6",
         "orbitale/imagemagick-php": "^3.0",
         "phpoffice/phpspreadsheet": "^1.5",
         "sensio/framework-extra-bundle": "^5.4",

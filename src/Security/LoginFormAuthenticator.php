@@ -42,11 +42,13 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     {    if ($this->security->getUser()) {
              return false;
         }
+       
         return 'login' === $request->attributes->get('_route') && $request->isMethod('POST');
     }
 
     public function getCredentials(Request $request)
-    {
+    { dump($request);
+        die;
         $credentials = [
             'username' => $request->request->get('username'),
             'password' => $request->request->get('password'),

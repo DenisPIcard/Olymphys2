@@ -43,6 +43,7 @@ security:
             remember_me:
                 secret:   '%kernel.secret%'
                 lifetime: 3600 
+                path:     /
 
 
 
@@ -58,6 +59,6 @@ security:
         - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
         - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/core/index, roles: ROLE_SUPER_ADMIN,}
+        - { path: ^/core/index, roles: ROLE_SUPER_ADMIN}
         - { path :  ^/public, roles : ROLE_ADMIN }
   
