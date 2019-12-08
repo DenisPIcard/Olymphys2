@@ -22,7 +22,16 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
     }
     
     public function loadUserByUsername($usernameOrEmail)
-    {
+    {    
+         return $this->createQueryBuilder('u')
+            ->andWhere('u.username = :val')
+            ->setParameter('val', $usernameOrEmail)
+            ->getQuery()
+            ->getOneOrNullResult()   
+        ;
+    }
+            
+   /* {
         return $this->createQuery(
                 'SELECT u
                 FROM App\Entity\User u
@@ -33,6 +42,8 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+    */
     // /**
     //  * @return User[] Returns an array of User objects
     //  */

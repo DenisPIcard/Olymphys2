@@ -22,24 +22,23 @@ security:
             security: false
         main:
             pattern:    ^/
-            user_checker: App\Security\UserChecker 
+            #user_checker: App\Security\UserChecker 
             http_basic: ~
             provider: our_db_provider
             anonymous: ~
             form_login:
-                login_path: login
-                check_path: login
+                login_path: /login
+                use_forward: false
+                check_path: /check
+                failure_path: null
                 csrf_token_generator: security.csrf.token_manager
-                csrf_parameter: _csrf_security_token
-                csrf_token_id: a_private_string
+                #csrf_parameter: _csrf_security_token
+                #csrf_token_id: a_private_string
                 
             logout:
                 path: /logout
                 target: /
-            guard:
-                authenticators:
-                    - App\Security\LoginFormAuthenticator
-                   # - App\Security\TockenAuthenticator
+ 
             remember_me:
                 secret:   '%kernel.secret%'
                 lifetime: 3600 
