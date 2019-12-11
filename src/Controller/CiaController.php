@@ -75,7 +75,7 @@ use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Form\AbstractType;
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -85,7 +85,7 @@ use ZipArchive;
 class CiaController extends AbstractController
 {
         /**
-         * @Security("has_role('ROLE_JURYCIA')")
+         * @IsGranted("ROLE_JURYCIA")
          * 
          * @Route("/cia/afficherlesmemoiresinter", name="cia_afficherlesmemoiresinter")
          * 
@@ -242,7 +242,7 @@ class CiaController extends AbstractController
               
 }
  /**
-         * @Security("has_role('ROLE_ORGACIA')")
+         * @IsGranted("ROLE_ORGACIA")
          * 
          * @Route("/cia/depose_memoire_orgacia", name="cia_depose_memoire_orgacia")
          * 
@@ -421,7 +421,7 @@ public function depose_memoire_orgacia(Request $request) //Pour les organisateur
 
 
        /**
-         * @Security("has_role('ROLE_PROF')")
+         * @IsGranted("ROLE_PROF")
          * 
          * @Route("/cia/charge_fiche_securite", name="cia_charge_fiche_securite")
          * 
@@ -538,7 +538,7 @@ public function charge_fiche_securite(Request $request)
 }
  
 /**
-         * @Security("has_role('ROLE_PROF')")
+         * @IsGranted("ROLE_PROF")
          * @var Symfony\Component\HttpFoundation\File\UploadedFile $file 
          * @Route("/cia/confirme_charge_fichesssecur/{numero_equipe}", name="cia_confirme_charge_fichessecur")
          * 
@@ -621,7 +621,7 @@ public function charge_fiche_securite(Request $request)
          }
 
  /**
-         * @Security("has_role('ROLE_PROF')")
+         * @IsGranted("ROLE_PROF")
          * @var Symfony\Component\HttpFoundation\File\UploadedFile $file 
          * @Route("/cia/charge_fichessecur_fichier/{numero_equipe}", name="cia_charge_fichessecur_fichier")
          * 
@@ -810,7 +810,7 @@ public function charge_fiche_securite(Request $request)
                      
                  }
          /**
-         * @Security("has_role('ROLE_SUPER_ADMIN')")
+         * @IsGranted("ROLE_SUPER_ADMIN")
          * @var Symfony\Component\HttpFoundation\File\UploadedFile $file 
          * @Route("/cia/charge_eleves_inter", name="cia_charge_eleves_inter")
          * 

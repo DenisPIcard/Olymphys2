@@ -53,14 +53,19 @@ class SecurityController extends AbstractController
         // last username entered by the user
         $lastUsername = (null === $session) ? '' : $session->get($lastUsernameKey);
 
-        $csrfToken = $this->tokenManager
+        /*$csrfToken = $this->tokenManager
             ? $this->tokenManager->getToken('authenticate')->getValue()
             : null;
-
+           
         return $this->renderLogin(array(
             'last_username' => $lastUsername,
             'error' => $error,
             'csrf_token' => $csrfToken,
+        ));
+        */ 
+        return $this->renderLogin(array(
+            'last_username' => $lastUsername,
+            'error' => $error,
         ));
     }
     

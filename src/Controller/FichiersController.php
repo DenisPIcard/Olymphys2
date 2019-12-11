@@ -89,7 +89,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\AcceptHeader;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Filesystem;
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Form\AbstractType;
 
 
@@ -404,7 +404,7 @@ class FichiersController extends AbstractController
  
     
         /**
-         * @Security("is_granted('ROLE_JURYCIA')")
+         * @IsGranted("'ROLE_JURYCIA")
          * 
          * @Route("/fichiers/afficherlesmemoiresinter_orgacia", name="fichiers_afficherlesmemoiresinter_orgacia")
          * 
@@ -478,7 +478,7 @@ class FichiersController extends AbstractController
      }
          
        /**
-         * @Security("is_granted('ROLE_COMITE')")
+         * @IsGranted("'ROLE_COMITE")
          * 
          * @Route("/fichiers/afficher_liste_equipe_comite,{centre}", name="fichiers_afficher_liste_equipe_comite")
          * 
@@ -534,7 +534,7 @@ public function afficher_liste_equipe_comite(Request $request, $centre) {
    
 }
 /**
-         * @Security("is_granted('ROLE_PROF')")
+         * @IsGranted("ROLE_PROF")
          * 
          * @Route("/fichiers/choix_equipe_prof,{type_fichier}", name="fichiers_choix_equipe_prof")
          * 
@@ -796,7 +796,7 @@ public function depose_memoire_orgacia(Request $request) //Pour les organisateur
 
 
        /**
-         * @Security("is_granted('ROLE_PROF')")
+         * @IsGranted("ROLE_PROF")
          * 
          * @Route("/fichiers/charge_fiche_securite_resume/{type_fichier}", name="fichiers_charge_fiche_securite_resume")
          * 
@@ -949,7 +949,7 @@ public function charge_fiche_securite_resume(Request $request, $type_fichier)//P
 }
  
 /**
-         * @Security("is_granted('ROLE_PROF')")
+         * @IsGranted("ROLE_PROF")
          * @var Symfony\Component\HttpFoundation\File\UploadedFile $file 
          * @Route("/fichiers/confirme_charge_fichessecur_resume/{infos}", name="fichiers_confirme_charge_fichessecur_resume")
          * 
@@ -1048,7 +1048,7 @@ public function charge_fiche_securite_resume(Request $request, $type_fichier)//P
          }
 
  /**
-         * @Security("is_granted('ROLE_PROF')")
+         * @IsGranted("ROLE_PROF")
          * @var Symfony\Component\HttpFoundation\File\UploadedFile $file 
          * @Route("/fichiers/charge_fichessecur_resume_fichier/{infos}", name="fichiers_charge_fichessecur_resume_fichier")
          * 
@@ -1376,7 +1376,7 @@ public function charge_fiche_securite_resume(Request $request, $type_fichier)//P
                  }
                 
               /**
-         * @Security("is_granted('ROLE_PROF')")
+         * @IsGranted("ROLE_PROF")
          * 
          * @Route("/fichiers/charge_memoires}", name="fichiers_charge_memoires")
          * 
@@ -1508,7 +1508,7 @@ public function charge_fiche_securite_resume(Request $request, $type_fichier)//P
                         
                   }
                    /**
-         * @Security("is_granted('ROLE_PROF')")
+         * @IsGranted("ROLE_PROF")
          * @var Symfony\Component\HttpFoundation\File\UploadedFile $file 
          * @Route("/fichiers/confirme_charge_memoires_fichier/{numero_equipe}", name="fichiers_confirme_charge_memoires_fichier")
          * 
@@ -1615,7 +1615,7 @@ public function charge_fiche_securite_resume(Request $request, $type_fichier)//P
          }      
        
           /**
-         * @Security("is_granted('ROLE_PROF')")
+         * @IsGranted("ROLE_PROF")
          * @var Symfony\Component\HttpFoundation\File\UploadedFile $file 
          * @Route("/fichiers/charge_memoires_fichier/{numero_equipe}", name="fichiers_charge_memoires_fichier")
          * 
@@ -1957,7 +1957,7 @@ public function charge_fiche_securite_resume(Request $request, $type_fichier)//P
                  }  
              
                   /**
-         * @Security("is_granted('ROLE_PROF')")
+         * @IsGranted("ROLE_PROF")
          * 
          * @Route("/fichiers/voir_mesfichiers", name="fichiers_voir_mesfichiers")
          * 
@@ -2016,7 +2016,7 @@ public function charge_fiche_securite_resume(Request $request, $type_fichier)//P
          }   
          
         /**
-         * @Security("is_granted('ROLE_PROF')")
+         * @IsGranted("ROLE_PROF")
          * 
          * @Route("/fichiers/afficher_liste_fichiers_prof/{numero_equipe}", name="fichiers_afficher_liste_fichiers_prof")
          * 
