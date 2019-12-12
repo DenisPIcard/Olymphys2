@@ -404,7 +404,7 @@ class FichiersController extends AbstractController
  
     
         /**
-         * @IsGranted("'ROLE_JURYCIA")
+         * @IsGranted("ROLE_JURYCIA")
          * 
          * @Route("/fichiers/afficherlesmemoiresinter_orgacia", name="fichiers_afficherlesmemoiresinter_orgacia")
          * 
@@ -478,7 +478,7 @@ class FichiersController extends AbstractController
      }
          
        /**
-         * @IsGranted("'ROLE_COMITE")
+         * @IsGranted("ROLE_COMITE")
          * 
          * @Route("/fichiers/afficher_liste_equipe_comite,{centre}", name="fichiers_afficher_liste_equipe_comite")
          * 
@@ -607,7 +607,7 @@ public function choix_equipe_prof(Request $request, $type_fichier) {
         
  
        /**
-         * @Security("is_granted('ROLE_ORGACIA')")
+         * @Isgranted("ROLE_ORGACIA"))
          * 
          * @Route("/fichiers/depose_memoire_orgacia", name="fichiers_depose_memoire_orgacia")
          * 

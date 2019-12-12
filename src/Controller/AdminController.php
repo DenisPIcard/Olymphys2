@@ -26,6 +26,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Form\Type\EasyAdminFiltersFormType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Doctrine\ORM\EntityRepository;
 use ZipArchive;
 
@@ -41,10 +42,10 @@ class AdminController extends EasyAdminController
      *
      * @return RedirectResponse|Response
      *
-     * @Security("is_granted('ROLE_COMITE')")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function indexAction(Request $request)
-    {
+    { dd($request);
         //$this->initialize($request);
         // if the URL doesn't include the entity name, this is the index page  // if the URL doesn't include the entity name, this is the index page
         if (null === $request->query->get('entity')) {

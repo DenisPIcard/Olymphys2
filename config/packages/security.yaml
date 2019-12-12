@@ -30,7 +30,7 @@ security:
                 login_path: /login
                 use_forward: false
                 check_path: /check
-                #failure_path: null
+                failure_path: null
                 #csrf_token_generator: security.csrf.token_manager
                 #csrf_parameter: _csrf_security_token
                 #csrf_token_id: a_private_string
@@ -41,7 +41,7 @@ security:
  
             remember_me:
                 secret:   '%kernel.secret%'
-                lifetime: 3600 
+               
 
 
 
@@ -54,7 +54,7 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/admin, roles: ROLE_ADMIN }
+        #- { path: ^/admin, roles: ROLE_SUPER_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
         - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/core/index, roles: ROLE_SUPER_ADMIN,}
