@@ -17,6 +17,7 @@ imports :
       - { resource: easy_admin/elevesinter.yml } 
       - { resource: easy_admin/resumes.yml } 
 easy_admin:   
+    
     user:
         name_property_path: 'Nom'
     entities:

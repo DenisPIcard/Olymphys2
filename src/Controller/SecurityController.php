@@ -14,13 +14,13 @@ use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
 class SecurityController extends AbstractController
 {
-  /*  private $tokenManager;
+   private $tokenManager;
     
         public function __construct(CsrfTokenManagerInterface $tokenManager = null)
     {
         $this->tokenManager = $tokenManager;
     }
-   */ 
+   
     /**
      * @param Request $request
      *
