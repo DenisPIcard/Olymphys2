@@ -16,10 +16,12 @@ easy_admin :
                       - {name : 'telecharger', icon : 'download'}
                   # image_base_path: 'app/public/upload/images/27/int'   
                   title : '<font color="green"><h2>Les photos des équipes</h2></font>' 
-                  fields: [{property: 'equipe.centre.centre', label: 'Centre'}, {property : 'equipe.numero', label: 'Numero équipe'},
-                             {property: 'equipe.titreprojet', label : 'Projet'}, 
-                             {property : 'photo',  template : 'Admin\customizations\vich_uploader_image.html.twig', base_path: '%repertoire_photos_inter%', propertyFile: 'photoFile'},
-                             {property: 'updatedAt', label : 'Déposé le '} ]
+                  fields:
+                   - {property: 'equipe.centre.centre', label: 'Centre'}
+                   - {property : 'equipe.numero', label: 'Numero équipe'}
+                   - {property: 'equipe.titreprojet', label : 'Projet'}
+                   - {property : 'photo',  template : 'Admin\customizations\vich_uploader_image.html.twig', base_path: '%repertoire_photos_inter%', propertyFile: 'photoFile'}
+                   - {property: 'updatedAt', label : 'Déposé le '} 
                   sort: ['equipe.centre','ASC']
                   
              edit :
@@ -28,10 +30,8 @@ easy_admin :
                          
                       
                       - { type: 'group', columns: 6, label: '<font color="red" > Choisir l''équipe </font> ' } 
-                      - {property : 'equipe', type: 'entity' , type_options : { class : 'App\Entity\Equipesadmin',
-                              query_builder : 'App\Repository\EquipesadminRepository::getEquipeInter', 'choice_label' : 'getNumero'}}
-                      - {property : 'edition', type: 'entity' , type_options : { class : 'App\Entity\Edition',
-                              query_builder : 'App\Repository\EditionRepository::getEdition', 'choice_label' : 'getEd'}}
+                      - {property : 'equipe', type: 'entity' , type_options : { class : 'App\Entity\Equipesadmin', query_builder : 'App\Repository\EquipesadminRepository::getEquipeInter', 'choice_label' : 'getNumero'}}
+                      - {property : 'edition', type: 'entity' , type_options : { class : 'App\Entity\Edition', query_builder : 'App\Repository\EditionRepository::getEdition', 'choice_label' : 'getEd'}}
                       - { property : 'photoFile', label: Choisir la photo',  type : 'vich_file',  type_options : {'allow_delete' : false}}
                           
                  
@@ -40,10 +40,8 @@ easy_admin :
                   fields: 
                      
                       - { type: 'group', columns: 6, label: '<font color="red" > Choisir le fichier à déposer </font> ' } 
-                      -  {property : 'edition', type: 'entity' , type_options : { class : 'App\Entity\Edition',
-                              query_builder : 'App\Repository\EditionRepository::getEdition', 'choice_label' : 'getEd'}}
-                      - {property : 'equipe', type: 'entity' , type_options : { class : 'App\Entity\Equipesadmin',
-                              query_builder : 'App\Repository\EquipesadminRepository::getEquipeInter', 'choice_label' : 'getInfoequipe'}}
+                      - {property : 'edition', type: 'entity' , type_options : { class : 'App\Entity\Edition', query_builder : 'App\Repository\EditionRepository::getEdition', 'choice_label' : 'getEd'}}
+                      - {property : 'equipe', type: 'entity' , type_options : { class : 'App\Entity\Equipesadmin', query_builder : 'App\Repository\EquipesadminRepository::getEquipeInter', 'choice_label' : 'getInfoequipe'}}
                       - { property : 'photoFile', label: 'Photo',  type : 'vich_file',  type_options : {}}
                      
                      # - {property : 'memoire', label: 'Fichier', type : 'file', data_class : 'null'}

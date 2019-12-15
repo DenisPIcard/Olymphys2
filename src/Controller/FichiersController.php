@@ -533,7 +533,7 @@ public function afficher_liste_equipe_comite(Request $request, $centre) {
                      }
    
 }
-/**
+        /**
          * @Security("is_granted('ROLE_PROF')")
          * 
          * @Route("/fichiers/choix_equipe_prof,{type_fichier}", name="fichiers_choix_equipe_prof")
@@ -1956,7 +1956,7 @@ public function charge_fiche_securite_resume(Request $request, $type_fichier)//P
                      
                  }  
              
-                  /**
+         /**
          * @Security("is_granted('ROLE_PROF')")
          * 
          * @Route("/fichiers/voir_mesfichiers", name="fichiers_voir_mesfichiers")
@@ -2300,10 +2300,4 @@ public function charge_fiche_securite_resume(Request $request, $type_fichier)//P
               }
 }                 
                    
-         
-                 
-                 
-                 
-
-
-
+  

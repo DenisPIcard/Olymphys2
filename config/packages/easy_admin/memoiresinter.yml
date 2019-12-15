@@ -17,8 +17,12 @@ easy_admin :
                       - {name : 'telecharger', icon : 'download'}
                     
                   title : '<font color="yellow"><h2>Memoires et annexes</h2></font>' 
-                  fields: [{property : 'equipe.numero', label: 'Numero équipe'}, {property: 'equipe.centre.centre', 'label' :'Centre'}, {property: 'equipe.titreprojet', label : 'Projet'}, {property : 'memoire', label : 'Fichier', template : 'Admin\customizations\vich_uploader_memoiresinter.html.twig', base_path: '%app.path.memoires_inter%'}
-                        {property: 'updatedAt', label : 'Déposé le' }]
+                  fields: 
+                    - {property : 'equipe.numero', label: 'Numero équipe'}
+                    - {property: 'equipe.centre.centre', 'label' :'Centre'}
+                    - {property: 'equipe.titreprojet', label : 'Projet'}
+                    - {property : 'memoire', label : 'Fichier', template : 'Admin\customizations\vich_uploader_memoiresinter.html.twig', base_path: '%app.path.memoires_inter%'}
+                    - {property: 'updatedAt', label : 'Déposé le' }
                   sort: ['equipe.numero','ASC']
                   
              edit :
@@ -27,11 +31,8 @@ easy_admin :
                          
                       
                       - { type: 'group', columns: 6, label: '<font color="red" > Choisir l''équipe </font> ' } 
-                      - {property : 'equipe', type: 'entity' , type_options : { class : 'App\Entity\Equipesadmin',
-                              query_builder : 'App\Repository\EquipesadminRepository::getEquipeInter', 'choice_label' : 'getInfoequipe'}}
-                      
+                      - { property : 'equipe', type: 'entity' , type_options : { class : 'App\Entity\Equipesadmin', query_builder : 'App\Repository\EquipesadminRepository::getEquipeInter', 'choice_label' : 'getInfoequipe'}}
                       - { type: 'group', columns: 6, label: '<font color="red" > Cocher cette case si c''est une annexe </font>'}  
-                     
                       - { property : 'annexe' }
                       - { property : 'memoireFile', label: Choisir le mémoire ou annexe',  type : 'vich_file',  type_options : {'allow_delete' : false}} 
                      
@@ -42,8 +43,7 @@ easy_admin :
                   fields: 
                      
                       - { type: 'group', columns: 6, label: '<font color="red" > Choisir le fichier à déposer </font> ' } 
-                      - {property : 'equipe', type: 'entity' , type_options : { class : 'App\Entity\Equipesadmin',
-                              query_builder : 'App\Repository\EquipesadminRepository::getEquipeInter', 'choice_label' : 'getInfoequipe'}}
+                      - {property : 'equipe', type: 'entity' , type_options : { class : 'App\Entity\Equipesadmin', query_builder : 'App\Repository\EquipesadminRepository::getEquipeInter', 'choice_label' : 'getInfoequipe'}}
                       - { property : 'memoireFile', label: 'Memoire ou annexe',  type : 'vich_file',  type_options : {}}
                       - { type: 'group', columns: 6, label: '<font color="red" > Cocher cette case si c''est une annexe </font>'}  
                       - { property : 'annexe' } 
