@@ -550,7 +550,7 @@ public function choix_equipe_prof(Request $request, $type_fichier) {
         
          $user = $this->getUser();
              $professeur=$user->getId();
-        
+       
         $edition=$repositoryEdition->findOneBy([], ['id' => 'desc']);
             
             $datelimcia = $edition->getDatelimcia();
@@ -569,6 +569,8 @@ public function choix_equipe_prof(Request $request, $type_fichier) {
 	           ->setParameter('professeur', $professeur)
                             ->andWhere('t.selectionnee  = TRUE');
              $liste_equipes=$qb1->getQuery()->getResult();    
+             
+             
              
                  
         }

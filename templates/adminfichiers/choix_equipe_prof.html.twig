@@ -40,7 +40,7 @@
      <a class="btn btn-primary" href="{{ path('fichiers_confirme_charge_fichessecur_resume', {'infos': infos} ) }}" >Choisir cette équipe</a>
                   
                 </div>
-                 {% endif %}
+                  {% endif %}
                  
                  
                  
@@ -49,6 +49,54 @@
            
         </table>
     {% endif %}
+   {% if   phase =='national' %}  
+        <table> 
+ 
+    {% for equipe in liste_equipes %}
+        <div class="row">
+            <div class="col">
+                {{ equipe.lettre }} - {{ equipe.titreProjet }} 
+                
+                 <hr>
+                </div>
+                {% if  type_fichier=='memoire' %}
+                <div class="col">
+                    
+     <a class="btn btn-primary" href="{{ path('fichiers_confirme_charge_memoires_fichier', {'numero_equipe': equipe.numero} ) }}" >Choisir cette équipe</a>
+                  
+                </div>
+                 {% endif %}
+                 {% if  (type_fichier=='fichesecur') or (type_fichier=='resume') %}
+                <div class="col">
+                    {% set infos =  equipe.numero ~ '-' ~ type_fichier %}
+     <a class="btn btn-primary" href="{{ path('fichiers_confirme_charge_fichessecur_resume', {'infos': infos} ) }}" >Choisir cette équipe</a>
+                  
+                </div>
+                  {% endif %}
+                 
+                 
+                 
+     </div>
+    {% endfor %}
+           
+        </table>
+    {% endif %}  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     </div>
    
      
