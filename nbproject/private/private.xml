@@ -2,14 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/wamp64/www/Olymphys2/templates/base.html.twig</file>
-            <file>file:/C:/wamp64/www/Olymphys2/src/Controller/SecurityController.php</file>
-            <file>file:/C:/wamp64/www/Olymphys2/templates/core/index.html.twig</file>
-            <file>file:/C:/wamp64/www/Olymphys2/templates/password/request.html.twig</file>
-            <file>file:/C:/wamp64/www/Olymphys2/templates/security/login.html.twig</file>
-            <file>file:/C:/wamp64/www/Olymphys2/templates/password/index.html.twig</file>
-            <file>file:/C:/wamp64/www/Olymphys2/config/packages/security.yaml</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

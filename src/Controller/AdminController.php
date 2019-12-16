@@ -45,7 +45,7 @@ class AdminController extends EasyAdminController
      * @IsGranted("ROLE_ADMIN")
      */
     public function indexAction(Request $request)
-    { dd($request);
+    {
         //$this->initialize($request);
         // if the URL doesn't include the entity name, this is the index page  // if the URL doesn't include the entity name, this is the index page
         if (null === $request->query->get('entity')) {

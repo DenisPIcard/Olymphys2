@@ -46,34 +46,39 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     }
 
     public function getCredentials(Request $request)
-    {
+    {   
         $credentials = [
-            'username' => $request->request->get('username'),
-            'password' => $request->request->get('password'),
+            'username' => $request->request->get('_username'),
+            'password' => $request->request->get('_password'),
             'csrf_token' => $request->request->get('_csrf_token'),
         ];
         $request->getSession()->set(
             Security::LAST_USERNAME,
             $credentials['username']
         );
-
+        
         return $credentials;
     }
 
     public function getUser($credentials, UserProviderInterface $userProvider)
-    {
-        //$token = new CsrfToken('authenticate', $credentials['csrf_token']);
-        //if (!$this->csrfTokenManager->isTokenValid($token)) {
-        //  throw new InvalidCsrfTokenException();
-        //}
-
+    { 
+         $token = new CsrfToken('authenticate', $credentials['csrf_token']);
+        #dd(!$this->csrfTokenManager->isTokenValid($token));	 
+		$version = preg_match("/OS ((\d+_?){2,3})/i", $_SERVER['HTTP_USER_AGENT'], $matches);
+      if (!$this->csrfTokenManager->isTokenValid($token)) {
+         if ($version == null){
+		 
+         throw new InvalidCsrfTokenException();
+		  }
+        }
+              
         $user = $this->entityManager->getRepository(User::class)->findOneBy(['username' => $credentials['username']]);
-
+         
         if (!$user) {
             // fail authentication with a custom error
             throw new CustomUserMessageAuthenticationException('L\'username ne peut pas être trouvé.');
         }
-
+   
         return $user;
     }
 

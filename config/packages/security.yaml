@@ -20,26 +20,34 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+            
         main:
+            pattern:    ^/
+            #user_checker: App\Security\UserChecker 
+            #http_basic: ~
+            provider: our_db_provider
             
             anonymous: ~
             form_login:
-                login_path: /login
-                #use_forward: false
-                #check_path: /check
-               # failure_path: null
-                #csrf_token_generator: security.csrf.token_manager
-                #csrf_parameter: _csrf_security_token
-                #csrf_token_id: a_private_string
+                login_path: login
+                use_forward: false
+                #check_path: check
+                csrf_token_generator: security.csrf.token_manager
+                csrf_parameter: _csrf_security_token
+                csrf_token_id: a_private_string
                 
             logout:
                 path: /logout
                 target: /
- 
+            guard:
+                authenticators:
+                    - App\Security\LoginFormAuthenticator
             remember_me:
                 secret:   '%kernel.secret%'
+                lifetime: 3600 
+                path:     /
                
-
+                always_remember_me: true
 
 
             # activate different ways to authenticate
