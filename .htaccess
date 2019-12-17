@@ -1,6 +1,6 @@
 
 RewriteEngine on
-RewriteCond %{HTTP_HOST} ^olymphys\.fr$ [OR]
-RewriteCond %{HTTP_HOST} ^www\.olymphys\.fr$
-RewriteRule ^/?$ "https\:\/\/www\.olymphys\.fr\/public\/index\.php" [R=301,L]
 
+RewriteOptions inherit
+RewriteCond %{HTTP_HOST} ^.*$
+RewriteRule ^/?$ "https\:\/\/olymphys\.fr\/public\/index\.php" [R=301,L]

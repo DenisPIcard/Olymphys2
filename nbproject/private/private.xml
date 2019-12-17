@@ -3,7 +3,38 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/wamp64/www/Olymphys2/src/Controller/SecurityController.php</file>
+            <file>file:/C:/wamp64/www/Olymphys2/src/Kernel.php</file>
+            <file>file:/C:/wamp64/www/Olymphys2/templates/base.html.twig</file>
+            <file>file:/C:/wamp64/www/Olymphys2/config/routes/easy_admin.yaml</file>
+            <file>file:/C:/wamp64/www/Olymphys2/src/Entity/User.php</file>
+            <file>file:/C:/wamp64/www/Olymphys2/templates/core/index.html.twig</file>
+            <file>file:/C:/wamp64/www/Olymphys2/src/Controller/CoreController.php</file>
+            <file>file:/C:/wamp64/www/Olymphys2/config/packages/easy_admin.yaml</file>
+            <file>file:/C:/wamp64/www/Olymphys2/public/index.php</file>
+            <file>file:/C:/wamp64/www/Olymphys2/src/Controller/AdminController.php</file>
+            <file>file:/C:/wamp64/www/Olymphys2/src/Security/UserChecker.php</file>
+            <file>file:/C:/wamp64/www/Olymphys2/src/Controller/UtilisateurController.php</file>
+            <file>file:/C:/wamp64/www/Olymphys2/templates/security/login.html.twig</file>
+            <file>file:/C:/wamp64/www/Olymphys2/src/Security/LoginFormAuthenticator.php</file>
+            <file>file:/C:/wamp64/www/Olymphys2/config/packages/security.yaml</file>
+        </group>
+    </open-files>
+</project-private>
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/wamp64/www/Olymphys2/config/services.yaml</file>
+            <file>file:/C:/wamp64/www/Olymphys2/config/packages/easy_admin.yaml</file>
             <file>file:/C:/wamp64/www/Olymphys2/src/Controller/FichiersController.php</file>
+            <file>file:/C:/wamp64/www/Olymphys2/src/Entity/Equipesadmin.php</file>
+            <file>file:/C:/wamp64/www/Olymphys2/config/packages/easy_admin/equipes.yml</file>
+            <file>file:/C:/wamp64/www/Olymphys2/src/Entity/Totalequipes.php</file>
+            <file>file:/C:/wamp64/www/Olymphys2/templates/adminfichiers/choix_equipe_prof.html.twig</file>
+            <file>file:/C:/wamp64/www/Olymphys2/config/packages/vich_uploader.yaml</file>
+            <file>file:/C:/wamp64/www/Olymphys2/config/packages/easy_admin/design.yml</file>
         </group>
     </open-files>
 </project-private>
