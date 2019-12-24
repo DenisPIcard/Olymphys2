@@ -42,10 +42,6 @@
     <div class="alert alert-info"> {{ message }}</div>
   {% endfor %}
   <h3></h3>
-  	
-
-
-
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
 <ul class="navbar-nav">
@@ -65,7 +61,8 @@
             <a class="dropdown-item"  href="{{ path('secretariatadmin_charge_rne') }}" role="button" aria-pressed="true">Charger le RNE</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item"  href=" {{ path('photos_deposephotosinter') }}" role="button" aria-pressed="true">Déposer des photos des interacadémiques</a>
-            <a class="dropdown-item"  href="{{ path('fichiers_afficherlesmemoiresinter_orgacia') }}" role="button">Liste des mémoires</a>
+            <a class="dropdown-item"  href="{{ path('fichiers_afficherlesmemoiresinter_orgacia') }}" role="button">Liste des mémoires CIA</a>
+           <a class="dropdown-item" href="{{ path('fichiers_afficherlesmemoires') }}" class="btn btn-outline-primary" role="button" aria-pressed="true"> Liste des mémoires CN</a>
             <div class="dropdown-divider"></div>   
             <a class="dropdown-item"  href="{{ path('secretariatjury_accueil') }}" role="button">Secrétariat du Jury</a>
         {#    <a class="dropdown-item"  href="{{ path('secretariatadmin_charge_equipe1') }}" role="button" aria-pressed="true">Remplissage de la table Totalequipes</a> 
@@ -81,7 +78,8 @@
             <a  class="dropdown-item" href="{{ path('easyadmin') }}"role="button" aria-pressed="true">Gérer les  équipes et leurs documents</a>
             <a  class="dropdown-item" href="{{ path('photos_deposephotosinter') }}" role="button" aria-pressed="true">Déposer des photos des interacadémiques</a>
             <a  class="dropdown-item" href="{{ path('fichiers_depose_memoire_orgacia') }}" role="button" aria-pressed="true">Déposer un mémoire</a>
-            <a  class="dropdown-item" href="{{ path('fichiers_afficherlesmemoiresinter_orgacia') }}" role="button" ria-pressed="true">Liste des mémoires</a>  
+            <a  class="dropdown-item" href="{{ path('fichiers_afficherlesmemoiresinter_orgacia') }}" role="button" ria-pressed="true">Liste des mémoires CIA</a>
+            <a class="dropdown-item" href="{{ path('fichiers_afficherlesmemoires') }}" class="btn btn-outline-primary" role="button" aria-pressed="true"> Liste des mémoires CN</a>
            </div>       
 
     {% elseif is_granted('ROLE_ORGACIA') %}
@@ -100,7 +98,13 @@
         <div class="dropdown-menu" aria-labelledby="dropdownMenu4">
             <a class="dropdown-item"  href="{{ path('fichiers_afficherlesmemoiresinter_orgacia') }}" role="button">Liste des mémoires</a>       
         </div>
-        
+     {% elseif is_granted('ROLE_JURY') %}
+           <button class="btn btn-outline-primary dropdown-toggle active" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               Jury</button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenu5">
+                <a class="dropdown-item" href="{{ path('fichiers_afficherlesmemoires') }}" class="btn btn-outline-primary" role="button" aria-pressed="true"> Voir les mémoires</a>
+                <a class="dropdown-item" href="{{ path('cyberjury_accueil') }}" class="btn btn-outline-primary" role="button" aria-pressed="true"> Accueil du Jury</a>
+            </div>    
     {% elseif is_granted('ROLE_PROF') %}
             <button class="btn btn-outline-primary dropdown-toggle active" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Mes documents</button>
@@ -108,12 +112,9 @@
                 <a  class="dropdown-item" href="{{ path('fichiers_choix_equipe_prof',{type_fichier : 'fichesecur' })}}" class="btn btn-outline-primary" role="button" aria-pressed="true">Téléverser la fiche sécurité de mon équipe</a>
                 <a  class="dropdown-item" href="{{ path('fichiers_choix_equipe_prof',{type_fichier : 'memoire'}) }}" class="btn btn-outline-primary"  role="button" aria-pressed="true">Téléverser le mémoire ou l'annexe de mon équipe </a> 
                 <a  class="dropdown-item" href="{{ path('fichiers_choix_equipe_prof', {type_fichier : 'resume'}) }}" class="btn btn-outline-primary"  role="button" aria-pressed="true">Téléverser le résumé de mon équipe </a> 
-                <a  class="dropdown-item" href="{{ path('fichiers_voir_mesfichiers') }}" class="btn btn-outline-primary"  role="button" aria-pressed="true">Voir la liste de mes fichiers déposés </a>             </div>
+                <a  class="dropdown-item" href="{{ path('fichiers_voir_mesfichiers') }}" class="btn btn-outline-primary"  role="button" aria-pressed="true">Voir la liste de mes fichiers déposés </a>
+            </div>
 
-    {% elseif is_granted('ROLE_JURY') %}
-            <a href="{{ path('cyberjury_accueil') }}" class="btn btn-outline-primary active" role="button" aria-pressed="true">
-                Accueil du Jury
-            </a>
     {% endif %}
     </li>
     <li><a href="#" class="btn btn-outline-primary" role="button" aria-pressed="true">Galeries Photos</a></li>

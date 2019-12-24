@@ -150,18 +150,7 @@ class SecretariatjuryController extends AbstractController
             }
         $content = $this->renderView('secretariatjury\edition_maj.html.twig', array('form'=>$form->createView(),));
 	return new Response($content);          
-        }       
-        
-             
-             
-             
-             
-             
-             
-             
-              
-                  
-                  
+        }                
         
         private function getChoices($professeur){
              $repositoryTotalequipes= $this->getDoctrine()
@@ -177,7 +166,7 @@ class SecretariatjuryController extends AbstractController
                  $lettre_equipes[$i]=$equipe->getLettreEquipe();
                
             return  $lettre_equipes;
-        }
+            }
         }
         
          
