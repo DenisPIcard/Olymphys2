@@ -22,5 +22,12 @@ class TotalequipesRepository extends \Doctrine\ORM\EntityRepository
 
 		return $query->getQuery()->getResult();
 	}
-                 
+                  public function getEquipeNa(TotalequipesRepository $er): QueryBuilder
+                {   
+		
+                    return $er ->createQueryBuilder('e')->select('e')
+                                       ->orderBy('e.lettreEquipe','ASC');
+                          
+                             
+                }
 }

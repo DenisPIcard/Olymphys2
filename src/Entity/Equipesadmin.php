@@ -155,7 +155,7 @@ class Equipesadmin
    
     
   
-    public function __toString(): ?string
+    public function __toString(): string
         {
            return $this->centre;
            
@@ -326,10 +326,10 @@ class Equipesadmin
         $nom_equipe=$this->getTitreProjet() ;
         $ville=$this->getLyceeLocalite();
         
-        $infoequipe= $nomcentre.'-'.$Numero.'-'.$nom_equipe.'-'.$ville;        
+        $infoequipe= $nomcentre.'Eq '.$Numero.' - '.$nom_equipe.'-'.$ville;        
         return $infoequipe;
     }
-
+    
     
 
     
@@ -576,7 +576,7 @@ class Equipesadmin
        return $this->getPrenomProf2().' '.$this->getNomProf2();
    }
 
-   public function getIdProf1(): ?int
+   public function getIdProf1(): int
    {
        return $this->idProf1;
    }
@@ -588,7 +588,7 @@ class Equipesadmin
        return $this;
    }
 
-   public function getIdProf2(): ?int
+   public function getIdProf2(): int
    {
        return $this->idProf2;
    }

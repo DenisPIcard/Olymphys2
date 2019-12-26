@@ -68,13 +68,33 @@ class Totalequipes
      * @ORM\Column(name="lycee_academie", type="string", length=255, nullable=true)
      */
     private $lyceeAcademie;
+    
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id_prof1", type="smallint", unique=true, nullable=true)
+     */
+    private $idprof1;
 
+   /**
+     * @var int
+     *
+     * @ORM\Column(name="id_prof2", type="smallint", unique=true, nullable=true)
+     */
+    private $idprof2;
+    
+    
+    
+    
     /**
      * @var string
      *
      * @ORM\Column(name="prenom_prof1", type="string", length=255, nullable=true)
      */
     private $prenomProf1;
+    
+    
+     
 
     /**
      * @var string
@@ -97,6 +117,13 @@ class Totalequipes
      */
     private $nomProf2;
 
+    
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="rne", type="string", unique=true, nullable=true)
+     */
+    private $rne;
 
 
 
@@ -277,7 +304,58 @@ class Totalequipes
     {
         return $this->lyceeAcademie;
     }
+   /**
+     * Set idprof1
+     *
+     * @param integer $idprof1
+     *
+     * @return Totalequipes
+     */
+    public function setIdprof1($idprof1)
+    {
+        $this->idprof1 = $idprof1;
 
+        return $this;
+    }
+
+    /**
+     * Get idprof1
+     *
+     * @return integer
+     */
+    public function getIdprof1()
+    {
+        return $this->idprof1;
+    }
+    
+    
+    /**
+     * Set idprof2
+     *
+     * @param integer $idprof2
+     *
+     * @return Totalequipes
+     */
+    public function setIdprof2($idprof2)
+    {
+        $this->idprof1 = $idprof2;
+
+        return $this;
+    }
+
+    /**
+     * Get idprof2
+     *
+     * @return integer
+     */
+    public function getIdprof2()
+    {
+        return $this->idprof2;
+    }
+    
+    
+    
+    
     /**
      * Set prenomProf1
      *
@@ -388,6 +466,35 @@ class Totalequipes
        
        return $this->getPrenomProf2().' '.$this->getNomProf2();
    }
+   
+   /**
+     * Set rne
+     *
+     * @param string rne
+     *
+     * @return Totalequipes
+     */
+    public function setRne($rne)
+    {
+        $this->rne = $rne;
+
+        return $this;
+    }
+
+    /**
+     * Get rne
+     *
+     * @return string
+     */
+    public function getRne()
+    {
+        return $this->rne;
+    }
+   
+   
+   
+   
+   
     /**
      * Get infoequipe
      *

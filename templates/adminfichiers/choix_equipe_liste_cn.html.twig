@@ -1,9 +1,9 @@
 {% extends "base.html.twig" %}
-{% block title %} Les équipes du centre  {{centre}}{% endblock %}
+{% block title %} Les équipes du concours national {% endblock %}
 
 
 
-{% block titre3 %}Liste des équipes du centre :  {{centre}} {% endblock %}
+{% block titre3 %}Liste des  équipes sélectionnées  {% endblock %}
 
 
 {% block body %}
@@ -17,7 +17,15 @@
     {% for equipe in liste_equipes %}
         <div class="row">
             <div class="col">
-                {{ equipe.numero }} - {{ equipe.titreProjet }} / {{nombre_fichiers[i]}} fichier(s) déposé(s)
+                {% if memoire_dep[i] ==true %}
+                    <font color ='green' ><b>
+                      {{ equipe.lettre }} - {{ equipe.titreProjet }}  : {{nombre_fichiers[i]}} fichier(s) déposé(s)
+                    </b></font>
+                      {% else %}
+                      <font color ='gray'>
+                      {{ equipe.lettre }} - {{ equipe.titreProjet }} :  {{nombre_fichiers[i]}} fichier(s) déposé(s)
+                      </font>    
+                {% endif %}
                 {% set i = i +1 %} 
                  <hr>
                 </div>
@@ -32,10 +40,7 @@
         </table>
     </div>
    
-      {% if is_granted('ROLE_COMITE') %}   
       
-    <center><a href="{{ path('fichiers_afficherlesmemoiresinter_orgacia')  }}" >Retour à la liste des centres</a></center>
-    {% endif %}
       
  {% block javascripts %}
         <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js" ></script> 

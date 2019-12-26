@@ -39,6 +39,7 @@ use App\Entity\Memoiresinter;
 use App\Entity\Fichessecur;
 use App\Entity\Equipesadmin;
 use App\Entity \Photosinter;
+use App\Entity \Photosinterthumb;
 
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -114,17 +115,47 @@ class PhotosController extends  AbstractController
                      $files=$form->get('photoFiles')->getData();
                      
                      if($files){
-                        foreach($files as $file){
+                       foreach($files as $file){
                          $photo=new Photosinter();
-                         $fileName=$edition->getEd().'-eq-'.$numero_equipe.'-'.$nom_equipe.'-'.uniqid().'.'.$file->guessExtension();//inutile avec vichuploader
-                         
-                        
+                                                
                          $photo->setEdition($edition);
                        $photo->setPhotoFile($file);//Vichuploader gère l'enregistrement dans le bon dossier, le renommage du fichier
                          $photo->setEquipe($equipe);
                          //$photo->setUpdatedAt(new \DateTime('now'));
                          $em->persist($photo);
-                         $em->flush();
+                          $em->flush();
+                          
+                           $photothumb = New Photosinterthumb();
+                           $photo= $repositoryPhotosinter->findOneby(['photo'=>$photo->getPhoto()]);
+                           
+                         //$filename=basename($photo->getPhoto());
+                         //$fileName=$edition->getEd().'-eq-'.$numero_equipe.'-'.$nom_equipe.'-'.uniqid().'.'.$file->guessExtension();//inutile avec vichuploader
+                         $percent = 0.1;
+                         list($width_orig, $height_orig) = getimagesize($photo->getPhoto());
+                         $new_width = $width * $percent;
+                         $new_height = $height * $percent;
+
+                            // Resample
+                            $thumb = imagecreatetruecolor($new_width, $new_height);
+
+                            imagecopyresampled($thumb, $photo, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
+                          
+                          
+                          
+                          
+                         
+                         $photothumb->setEdition($edition);
+                       $photothumb->setPhotoFile($thumb);//Vichuploader gère l'enregistrement dans le bon dossier, le renommage du fichier
+                         $photothumb->setEquipe($equipe);
+                         //$photo->setUpdatedAt(new \DateTime('now'));
+                         $em->persist($photothumb);
+                         $em->flush();                 
+                         
+                         
+                         
+                        
+                         
+                         
                      }
                      $request->getSession()
                          ->getFlashBag()

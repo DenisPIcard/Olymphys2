@@ -58,10 +58,15 @@
     <center><a href="{{ path('fichiers_afficherlesmemoiresinter_orgacia')  }}" >Retour à la liste des équipes</a></center>
     {% endif %}
       {%endif %}
-      {% if is_granted('ROLE_COMITE')  %}  
+      {% if is_granted('ROLE_ADMIN')  %}  
     
-      
-    <center><a href="{{ path('fichiers_afficher_liste_equipe_comite',{centre :centrecia.id })  }}" >Retour à la liste des équipes</a></center>
+            {% if concours=='cia' %}
+           <center><a href="{{ path('fichiers_afficher_liste_equipe_comite',{centre :centrecia.id })  }}" >Retour à la liste des équipes</a></center>
+           {% endif %}
+            {% if concours=='national' %}
+           <center><a href="{{ path('fichiers_afficherlesmemoires_cn',{centre :centrecia.id })  }}" >Retour à la liste des équipes</a></center>
+           {% endif %}
+     
     {% endif %}
    
 </div>

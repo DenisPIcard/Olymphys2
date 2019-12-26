@@ -161,6 +161,7 @@ public function personalNamer()    //permet à easyadmin de renonnmer le fichier
            $nom_equipe= str_replace("é","e",$nom_equipe);
            $nom_equipe= str_replace("ë","e",$nom_equipe);
            $nom_equipe= str_replace("ê","e",$nom_equipe);
+            $nom_equipe= str_replace("?"," ",$nom_equipe);
             setLocale(LC_CTYPE,'fr_FR');
            $nom_equipe = iconv('UTF-8','ASCII//TRANSLIT',$nom_equipe);
             //$nom_equipe= str_replace("'","",$nom_equipe);

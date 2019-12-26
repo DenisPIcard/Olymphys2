@@ -525,7 +525,55 @@ public function afficherlesmemoires(Request $request)
         }
     return new Response($content);      
     } 
-    
+    /**
+         * @Security("is_granted('ROLE_COMITE')")
+         * 
+         * @Route("/fichiers/afficherlesmemoires_cn", name="fichiers_afficherlesmemoires_cn")
+         * 
+         */
+public function afficherlesmemoires_cn(Request $request)
+    {
+    $repositoryEquipesadmin= $this->getDoctrine()
+                                   ->getManager()
+                                   ->getRepository('App:Equipesadmin');
+    $repositoryMemoires= $this->getDoctrine()
+                              ->getManager()
+                              ->getRepository('App:Memoires');
+    $repositoryResumes= $this->getDoctrine()
+                             ->getManager()
+                             ->getRepository('App:Resumes');
+    $repositoryFichessecur= $this->getDoctrine()
+                                  ->getManager()
+                                  ->getRepository('App:Fichessecur');     
+    $qb =$repositoryEquipesadmin->createQueryBuilder('t')
+                                ->where('t.selectionnee= TRUE')
+                                ->orderBy('t.lettre','ASC');
+    $liste_equipes=$qb->getQuery()->getResult();
+    $i=0;
+    foreach($liste_equipes as $equipe){
+        $nombre_memoires= count($repositoryMemoires->findByEquipe(['equipe'=>$equipe]));
+        $nombre_fiche= count($repositoryFichessecur->findByEquipe(['equipe'=>$equipe]));
+        $nombre_resume= count($repositoryResumes->findByEquipe(['equipe'=>$equipe]));
+        $nombre_fichiers[$i] = $nombre_memoires + $nombre_fiche+$nombre_resume;    
+        $memoire_dep[$i]= '0';
+        
+        if ($nombre_memoires){
+            $memoire_dep[$i]= '1';
+        }
+        
+        $i=$i+1;
+        }
+
+        $content = $this
+                    ->renderView('adminfichiers\choix_equipe_liste_cn.html.twig', 
+                         array('liste_equipes'=>$liste_equipes,
+                           'nombre_fichiers'=>$nombre_fichiers, 
+                             'memoire_dep'=>$memoire_dep
+                            )
+                                );
+       
+    return new Response($content);      
+    } 
     /**
          * @Security("is_granted('ROLE_COMITE')")
          * 
@@ -1660,7 +1708,7 @@ public function   charge_memoires_fichier(Request $request, $numero_equipe, Mail
                                     'fichier'=>$filename,
                                     'equipe'=>$Equipe_choisie->getInfoequipe(),
                                     'typefichier' => $typefichier]);
-            $mailer->sendMessage('webmestre2@olymphys.fr', 'info@olymphys.fr', 'L\'équipe '.'n°'.$Equipe_choisie->getNumero().':'.$Equipe_choisie->getTitreProjet().' a déposé un fichier',$bodyMail);
+            //$mailer->sendMessage('webmestre2@olymphys.fr', 'info@olymphys.fr', 'L\'équipe '.'n°'.$Equipe_choisie->getNumero().':'.$Equipe_choisie->getTitreProjet().' a déposé un fichier',$bodyMail);
             $centre = $Equipe_choisie->getCentre();
             if ($centre){
                 $cohorte_centre =$repositoryUser->findByCentrecia(['centrecia'=>$centre]);
@@ -1669,12 +1717,12 @@ public function   charge_memoires_fichier(Request $request, $numero_equipe, Mail
                     foreach($roles as $role){
                         if ($role=='ROLE_ORGACIA'){
                             $mailorganisateur=$individu->getEmail();
-                            $mailer->sendMessage('webmestre2@olymphys.fr', $mailorganisateur, 'Depot du '.$typefichier.'de l\'équipe '.$Equipe_choisie->getNumero(),'L\'équipe '.'n°'.$Equipe_choisie->getNumero().':'.$Equipe_choisie->getTitreProjet().' a déposé un fichier');
+                            //$mailer->sendMessage('webmestre2@olymphys.fr', $mailorganisateur, 'Depot du '.$typefichier.'de l\'équipe '.$Equipe_choisie->getNumero(),'L\'équipe '.'n°'.$Equipe_choisie->getNumero().':'.$Equipe_choisie->getTitreProjet().' a déposé un fichier');
                             }
                         }
                     }
                 }
-            $mailer->sendMessage('webmestre2@olymphys.fr', 'webmestre3@olymphys.fr', 'Depot du '.$typefichier.'de l\'équipe '.$Equipe_choisie->getNumero(),'L\'équipe '.'n°'.$Equipe_choisie->getNumero().':'.$Equipe_choisie->getTitreProjet().' a déposé un fichier');
+           // $mailer->sendMessage('webmestre2@olymphys.fr', 'webmestre3@olymphys.fr', 'Depot du '.$typefichier.'de l\'équipe '.$Equipe_choisie->getNumero(),'L\'équipe '.'n°'.$Equipe_choisie->getNumero().':'.$Equipe_choisie->getTitreProjet().' a déposé un fichier');
             }
         return $this->redirectToRoute('core_home');
         }
@@ -1744,7 +1792,7 @@ public function  voir_mesfichiers(Request $request){
     $FormBuilder2->add('numero',EntityType::class,[
                                        'class' => 'App:Equipesadmin',
                                        'query_builder' => $qb2,
-                                       'choice_label'=>'getInfoequipe',
+                                       'choice_label'=>'getInfoequipenat',
                                        'label' => 'Choisir une équipe .',
                                        ])
                  ->add('Choisir cette équipe', SubmitType::class);
@@ -1793,6 +1841,10 @@ public function afficher_liste_fichiers_prof(Request $request , $numero_equipe){
     $memoiresnat =   $repositoryMemoires->findByEquipe(['equipe'=>$equipe_choisie]);
     $fiche_securit = $repositoryFichessecur->findOneByEquipe(['equipe'=>$equipe_choisie]);    
     $resume= $repositoryResumes->findOneByEquipe(['equipe'=>$equipe_choisie]); 
+    $concours='cia';
+    if ($equipe_choisie->getlettre()){
+        $concours='national';
+     }
     $centre=$equipe_choisie->getCentre()->getId();
     $user = $this->getUser();
     $roles=$user->getRoles();
@@ -1811,6 +1863,7 @@ public function afficher_liste_fichiers_prof(Request $request , $numero_equipe){
                 $id=$Form[$i]->get('id')->getData();
                 $memoire=$repositoryMemoiresinter->find(['id'=>$id]);
                 $memoireName=$this->getParameter('repertoire_memoire_interacademiques').'/'.$memoire->getMemoire();
+                
                 if(null !==$memoireName)
                     {
                     $response = new BinaryFileResponse($memoireName);
@@ -1829,7 +1882,8 @@ public function afficher_liste_fichiers_prof(Request $request , $numero_equipe){
                   
     foreach($memoiresnat as $memoirenat){
         $id=$memoirenat->getId();
-        $formBuilder[$i]=$this->get('form.factory')->createNamedBuilder('Form'.$id, FormType::class,$memoirenat);  
+        
+        $formBuilder[$i]=$this->get('form.factory')->createNamedBuilder('Form'.$i, FormType::class,$memoirenat);  
         $formBuilder[$i] ->add('id',  HiddenType::class, ['disabled'=>true, 'label'=>false])
                          ->add('memoire', TextType::class,['disabled'=>true,  'label'=>false])
                          ->add('save',SubmitType::class);
@@ -1839,7 +1893,8 @@ public function afficher_liste_fichiers_prof(Request $request , $numero_equipe){
             {
             if ($request->request->has('Form'.$i)) {
                 $id=$Form[$i]->get('id')->getData();
-                $memoirenat=$repositoryMemoiresnat->find(['id'=>$i]);
+                $memoirenat=$repositoryMemoiresnat->find(['id'=>$id]);
+                
                 $memoireName=$this->getParameter('repertoire_memoire_national').'/'.$memoirenat->getMemoire();
                 if(null !==$memoireName)
                     {
@@ -1960,7 +2015,7 @@ public function afficher_liste_fichiers_prof(Request $request , $numero_equipe){
             ($formtab);   
             $content = $this
                           ->renderView('adminfichiers\affiche_liste_fichiers_prof.html.twig', array('formtab'=>$formtab,
-                                                        'infoequipe'=>$equipe_choisie->getInfoequipe(), 'centrecia' =>$equipe_choisie->getCentre())
+                                                        'infoequipe'=>$equipe_choisie->getInfoequipe(), 'centrecia' =>$equipe_choisie->getCentre(),'concours'=>$concours)
                                             ); 
             return new Response($content); 
             }
@@ -1968,17 +2023,33 @@ public function afficher_liste_fichiers_prof(Request $request , $numero_equipe){
             $request->getSession()
                     ->getFlashBag()
                     ->add('info', 'Il n\'y a pas encore de fichier déposé pour l\'equipe n°'.$numero_equipe) ;
+            
+            
+            
+            
             foreach ($roles as $role){
                 if ($role=='ROLE_PROF'){
                      return $this->redirectToRoute('core_home');   }
-                if ($role=='ROLE_ORGACIA' || $role=='ROLE_JURYCIA'){
-                     return $this->redirectToRoute('fichiers_afficherlesmemoiresinter_orgacia');   }
+                
                  if ($role=='ROLE_COMITE' || $role=='ROLE_SUPER_ADMIN'){
-                     return $this->redirectToRoute('fichiers_afficher_liste_equipe_comite',array('centre'=>$centre)); 
+                     if ($concours=='cia'){
+                     return $this->redirectToRoute('fichiers_afficher_liste_equipe_comite',array('centre'=>$centre,'concours'=>$concours)); 
+                     }
+                     if ($concours=='national'){
+                     return $this->redirectToRoute('fichiers_afficherlesmemoires_cn',array('centre'=>$centre,'concours'=>$concours)); 
+                     }
+                     if ($role=='ROLE_ORGACIA' || $role=='ROLE_JURYCIA'){
+                     return $this->redirectToRoute('fichiers_afficherlesmemoiresinter_orgacia');   }
+                     
                      }
                  }
             }     
-} 
+}
+
+ 
+
+
+
 }                 
                    
   

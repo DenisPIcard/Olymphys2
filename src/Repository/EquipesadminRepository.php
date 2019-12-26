@@ -30,10 +30,13 @@ class EquipesadminRepository extends ServiceEntityRepository
                           
                              
                 }
-  public function getEquipeIntermemoiresless(EquipesadminRepository $er): QueryBuilder
+   public function getEquipeNa(EquipesadminRepository $er): QueryBuilder
                 {   
 		
-                    
+                    return $er ->createQueryBuilder('e')->select('e')
+                                      ->where('e.selectionnee= TRUE')
+                                       ->orderBy('e.lettreEquipe','ASC');
+                          
                              
                 }
                 
