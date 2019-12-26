@@ -539,6 +539,9 @@ public function afficherlesmemoires_cn(Request $request)
     $repositoryMemoires= $this->getDoctrine()
                               ->getManager()
                               ->getRepository('App:Memoires');
+    $repositoryMemoiresinter= $this->getDoctrine()
+                              ->getManager()
+                              ->getRepository('App:Memoiresinter');
     $repositoryResumes= $this->getDoctrine()
                              ->getManager()
                              ->getRepository('App:Resumes');
@@ -552,9 +555,10 @@ public function afficherlesmemoires_cn(Request $request)
     $i=0;
     foreach($liste_equipes as $equipe){
         $nombre_memoires= count($repositoryMemoires->findByEquipe(['equipe'=>$equipe]));
+        $nombre_memoiresinter= count($repositoryMemoiresinter->findByEquipe(['equipe'=>$equipe]));
         $nombre_fiche= count($repositoryFichessecur->findByEquipe(['equipe'=>$equipe]));
         $nombre_resume= count($repositoryResumes->findByEquipe(['equipe'=>$equipe]));
-        $nombre_fichiers[$i] = $nombre_memoires + $nombre_fiche+$nombre_resume;    
+        $nombre_fichiers[$i] = $nombre_memoires+$nombre_memoiresinter + $nombre_fiche+$nombre_resume;    
         $memoire_dep[$i]= '0';
         
         if ($nombre_memoires){
@@ -1708,7 +1712,7 @@ public function   charge_memoires_fichier(Request $request, $numero_equipe, Mail
                                     'fichier'=>$filename,
                                     'equipe'=>$Equipe_choisie->getInfoequipe(),
                                     'typefichier' => $typefichier]);
-            //$mailer->sendMessage('webmestre2@olymphys.fr', 'info@olymphys.fr', 'L\'équipe '.'n°'.$Equipe_choisie->getNumero().':'.$Equipe_choisie->getTitreProjet().' a déposé un fichier',$bodyMail);
+           $mailer->sendMessage('webmestre2@olymphys.fr', 'info@olymphys.fr', 'L\'équipe '.'n°'.$Equipe_choisie->getNumero().':'.$Equipe_choisie->getTitreProjet().' a déposé un fichier',$bodyMail);
             $centre = $Equipe_choisie->getCentre();
             if ($centre){
                 $cohorte_centre =$repositoryUser->findByCentrecia(['centrecia'=>$centre]);
@@ -1717,12 +1721,12 @@ public function   charge_memoires_fichier(Request $request, $numero_equipe, Mail
                     foreach($roles as $role){
                         if ($role=='ROLE_ORGACIA'){
                             $mailorganisateur=$individu->getEmail();
-                            //$mailer->sendMessage('webmestre2@olymphys.fr', $mailorganisateur, 'Depot du '.$typefichier.'de l\'équipe '.$Equipe_choisie->getNumero(),'L\'équipe '.'n°'.$Equipe_choisie->getNumero().':'.$Equipe_choisie->getTitreProjet().' a déposé un fichier');
+                            $mailer->sendMessage('webmestre2@olymphys.fr', $mailorganisateur, 'Depot du '.$typefichier.'de l\'équipe '.$Equipe_choisie->getNumero(),'L\'équipe '.'n°'.$Equipe_choisie->getNumero().':'.$Equipe_choisie->getTitreProjet().' a déposé un fichier');
                             }
                         }
                     }
                 }
-           // $mailer->sendMessage('webmestre2@olymphys.fr', 'webmestre3@olymphys.fr', 'Depot du '.$typefichier.'de l\'équipe '.$Equipe_choisie->getNumero(),'L\'équipe '.'n°'.$Equipe_choisie->getNumero().':'.$Equipe_choisie->getTitreProjet().' a déposé un fichier');
+           $mailer->sendMessage('webmestre2@olymphys.fr', 'webmestre3@olymphys.fr', 'Depot du '.$typefichier.'de l\'équipe '.$Equipe_choisie->getNumero(),'L\'équipe '.'n°'.$Equipe_choisie->getNumero().':'.$Equipe_choisie->getTitreProjet().' a déposé un fichier');
             }
         return $this->redirectToRoute('core_home');
         }
@@ -1792,7 +1796,7 @@ public function  voir_mesfichiers(Request $request){
     $FormBuilder2->add('numero',EntityType::class,[
                                        'class' => 'App:Equipesadmin',
                                        'query_builder' => $qb2,
-                                       'choice_label'=>'getInfoequipenat',
+                                       'choice_label'=>'getInfoequipe',
                                        'label' => 'Choisir une équipe .',
                                        ])
                  ->add('Choisir cette équipe', SubmitType::class);
