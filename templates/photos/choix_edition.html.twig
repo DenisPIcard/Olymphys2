@@ -1,0 +1,38 @@
+{% extends "base.html.twig" %}
+
+
+{% block title %} Choix de la galerie{% endblock %}
+
+
+
+{% block titre3 %} Choisir la galerie {% endblock %}
+
+
+{% block body %}
+  {% for edition in editions %}
+      <h2>La {{ edition.ed}}<sup>e</sup>  édition </h2>
+      <li><a  class="button" href="{{ path('photos_voirphotoscia',{edition : edition.ed})}}" >Concours interacadémiques</a>
+      <li><a  class="button" href="{{ path('photos_voirphotoscn',{edition : edition.ed})}}" >Concours national</a>
+      <hr>
+ {% endfor %}
+      
+      
+  
+
+      
+ 
+    
+       
+   
+ {% block javascripts %}
+  
+   
+        
+        
+    {% endblock %}  
+   
+        
+     
+{% endblock %}
+
+

@@ -61,6 +61,7 @@
             <a class="dropdown-item"  href="{{ path('secretariatadmin_charge_rne') }}" role="button" aria-pressed="true">Charger le RNE</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item"  href=" {{ path('photos_deposephotosinter') }}" role="button" aria-pressed="true">Déposer des photos des interacadémiques</a>
+             <a  class="dropdown-item" href="{{ path('photos_deposephotosnat') }}" role="button" aria-pressed="true">Déposer des photos des épreuves nationales</a>
             <a class="dropdown-item"  href="{{ path('fichiers_afficherlesmemoiresinter_orgacia') }}" role="button">Liste des mémoires CIA</a>
            <a class="dropdown-item" href="{{ path('fichiers_afficherlesmemoires_cn') }}" class="btn btn-outline-primary" role="button" aria-pressed="true"> Liste des mémoires CN</a>
             <div class="dropdown-divider"></div>   
@@ -77,6 +78,7 @@
            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
             <a  class="dropdown-item" href="{{ path('easyadmin') }}"role="button" aria-pressed="true">Gérer les  équipes et leurs documents</a>
             <a  class="dropdown-item" href="{{ path('photos_deposephotosinter') }}" role="button" aria-pressed="true">Déposer des photos des interacadémiques</a>
+            <a  class="dropdown-item" href="{{ path('photos_deposephotosnat') }}" role="button" aria-pressed="true">Déposer des photos des épreuves nationales</a>
             <a  class="dropdown-item" href="{{ path('fichiers_depose_memoire_orgacia') }}" role="button" aria-pressed="true">Déposer un mémoire</a>
             <a  class="dropdown-item" href="{{ path('fichiers_afficherlesmemoiresinter_orgacia') }}" role="button" ria-pressed="true">Liste des mémoires CIA</a>
             <a class="dropdown-item" href="{{ path('fichiers_afficherlesmemoires_cn') }}" class="btn btn-outline-primary" role="button" aria-pressed="true"> Liste des mémoires CN</a>
@@ -117,7 +119,7 @@
 
     {% endif %}
     </li>
-    <li><a href="#" class="btn btn-outline-primary" role="button" aria-pressed="true">Galeries Photos</a></li>
+    <li><a href="{{path('photos_choixedition')}}" class="btn btn-outline-primary" role="button" aria-pressed="true">Galeries Photos</a></li>
     <li><a href="#" class="btn btn-outline-primary" role="button" aria-pressed="true">Mémoires</a></li>
     <li><a href="#" class="btn btn-outline-primary" role="button" aria-pressed="true">Présentations</a></li>
     

@@ -70,6 +70,14 @@ class Photosinter
      private $edition;
      
      /**
+       *  
+       * @ORM\OneToOne(targetEntity="App\Entity\Photosinterthumb")
+       * @ORM\JoinColumn(name="thumb_id",  referencedColumnName="id" )
+       */
+      private $thumb;
+     
+     
+     /**
        * 
        * x
        * @ORM\Column(type="datetime", nullable=true)
@@ -142,6 +150,16 @@ class Photosinter
         return $this;
     }
     
+     public function getThumb()
+    {
+        return $this->thumb;
+    }
+
+    public function setThumb($thumb)
+    {
+        $this->thumb = $thumb;
+        return $this;
+    }
 
     
 public function personalNamer()    //permet à vichuploeder et à easyadmin de renommer le fichier, ne peut pas être utilisé directement

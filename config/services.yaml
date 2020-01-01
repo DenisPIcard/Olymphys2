@@ -13,8 +13,10 @@ parameters:
     app.path.fichessecurvich : /upload/equipes/fichessecur
     app.path.resumes : /../public/upload/equipes/resumes
     app.path.resumesvich : /upload/equipes/resumes
-    app.path.photosinter : /../upload/images/27/int      #sur le site /../public/upload/images/27/int 
-    app.path.photosinterthumb: /../upload/images/27/int/thumb      #sur le site /../public/upload/images/27/int/thumb 
+    app.path.photosinter : /upload/images/27/int      #sur le site /../public/upload/images/27/int 
+    app.path.photosinterthumb:  '%kernel.project_dir%/public/upload/images/27/int/thumb'     #sur le site /../public/upload/images/27/int/thumb 
+    app.path.photosinterthumbvich: /upload/images/27/int/thumb
+    app.path.photosnatthumb: /../upload/images/27/nat/thumb      #sur le site /../public/upload/images/27/nat/thumb
     app.path.photosnat : /../upload/images/27/nat      #sur le site /../public/upload/images/27/nat
 
 services:

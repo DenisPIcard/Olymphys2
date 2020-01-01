@@ -14,17 +14,18 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityRepository;
-use App\Service\FileUploader;
+//use App\Service\FileUploader;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Vich\UploaderBundle\Naming\NamerInterface;
 use Vich\UploaderBundle\Naming\PropertyNamer;
 use App\Entity\Edition ;
+ //
+//@ORM\Table(name="photosinterthumb")
+
 /**
- * Photosinterthumb
- * @Vich\Uploadable
- * @ORM\Table(name="photosinterthumb")
- * @ORM\Entity(repositoryClass="App\Repository\PhotosinterthumbRepository")
  * 
+ * @ORM\Entity(repositoryClass="App\Repository\PhotosinterthumbRepository")
+ * @Vich\Uploadable
  */
 
 
@@ -53,11 +54,13 @@ class Photosinterthumb
         * @var string
         */
       private $photo;
+      
+      
      
     /**
      *  
      *  @var File 
-     *  @Vich\UploadableField(mapping="photosinter", fileNameProperty="photo")
+     *  @Vich\UploadableField(mapping="photosinterthumb_photos", fileNameProperty="photo")
      *    
      */
      private $photoFile;
@@ -141,7 +144,7 @@ class Photosinterthumb
         $this->equipe = $equipe;
         return $this;
     }
-    
+     
 
     
 public function personalNamer()    //permet à vichuploeder et à easyadmin de renommer le fichier, ne peut pas être utilisé directement
@@ -170,7 +173,7 @@ public function personalNamer()    //permet à vichuploeder et à easyadmin de r
            //$nom_equipe= str_replace("?","",$nom_equipe);     
            $fileName=$edition.'-'.$centre.'-eq-'.$numero_equipe.'-'.$nom_equipe.'.'.uniqid();
                
-          
+          //dump($fileName);
            
            return $fileName;
  }
