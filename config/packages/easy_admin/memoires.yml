@@ -1,8 +1,6 @@
 easy_admin :
      entities :
          Memoires:
-             
-             
              class : App\Entity\Memoires
              templates:
                         list: 'admin/customizations/memoires_list.html.twig'
@@ -17,8 +15,8 @@ easy_admin :
                     
                   title : '<font color="yelow"><h2>Memoires et annexes</h2></font>' 
                   fields:
-                    - {property : 'equipe.lettreEquipe', label: 'Lettre'}
-                    - {property: 'equipe.nomEquipe', label : 'Projet'}
+                    - {property : 'equipe.lettre', label: 'Lettre'}
+                    - {property: 'equipe.titreProjet', label : 'Projet'}
                     - {property : 'memoire', label : 'Fichier', template : 'Admin\customizations\vich_uploader_memoires.html.twig', base_path: '%app.path.memoires_nat%', propertyFile: 'memoireFile'}
                     - {property: 'updatedat', label : 'Déposé le ', type: 'datetime'} 
                   sort: ['equipe.lettre','ASC']

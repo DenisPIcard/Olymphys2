@@ -525,8 +525,8 @@ public function afficherlesmemoires(Request $request)
         }
     return new Response($content);      
     } 
-    /**
-         * @Security("is_granted('ROLE_COMITE')")
+        /**
+         * @Security("is_granted('ROLE_JURY')")
          * 
          * @Route("/fichiers/afficherlesmemoires_cn", name="fichiers_afficherlesmemoires_cn")
          * 
@@ -563,7 +563,7 @@ public function afficherlesmemoires_cn(Request $request)
         
         if ($nombre_memoires){
             $memoire_dep[$i]= '1';
-        }
+            }
         
         $i=$i+1;
         }

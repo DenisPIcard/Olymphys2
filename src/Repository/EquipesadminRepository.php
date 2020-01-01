@@ -35,7 +35,7 @@ class EquipesadminRepository extends ServiceEntityRepository
 		
                     return $er ->createQueryBuilder('e')->select('e')
                                       ->where('e.selectionnee= TRUE')
-                                       ->orderBy('e.lettreEquipe','ASC');
+                                       ->orderBy('e.lettre','ASC');
                           
                              
                 }
