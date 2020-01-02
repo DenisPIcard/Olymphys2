@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Entity;
-
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -19,6 +17,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Vich\UploaderBundle\Naming\NamerInterface;
 use Vich\UploaderBundle\Naming\PropertyNamer;
 use App\Entity\Edition ;
+
 /**
  * Photos
  * @Vich\Uploadable
@@ -26,9 +25,6 @@ use App\Entity\Edition ;
  * @ORM\Entity(repositoryClass="App\Repository\PhotosinterRepository")
  * 
  */
-
-
-
 class Photosinter
 {
     /**

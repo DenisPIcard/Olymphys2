@@ -78,131 +78,99 @@ use ZipArchive;
 
 class PhotosController extends  AbstractController
 {
-      /**
-         *  @IsGranted("ROLE_ORGACIA")
-         * 
-         * @Route("/photos/deposephotosinter", name="photos_deposephotosinter")
-         * 
-         */
+    /**
+    * @IsGranted("ROLE_ORGACIA")
+    * 
+    * @Route("/photos/deposephotosinter", name="photos_deposephotosinter")
+    * 
+    */
     public function deposephotosinter(Request $request)
-            {
-               
-             $repositoryEdition= $this->getDoctrine()
-		->getManager()
-		->getRepository('App:Edition');
-             $repositoryEquipesadmin= $this->getDoctrine()
-		->getManager()
-		->getRepository('App:Equipesadmin');
-             $repositoryPhotosinter=$this->getDoctrine()
-                                   ->getManager()
-                                   ->getRepository('App:Photosinter');
-             
-             
-             $edition = $repositoryEdition->findOneBy([], ['id' => 'desc']);
-           
-             $Photos = new Photosinter();
+        {
+        $repositoryEdition= $this->getDoctrine()
+                                 ->getManager()
+                                 ->getRepository('App:Edition');
+        $repositoryEquipesadmin= $this->getDoctrine()
+                                      ->getManager()
+                                      ->getRepository('App:Equipesadmin');
+        $repositoryPhotosinter=$this->getDoctrine()
+                                    ->getManager()
+                                    ->getRepository('App:Photosinter');
+        $edition = $repositoryEdition->findOneBy([], ['id' => 'desc']);
+        $Photos = new Photosinter();
              //$Photos->setSession($session);
-             $form = $this->createForm(PhotosinterType::class, null);
-              $form->handleRequest($request);
-            if ($form->isSubmitted() && $form->isValid()) {
-                      $em=$this->getDoctrine()->getManager();
-                     
-                     
-                     $equipe=$form->get('equipe')->getData();
-                      //$equipe=$repositoryEquipesadmin->findOneBy(['id'=>$id_equipe]);
-                      $nom_equipe=$equipe->getTitreProjet();
-                      $numero_equipe=$equipe->getNumero();
-                     $files=$form->get('photoFiles')->getData();
-                     
-                     if($files){
-                       foreach($files as $file){
-                         $photo=new Photosinter();
-                          dump($file);                    
-                         $photo->setEdition($edition);
-                       $photo->setPhotoFile($file);//Vichuploader gère l'enregistrement dans le bon dossier, le renommage du fichier
-                         $photo->setEquipe($equipe);
-                         //$photo->setUpdatedAt(new \DateTime('now'));
-                         $em->persist($photo);
-                          $em->flush();
-                          //dd($photo);
-                          $photothumb = New Photosinterthumb();
-                           $photo= $repositoryPhotosinter->findOneby(['photo'=>$photo->getPhoto()]);
-                          //dd($photo);
-                         //$filename=basename($photo->getPhoto());
-                         //$fileName=$edition->getEd().'-eq-'.$numero_equipe.'-'.$nom_equipe.'-'.uniqid().'.'.$file->guessExtension();//inutile avec vichuploader
-                         $percent = 0.05;
-                         list($width_orig, $height_orig) = getimagesize($photo->getPhotoFile());
-                         $new_width = $width_orig * $percent;
-                         $new_height = $height_orig * $percent;
-                          $image =imagecreatefromjpeg($photo->getPhotoFile());
-                            // Resample
-                            $thumb = imagecreatetruecolor($new_width, $new_height);
-
-                            imagecopyresampled($thumb,$image, 0, 0, 0, 0, $new_width, $new_height, $width_orig, $height_orig);
-                            
-                          //dd($thumb);
-                          imagejpeg($thumb, $this->getParameter('app.path.photosinterthumb').'/'.$photo->getPhoto()); 
-                          
-                          $thumbfile=new UploadedFile($this->getParameter('app.path.photosinterthumb').'/thumb.jpg','thumb.jpg');
-                         //dd($thumbfile);
-                         $photothumb->setEdition($edition);
-                         //$photothumb->setPhotoFile($thumbfile);//Vichuploader gère l'enregistrement dans le bon dossier, le renommage du fichier
-                         $photothumb->setPhoto($photo->getPhoto());
-                         
-                         
-                         $photothumb->setEquipe($equipe);
-                         //dd($photothumb);
-                         //$photo->setUpdatedAt(new \DateTime('now'));
-                         $em->persist($photothumb);
-                         
-                         $em->flush();        
-                         //
-                         $photo->setThumb($photothumb);
-                         $em->persist($photo);
-                         $em->flush();
-                         
-                       
-                         
-                          
-                          
-                         
-                     }
-                     $request->getSession()
-                         ->getFlashBag()
-                         ->add('info', 'Votre fichier a bien été déposé. Merci !') ;
-                     }
-                    if (!$files){
-                         $request->getSession()
-                         ->getFlashBag()
-                         ->add('alert', 'Pas fichier sélectionné: aucun dépôt effectué !') ;
+        $form = $this->createForm(PhotosinterType::class, null);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em=$this->getDoctrine()->getManager();
+            $equipe=$form->get('equipe')->getData();
+            $nom_equipe=$equipe->getTitreProjet();
+            $numero_equipe=$equipe->getNumero();
+            $files=$form->get('photoFiles')->getData();
+            if($files){
+                foreach($files as $file){
+                    $photo=new Photosinter();
+                    dump($file);                    
+                    $photo->setEdition($edition);
+                    $photo->setPhotoFile($file);//Vichuploader gère l'enregistrement dans le bon dossier, le renommage du fichier
+                    $photo->setEquipe($equipe);
+                   //$photo->setUpdatedAt(new \DateTime('now'));
+                    $em->persist($photo);
+                    $em->flush();
+                   //dd($photo);
+                    $photothumb = New Photosinterthumb();
+                    $photo= $repositoryPhotosinter->findOneby(['photo'=>$photo->getPhoto()]);
+                   //dd($photo);
+                   //$filename=basename($photo->getPhoto());
+                   //$fileName=$edition->getEd().'-eq-'.$numero_equipe.'-'.$nom_equipe.'-'.uniqid().'.'.$file->guessExtension();//inutile avec vichuploader
+                    $percent = 0.05;
+                    list($width_orig, $height_orig) = getimagesize($photo->getPhotoFile());
+                    $new_width = $width_orig * $percent;
+                    $new_height = $height_orig * $percent;
+                    $image =imagecreatefromjpeg($photo->getPhotoFile());
+                    // Resample
+                    $thumb = imagecreatetruecolor($new_width, $new_height);
+                    imagecopyresampled($thumb,$image, 0, 0, 0, 0, $new_width, $new_height, $width_orig, $height_orig);
+                    //dd($thumb);
+                    imagejpeg($thumb, $this->getParameter('app.path.photosinterthumb').'/'.$photo->getPhoto()); 
+                    $thumbfile=new UploadedFile($this->getParameter('app.path.photosinterthumb').'/thumb.jpg','thumb.jpg');
+                    //dd($thumbfile);
+                    $photothumb->setEdition($edition);
+                    //$photothumb->setPhotoFile($thumbfile);//Vichuploader gère l'enregistrement dans le bon dossier, le renommage du fichier
+                    $photothumb->setPhoto($photo->getPhoto());
+                    $photothumb->setEquipe($equipe);
+                    //dd($photothumb);
+                    //$photo->setUpdatedAt(new \DateTime('now'));
+                    $em->persist($photothumb);
+                    $em->flush();        
+                     //
+                    $photo->setThumb($photothumb);
+                    $em->persist($photo);
+                    $em->flush();
                     }
+                $request->getSession()
+                        ->getFlashBag()
+                        ->add('info', 'Votre fichier a bien été déposé. Merci !') ;
+                }
+            if (!$files){
+                $request->getSession()
+                ->getFlashBag()
+                ->add('alert', 'Pas fichier sélectionné: aucun dépôt effectué !') ;
+                }
                 
-                return $this->redirectToRoute('core_home');
-                
-                
-                
-                
-                
-                
-            }
-             
-             
-             
-             
-              return $this->render('adminfichiers/deposephotosinter.html.twig', [
+           return $this->redirectToRoute('core_home');
+           }
+        return $this->render('adminfichiers/deposephotosinter.html.twig', [
                 'form' => $form->createView(),'session'=>$edition->getEd()
         ]);
-        
-        
-            }
+   }
         /**
          *  @IsGranted("ROLE_COMITE")
          * 
          * @Route("/photos/deposephotosnat", name="photos_deposephotosnat")
          * 
          */
-        public function deposephotosnat(Request $request)
-            {
+    public function deposephotosnat(Request $request)
+        {
             return $this->redirectToRoute('core_home');
         }
         
@@ -213,23 +181,16 @@ class PhotosController extends  AbstractController
          * @Route("/photos/choixedition", name="photos_choixedition")
          * 
          */    
-        public function choixedition(Request $request)
+     public function choixedition(Request $request)
         {
-            $repositoryEdition= $this->getDoctrine()
-		->getManager()
-		->getRepository('App:Edition');
-            $Editions = $repositoryEdition->findAll();
-             return $this->render('photos/choix_edition.html.twig', [
+        $repositoryEdition= $this->getDoctrine()
+                                 ->getManager()
+                                 ->getRepository('App:Edition');
+        $Editions = $repositoryEdition->findAll();
+        return $this->render('photos/choix_edition.html.twig', [
                 'editions' => $Editions]);
-            
-            
-            
-        }
-        
-        
-        
-        
-        
+         }
+
             //
         /**
          * 
@@ -237,42 +198,39 @@ class PhotosController extends  AbstractController
          * @Route("/photos/voirphotoscia, {edition}", name="photos_voirphotoscia")
          * 
          */    
-         public function voirphotoscia(Request $request, $edition)
-            {
-              $repositoryEdition= $this->getDoctrine()
-		->getManager()
-		->getRepository('App:Edition');
-              $repositoryCentrescia= $this->getDoctrine()
-		->getManager()
-		->getRepository('App:Centrescia');
-             $repositoryEquipesadmin= $this->getDoctrine()
-		->getManager()
-		->getRepository('App:Equipesadmin');
-             $repositoryPhotosinter=$this->getDoctrine()
-                                   ->getManager()
-                                   ->getRepository('App:Photosinter');
-             $edition=$repositoryEdition->findByEd(['ed'=>27]);
-             $liste_centres=$repositoryCentrescia->findAll();
-             $qb =$repositoryPhotosinter->createQueryBuilder('t');
+    public function voirphotoscia(Request $request, $edition)
+        {
+        $repositoryEdition= $this->getDoctrine()
+                                 ->getManager()
+                                 ->getRepository('App:Edition');
+        $repositoryCentrescia= $this->getDoctrine()
+                                    ->getManager()
+                                    ->getRepository('App:Centrescia');
+        $repositoryEquipesadmin= $this->getDoctrine()
+                                      ->getManager()
+                                      ->getRepository('App:Equipesadmin');
+        $repositoryPhotosinter=$this->getDoctrine()
+                                    ->getManager()
+                                    ->getRepository('App:Photosinter');
+        $edition=$repositoryEdition->findByEd(['ed'=>27]);
+        $liste_centres=$repositoryCentrescia->findAll();
+        $qb =$repositoryPhotosinter->createQueryBuilder('t');
                                //->where('t.edition =: edition')
                               // ->setParameter('edition', $edition);
-                               
-             $liste_photos=$qb->getQuery()->getResult();
+        $liste_photos=$qb->getQuery()->getResult();
              //$liste_photos=$repositoryPhotosinter->findByEdition(['edition'=>$edition]);
-             return $this->render('photos/affiche_photos_cia.html.twig', [
+        return $this->render('photos/affiche_photos_cia.html.twig', [
                 'liste_photos' => $liste_photos,'edition'=>27,'liste_centres'=>$liste_centres]);
-             
-             
-            
-        }   
+        }  
+        
          /**
          * 
          * @IsGranted("IS_AUTHENTICATED_ANONYMOUSLY")
          * @Route("/photos/voirphotoscn, {edition}", name="photos_voirphotoscn")
          * 
          */    
-         public function voirphotoscn(Request $request, $edition)
-            {   
+    public function voirphotoscn(Request $request, $edition)
+        {   
              return $this->redirectToRoute('core_home');
-            }
-}
+        }
+    }

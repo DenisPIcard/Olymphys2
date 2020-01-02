@@ -110,7 +110,7 @@ class FichiersController extends AbstractController
          * @Route("memoires", name="memoires")
          * 
          */
-             public function memoires(Request $request)
+    public function memoires(Request $request)
     {
       
         $repositoryEquipesadmin= $this->getDoctrine()
@@ -568,7 +568,7 @@ public function afficherlesmemoires_cn(Request $request)
         $i=$i+1;
         }
 
-        $content = $this
+    $content = $this
                     ->renderView('adminfichiers\choix_equipe_liste_cn.html.twig', 
                          array('liste_equipes'=>$liste_equipes,
                            'nombre_fichiers'=>$nombre_fichiers, 
@@ -1842,13 +1842,13 @@ public function afficher_liste_fichiers_prof(Request $request , $numero_equipe){
                                  ->getRepository('App:Fichessecur');
     $equipe_choisie= $repositoryEquipesadmin->findOneByNumero(['numero'=>$numero_equipe]);
     $memoiresinter= $repositoryMemoiresinter->findByEquipe(['equipe'=>$equipe_choisie]);
-    $memoiresnat =   $repositoryMemoires->findByEquipe(['equipe'=>$equipe_choisie]);
+    $memoiresnat = $repositoryMemoires->findByEquipe(['equipe'=>$equipe_choisie]);
     $fiche_securit = $repositoryFichessecur->findOneByEquipe(['equipe'=>$equipe_choisie]);    
     $resume= $repositoryResumes->findOneByEquipe(['equipe'=>$equipe_choisie]); 
     $concours='cia';
     if ($equipe_choisie->getlettre()){
         $concours='national';
-     }
+        }
     $centre=$equipe_choisie->getCentre()->getId();
     $user = $this->getUser();
     $roles=$user->getRoles();
@@ -1882,15 +1882,13 @@ public function afficher_liste_fichiers_prof(Request $request , $numero_equipe){
                 }
             }
         $i=$i+1;
-        }
-                  
+        }              
     foreach($memoiresnat as $memoirenat){
-        $id=$memoirenat->getId();
-        
+        $id=$memoirenat->getId();        
         $formBuilder[$i]=$this->get('form.factory')->createNamedBuilder('Form'.$i, FormType::class,$memoirenat);  
-        $formBuilder[$i] ->add('id',  HiddenType::class, ['disabled'=>true, 'label'=>false])
-                         ->add('memoire', TextType::class,['disabled'=>true,  'label'=>false])
-                         ->add('save',SubmitType::class);
+        $formBuilder[$i] ->add('id', HiddenType::class, ['disabled'=>true, 'label'=>false])
+                         ->add('memoire', TextType::class,['disabled'=>true, 'label'=>false])
+                         ->add('save', SubmitType::class);
         $Form[$i]=$formBuilder[$i]->getForm();
         $formtab[$i]=$Form[$i]->createView();
         if ($request->isMethod('POST') ) 

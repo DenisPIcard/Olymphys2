@@ -14,7 +14,7 @@ vich_uploader:
         
         memoires:
             uri_prefix: '%app.path.memoires_nat%'
-            upload_destination: '%kernel.project_dir%/public\upload\equipes\memoires\nat'
+            upload_destination: '%kernel.project_dir%/public%app.path.memoires_nat%'
             inject_on_load: true
             delete_on_update: true
             delete_on_remove: true
