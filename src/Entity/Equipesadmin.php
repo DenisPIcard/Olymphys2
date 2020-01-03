@@ -317,11 +317,7 @@ class Equipesadmin
         $Numero=$this->getNumero();
         If ($centre =$this->getCentre()){
         $nomcentre =$this->getCentre()->getCentre().'-';}
-        if ($this->getLettre())
-        {$Numero=$this->getLettre();
-         $nomcentre='';
-        }
-        
+               
         
         $nom_equipe=$this->getTitreProjet() ;
         $ville=$this->getLyceeLocalite();
@@ -329,7 +325,20 @@ class Equipesadmin
         $infoequipe= $nomcentre.'Eq '.$Numero.' - '.$nom_equipe.'-'.$ville;        
         return $infoequipe;
     }
-    
+    public function getInfoequipenat()
+    {   
+        
+        $Lettre=$this->getLettre();
+        if ($this->getLettre())
+        {
+        
+        
+        $nom_equipe=$this->getTitreProjet() ;
+        $ville=$this->getLyceeLocalite();
+        
+        $infoequipe= 'Eq '.$Lettre.' - '.$nom_equipe.'-'.$ville;        
+        return $infoequipe;}
+    }
     
 
     

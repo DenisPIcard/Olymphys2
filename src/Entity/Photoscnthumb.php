@@ -41,12 +41,7 @@ class Photoscnthumb
      */
       private $id;
       
-      /**
-       *  
-       * @ORM\ManyToOne(targetEntity="App\Entity\Equipesadmin")
-       * @ORM\JoinColumn(name="equipe_id",  referencedColumnName="id" )
-       */
-      private $equipe;
+     
       
       /**
         * @ORM\Column(type="string", length=255,  nullable=true)
@@ -65,12 +60,6 @@ class Photoscnthumb
      */
      private $photoFile;
     
-     /**
-      * @ORM\ManyToOne(targetEntity="App\Entity\Edition")
-      * 
-      * @ORM\JoinColumn(name="edition_id",  referencedColumnName="id" )
-      */
-     private $edition;
      
      /**
        * 
@@ -80,16 +69,7 @@ class Photoscnthumb
        */
     private $updatedAt;
     
-    public function getEdition()
-    {
-        return $this->edition;
-    }
-    
-    public function setEdition($edition)
-    {
-        $this->edition=$edition;
-        return $this;
-    }
+   
     
     public function getPhotoFile()
     {
@@ -134,16 +114,7 @@ class Photoscnthumb
         return $this->id;
     }
 
-    public function getEquipe()
-    {
-        return $this->equipe;
-    }
-
-    public function setEquipe($equipe)
-    {
-        $this->equipe = $equipe;
-        return $this;
-    }
+    
      
 
     

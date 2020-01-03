@@ -165,9 +165,9 @@ class PhotosController extends  AbstractController
                          //$fileName=$edition->getEd().'-eq-'.$numero_equipe.'-'.$nom_equipe.'-'.uniqid().'.'.$file->guessExtension();//inutile avec vichuploader
                          
                          list($width_orig, $height_orig) = getimagesize($photo->getPhotoFile());
-                         //$dim=max($width_orig, $height_orig);
-                         if ($height_orig!=0){
-                         $percent = 300/$height_orig;
+                         $dim=max($width_orig, $height_orig);
+                         if ($dim!=0){
+                         $percent = 300/$dim;
                          }
                          
                          $new_width = $width_orig * $percent;
@@ -183,12 +183,12 @@ class PhotosController extends  AbstractController
                           
                           //$thumbfile=new UploadedFile($this->getParameter($paththumb).'/thumb.jpg','thumb.jpg');
                          //dd($thumbfile);
-                         $photothumb->setEdition($edition);
+                         //$photothumb->setEdition($edition);
                          //$photothumb->setPhotoFile($thumbfile);//Vichuploader gère l'enregistrement dans le bon dossier, le renommage du fichier
-                         $photothumb->setPhoto($photo->getPhoto());
+                         $photothumb->setPhoto($photo->getPhoto());//enregistre le même nomque celui de la photo
                          
                          
-                         $photothumb->setEquipe($equipe);
+                         //$photothumb->setEquipe($equipe);
                          //dd($photothumb);
                          //$photo->setUpdatedAt(new \DateTime('now'));
                          $em->persist($photothumb);
