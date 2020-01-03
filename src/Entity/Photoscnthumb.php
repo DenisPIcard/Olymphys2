@@ -14,22 +14,23 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityRepository;
-use App\Service\FileUploader;
+//use App\Service\FileUploader;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Vich\UploaderBundle\Naming\NamerInterface;
 use Vich\UploaderBundle\Naming\PropertyNamer;
 use App\Entity\Edition ;
+ //
+//
+
 /**
- * Photos
+ * @ORM\Table(name="photoscnthumb")
+ * @ORM\Entity(repositoryClass="App\Repository\PhotoscnhumbRepository")
  * @Vich\Uploadable
- * @ORM\Table(name="photosinter")
- * @ORM\Entity(repositoryClass="App\Repository\PhotosinterRepository")
- * 
  */
 
 
 
-class Photosinter
+class Photoscnthumb
 {
     /**
      * @var int
@@ -53,11 +54,13 @@ class Photosinter
         * @var string
         */
       private $photo;
+      
+      
      
     /**
      *  
      *  @var File 
-     *  @Vich\UploadableField(mapping="photosinter", fileNameProperty="photo")
+     *  @Vich\UploadableField(mapping="photoscnthumb", fileNameProperty="photo")
      *    
      */
      private $photoFile;
@@ -68,14 +71,6 @@ class Photosinter
       * @ORM\JoinColumn(name="edition_id",  referencedColumnName="id" )
       */
      private $edition;
-     
-     /**
-       *  
-       * @ORM\OneToOne(targetEntity="App\Entity\Photosinterthumb")
-       * @ORM\JoinColumn(name="thumb_id",  referencedColumnName="id" )
-       */
-      private $thumb;
-     
      
      /**
        * 
@@ -149,17 +144,7 @@ class Photosinter
         $this->equipe = $equipe;
         return $this;
     }
-    
-     public function getThumb()
-    {
-        return $this->thumb;
-    }
-
-    public function setThumb($thumb)
-    {
-        $this->thumb = $thumb;
-        return $this;
-    }
+     
 
     
 public function personalNamer()    //permet à vichuploeder et à easyadmin de renommer le fichier, ne peut pas être utilisé directement
@@ -169,8 +154,8 @@ public function personalNamer()    //permet à vichuploeder et à easyadmin de r
            $edition=$this->getEdition()->getEd(); 
              }
            $equipe=$this->getEquipe();
-           $centre=$equipe->getCentre()->getCentre();
-           $numero_equipe=$equipe->getNumero();
+          
+           $lettre_equipe=$equipe->getLettre();
            $nom_equipe=$equipe->getTitreProjet();
            $nom_equipe= str_replace("à","a",$nom_equipe);
            $nom_equipe= str_replace("ù","u",$nom_equipe);
@@ -178,8 +163,6 @@ public function personalNamer()    //permet à vichuploeder et à easyadmin de r
            $nom_equipe= str_replace("é","e",$nom_equipe);
            $nom_equipe= str_replace("ë","e",$nom_equipe);
            $nom_equipe= str_replace("ê","e",$nom_equipe);
-           $nom_equipe= str_replace("ô","o",$nom_equipe);
-           $nom_equipe= str_replace("?","",$nom_equipe);
             setLocale(LC_CTYPE,'fr_FR');
            
            
@@ -188,7 +171,7 @@ public function personalNamer()    //permet à vichuploeder et à easyadmin de r
            //$nom_equipe= str_replace("`","",$nom_equipe);
             
            //$nom_equipe= str_replace("?","",$nom_equipe);     
-           $fileName=$edition.'-'.$centre.'-eq-'.$numero_equipe.'-'.$nom_equipe.'.'.uniqid();
+           $fileName=$edition.'-CN-eq-'.$lettre_equipe.'-'.$nom_equipe.'.'.uniqid();
                
           
            

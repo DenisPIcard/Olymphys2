@@ -4,7 +4,7 @@ vich_uploader:
     mappings:
         memoiresinter:
             uri_prefix: '%app.path.memoires_inter%'
-            upload_destination: '%kernel.project_dir%/public%app.path.memoires_inter%'
+            upload_destination: '%app.path.memoires_inter%'
             inject_on_load: true
             delete_on_update: true
             delete_on_remove: true
@@ -14,7 +14,7 @@ vich_uploader:
         
         memoires:
             uri_prefix: '%app.path.memoires_nat%'
-            upload_destination: '%kernel.project_dir%/public%app.path.memoires_nat%'
+            upload_destination: '%app.path.memoires_nat%'
             inject_on_load: true
             delete_on_update: true
             delete_on_remove: true
@@ -24,8 +24,8 @@ vich_uploader:
                 
          
         fichessecur:
-            uri_prefix: '%app.path.fichessecurvich%'
-            upload_destination: '%kernel.project_dir%/public%app.path.fichessecurvich%'
+            uri_prefix: '%app.path.fichessecur%'
+            upload_destination: '%app.path.fichessecur%'
             inject_on_load: true
             delete_on_update: true
             delete_on_remove: true
@@ -36,7 +36,7 @@ vich_uploader:
                 
         photosinter :
             uri_prefix: '%app.path.photosinter%'
-            upload_destination: '%kernel.project_dir%/public%app.path.photosinter%'
+            upload_destination: '%app.path.photosinter%'
             inject_on_load: true
             delete_on_update: true
             delete_on_remove: true
@@ -45,8 +45,8 @@ vich_uploader:
                 options: { property: 'personalNamer'}
                 
         photosinterthumb :
-            uri_prefix: '%app.path.photosinterthumbvich%'
-            upload_destination: '%kernel.project_dir%/public%app.path.photosinterthumbvich%'
+            uri_prefix: '%app.path.photosinterthumb%'
+            upload_destination: '%app.path.photosinterthumb%'
             inject_on_load: true
             delete_on_update: true
             delete_on_remove: true
@@ -55,12 +55,30 @@ vich_uploader:
                 options: { property: 'personalNamer'}
                 
         resumes : 
-            uri_prefix: '%app.path.resumesvich%'
-            upload_destination: '%kernel.project_dir%/public%app.path.resumesvich%' 
+            uri_prefix: '%app.path.resumes%'
+            upload_destination: '%app.path.resumes%' 
             inject_on_load: true
             delete_on_update: true
             delete_on_remove: true
             namer: 
                 service: vich_uploader.namer_property
                 options: { property: 'personalNamer'}
-        
+        photoscn :
+            uri_prefix: '%app.path.photosnat%'
+            upload_destination: '%app.path.photosnat%'
+            inject_on_load: true
+            delete_on_update: true
+            delete_on_remove: true
+            namer: 
+                service: vich_uploader.namer_property
+                options: { property: 'personalNamer'}
+                
+        photoscnthumb :
+            uri_prefix: '%app.path.photosnatthumb%'
+            upload_destination: '%app.path.photosnatthumb%'
+            inject_on_load: true
+            delete_on_update: true
+            delete_on_remove: true
+            namer: 
+                service: vich_uploader.namer_property
+                options: { property: 'personalNamer'}

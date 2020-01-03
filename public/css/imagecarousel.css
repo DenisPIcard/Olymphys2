@@ -1,0 +1,10 @@
+.parent{
+  height: 100px;
+}
+
+img {
+  
+  width: auto;
+  max-height: 100%;
+  object-fit: contain;
+}

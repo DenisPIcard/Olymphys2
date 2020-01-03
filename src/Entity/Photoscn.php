@@ -22,14 +22,14 @@ use App\Entity\Edition ;
 /**
  * Photos
  * @Vich\Uploadable
- * @ORM\Table(name="photosinter")
- * @ORM\Entity(repositoryClass="App\Repository\PhotosinterRepository")
+ * @ORM\Table(name="photoscn")
+ * @ORM\Entity(repositoryClass="App\Repository\PhotoscnRepository")
  * 
  */
 
 
 
-class Photosinter
+class Photoscn
 {
     /**
      * @var int
@@ -57,7 +57,7 @@ class Photosinter
     /**
      *  
      *  @var File 
-     *  @Vich\UploadableField(mapping="photosinter", fileNameProperty="photo")
+     *  @Vich\UploadableField(mapping="photoscn", fileNameProperty="photo")
      *    
      */
      private $photoFile;
@@ -71,7 +71,7 @@ class Photosinter
      
      /**
        *  
-       * @ORM\OneToOne(targetEntity="App\Entity\Photosinterthumb")
+       * @ORM\OneToOne(targetEntity="App\Entity\Photoscnthumb")
        * @ORM\JoinColumn(name="thumb_id",  referencedColumnName="id" )
        */
       private $thumb;
@@ -169,8 +169,8 @@ public function personalNamer()    //permet à vichuploeder et à easyadmin de r
            $edition=$this->getEdition()->getEd(); 
              }
            $equipe=$this->getEquipe();
-           $centre=$equipe->getCentre()->getCentre();
-           $numero_equipe=$equipe->getNumero();
+          
+           $lettre_equipe=$equipe->getLettre();
            $nom_equipe=$equipe->getTitreProjet();
            $nom_equipe= str_replace("à","a",$nom_equipe);
            $nom_equipe= str_replace("ù","u",$nom_equipe);
@@ -188,7 +188,7 @@ public function personalNamer()    //permet à vichuploeder et à easyadmin de r
            //$nom_equipe= str_replace("`","",$nom_equipe);
             
            //$nom_equipe= str_replace("?","",$nom_equipe);     
-           $fileName=$edition.'-'.$centre.'-eq-'.$numero_equipe.'-'.$nom_equipe.'.'.uniqid();
+           $fileName=$edition.'-CN-eq-'.$lettre_equipe.'-'.$nom_equipe.'.'.uniqid();
                
           
            

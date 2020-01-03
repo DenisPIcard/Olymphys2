@@ -1,0 +1,21 @@
+{% extends "base.html.twig" %}
+{% block title %} Photos des épreuves interacadémiques de la {{session}}{% endblock %}
+
+
+
+{% block titre3 %}Déposer les photos des épreuves interacadémiques de la {{session}}<sup> eme </sup>édition {% endblock %}
+
+
+{% block body %}
+    <div class="well">
+        {{form(form)}}
+ {% block javascripts %}
+        <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js" ></script> 
+        
+        <script>
+           
+                bsCustomFileInput.init()
+        </script>
+    {% endblock %}  
+ 
+{% endblock %}

@@ -4,20 +4,18 @@ parameters:
     repertoire_fiches_securite: '%kernel.project_dir%/public/upload/equipes/fichessecur'
     repertoire_resumes :  '%kernel.project_dir%/public/upload/equipes/resumes'
     repertoire_fichessecur : /upload/equipes/fichessecur
-    app.path.memoires_inter : /../public/upload/equipes/memoires/inter
+    
     repertoire_memoire_national :  '%kernel.project_dir%/public/upload/equipes/memoires/nat' # /../upload/equipes/memoires/nat 
     repertoire_photosinter :  '%kernel.project_dir%/public/upload/images/27/int'
     repertoire_photos_inter : /../public/upload/images/27/int
-    app.path.memoires_nat : /../public/upload/equipes/memoires/nat
-    app.path.fichessecur : /../public/upload/equipes/fichessecur
-    app.path.fichessecurvich : /upload/equipes/fichessecur
-    app.path.resumes : /../public/upload/equipes/resumes
-    app.path.resumesvich : /upload/equipes/resumes
-    app.path.photosinter : /upload/images/27/int      #sur le site /../public/upload/images/27/int 
+    app.path.memoires_inter : '%kernel.project_dir%/public/upload/equipes/memoires/inter'
+    app.path.memoires_nat : '%kernel.project_dir%/public/upload/equipes/memoires/nat'
+    app.path.fichessecur : '%kernel.project_dir%/public/upload/equipes/fichessecur'
+    app.path.resumes : '%kernel.project_dir%/public/upload/equipes/resumes'
+    app.path.photosinter : '%kernel.project_dir%/public/upload/images/27/int'      #sur le site /../public/upload/images/27/int 
     app.path.photosinterthumb:  '%kernel.project_dir%/public/upload/images/27/int/thumb'     #sur le site /../public/upload/images/27/int/thumb 
-    app.path.photosinterthumbvich: /upload/images/27/int/thumb
-    app.path.photosnatthumb: /../upload/images/27/nat/thumb      #sur le site /../public/upload/images/27/nat/thumb
-    app.path.photosnat : /../upload/images/27/nat      #sur le site /../public/upload/images/27/nat
+    app.path.photosnatthumb: '%kernel.project_dir%/public/upload/images/27/nat/thumb'      #sur le site /../public/upload/images/27/nat/thumb
+    app.path.photosnat :  '%kernel.project_dir%/public/upload/images/27/nat'      #sur le site /../public/upload/images/27/nat
 
 services:
     # default configuration for services in *this* file
