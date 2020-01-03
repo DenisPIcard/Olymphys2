@@ -1918,7 +1918,7 @@ $repositoryMemoires= $this->getDoctrine()
                 $id=$Form[$i]->get('id')->getData();
                 $memoirenat=$repositoryMemoiresnat->find(['id'=>$id]);
                 
-                $memoireName=$this->getParameter(' app.path.memoires_nat').'/'.$memoirenat->getMemoire();
+                $memoireName=$this->getParameter('app.path.memoires_nat').'/'.$memoirenat->getMemoire();
                 if(null !==$memoireName)
                     {
                     $response = new BinaryFileResponse($memoireName);

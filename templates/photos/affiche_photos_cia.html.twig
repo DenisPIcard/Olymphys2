@@ -39,7 +39,7 @@
              {%if photo.equipe.centre.centre == centre.centre %}
                  {% if i==1 %}
                  <div class="carousel-item active" data-interval="5000">
-                           <a href="{{asset('/upload/images/'~edition~'/int/'~photo.photo)}}">                
+                           <a href="{{asset('/upload/images/'~edition~'/int/'~photo.photo)}}"target="blank">                
                            <img src=" {{asset('/upload/images/'~edition~'/int/'~photo.photo)| imagine_filter('my_thumb') }}" class="d-block w-100" alt="{{photo.equipe.TitreProjet}}">
                             </a>
                            <center><div style="background:black;"><font color="white" size="-1">{{photo.equipe.titreProjet}} </font><br> <font color="white" size="-2">photo {{i}}/{{n}}</font></div></center>
@@ -47,7 +47,7 @@
                            {% endif %}
                             {% if i>1 %}
                    <div class="carousel-item" >
-                        <a href="{{asset('/upload/images/'~edition~'/int/'~photo.photo)}}">                
+                        <a href="{{asset('/upload/images/'~edition~'/int/'~photo.photo)}}" target="blank">                
                            <img src=" {{asset('/upload/images/'~edition~'/int/'~photo.photo)| imagine_filter('my_thumb') }}" class="d-block w-100" alt="{{photo.equipe.TitreProjet}}">
                         </a>
                            <center><div style="background:black"><font color="white" size="-1">{{photo.equipe.titreProjet}} </font><br> <font color="white" size="-2"> photo {{i}}/{{n}}></font></div></center>

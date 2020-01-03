@@ -40,3 +40,24 @@ App\Entity\Photosinter:
             - File:
                 mimeTypes: [image/jpeg] 
                 mimeTypesMessage: Veuillez télécharger un fichier du bon format
+                
+App\Entity\Photosinterthumb:
+    properties:
+       photoFile:
+            - File:
+                mimeTypes: [image/jpeg] 
+                mimeTypesMessage: Veuillez télécharger un fichier du bon format                
+                
+App\Entity\Photoscn:
+    properties:
+       photoFile:
+            - File:
+                mimeTypes: [image/jpeg] 
+                mimeTypesMessage: Veuillez télécharger un fichier du bon format
+                
+App\Entity\Photoscnthumb:
+    properties:
+       photoFile:
+            - File:
+                mimeTypes: [image/jpeg] 
+                mimeTypesMessage: Veuillez télécharger un fichier du bon format                
