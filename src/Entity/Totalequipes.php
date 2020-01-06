@@ -80,6 +80,7 @@ class Totalequipes
      * @var int
      *
      * @ORM\Column(name="id_prof2", type="smallint", unique=true, nullable=true)
+    * 
      */
     private $idprof2;
     

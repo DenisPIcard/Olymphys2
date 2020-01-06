@@ -16,6 +16,7 @@ imports :
       - { resource: easy_admin/centrescia.yml } 
       - { resource: easy_admin/elevesinter.yml } 
       - { resource: easy_admin/resumes.yml } 
+      - { resource: easy_admin/selectionnees.yml }
 easy_admin:   
     user:
         name_property_path: 'Nom'

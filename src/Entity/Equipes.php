@@ -62,13 +62,6 @@ class Equipes
      */
     private $salle; 
     
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="isef", type="boolean", nullable=true)
-     */
-    private $isef; 
-    
      /**
      * @var int
      *
@@ -114,7 +107,7 @@ class Equipes
     private $prix;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Totalequipes", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="App\Entity\Equipesadmin", cascade={"persist"})
      */
     private $infoequipe;
 
@@ -281,30 +274,7 @@ class Equipes
         return $this->salle;
     }
     
-     /**
-     * Set isef
-     *
-     * @param boolean $isef
-     *
-     * @return Equipes
-     */
-    public function setIsef($isef)
-    {
-        $this->isef = $isef;
 
-        return $this;
-    }
-
-    /**
-     * Get salle
-     *
-     * @return string
-     */
-    public function getIsef()
-    {
-        return $this->isef;
-    }
-    
     /**
      * Set visite
      *
@@ -561,11 +531,11 @@ class Equipes
     /**
      * Set infoequipe
      *
-     * @param \App\Entity\Totalequipes $infoequipe
+     * @param \App\Entity\Equipesadmin $infoequipe
      *
      * @return Equipes
      */
-    public function setInfoequipe(\App\Entity\Totalequipes $infoequipe = null)
+    public function setInfoequipe(\App\Entity\Equipesadmin $infoequipe = null)
     {
         $this->infoequipe = $infoequipe;
 
@@ -575,7 +545,7 @@ class Equipes
     /**
      * Get infoequipe
      *
-     * @return \App\Entity\Totalequipes
+     * @return \App\Entity\Equipesadmin
      */
     public function getInfoequipe()
     {

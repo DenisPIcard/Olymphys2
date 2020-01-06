@@ -100,29 +100,41 @@ class SecretariatjuryController extends AbstractController
 	*/
 	public function accueilJury(Request $request)
 	{
-		$repositoryEquipes = $this
-			->getDoctrine()
-			->getManager()
-			->getRepository('App:Equipes');
-
-		$repositoryEleves = $this
-			->getDoctrine()
-			->getManager()
-			->getRepository('App:Eleves');
-
-		$em=$this->getDoctrine()->getManager();
-
-		$listEquipes=$repositoryEquipes->findAll();
-
+		$repositoryEquipesadmin = $this ->getDoctrine()
+                                                ->getManager()
+                                                ->getRepository('App:Equipesadmin');
+                $repositoryEleves = $this->getDoctrine()
+                                         ->getManager()
+                                         ->getRepository('App:Eleves');
+                $repositoryUser=$this->getDoctrine()
+                                     ->getManager()
+                                     ->getRepository('App:User');
+                $repositoryRne=$this->getDoctrine()
+                                     ->getManager()
+                                     ->getRepository('App:Rne');
+		$listEquipes=$repositoryEquipesadmin ->createQueryBuilder('e')
+                                                     ->select('e')
+                                                     ->where('e.selectionnee= TRUE')
+                                                     ->orderBy('e.lettre','ASC')
+                                                     ->getQuery()
+                                                     ->getResult();
 		foreach ($listEquipes as $equipe) 
-		{
-			$lettre=$equipe->getLettre();
-			$lesEleves[$lettre] = $repositoryEleves->findByLettreEquipe($lettre);
-		}
-
-		$content = $this->renderView('secretariatjury/accueil_jury.html.twig', 
+                    {
+                    $lettre=$equipe->getLettre();
+                    $lesEleves[$lettre] = $repositoryEleves->findByLettreEquipe($lettre);
+                    $idprof1=$equipe->getIdProf1();
+                    $prof1[$lettre]= $repositoryUser->findById($idprof1);
+                    $idprof2=$equipe->getIdProf2();
+                    $prof2[$lettre]= $repositoryUser->findById($idprof2);
+                    $rne = $equipe->getRne();
+                    $lycee[$lettre]= $repositoryRne->findByRne($rne);
+                    }
+                $content = $this->renderView('secretariatjury/accueil_jury.html.twig', 
 			array('listEquipes' => $listEquipes,
-				  'lesEleves'=>$lesEleves));
+                              'lesEleves'=> $lesEleves,
+                              'prof1'=>$prof1,
+                              'prof2'=>$prof2,
+                              'lycee'=>$lycee));
 
 		return new Response($content);
 	}
@@ -151,16 +163,16 @@ class SecretariatjuryController extends AbstractController
         $content = $this->renderView('secretariatjury\edition_maj.html.twig', array('form'=>$form->createView(),));
 	return new Response($content);          
         }                
-        
+   /*     
         private function getChoices($professeur){
              $repositoryTotalequipes= $this->getDoctrine()
-		->getManager()
-		->getRepository('App:Totalequipes');
-             $i=0;
+                                           ->getManager()
+                                           ->getRepository('App:Totalequipes');
+            $i=0;
             $lettre_equipes[$i]='';
             $qb =$repositoryTotalequipes->createQueryBuilder('t')
-                             ->where('t.nomProf1=:professeur')
-	           ->setParameter('professeur', $professeur);
+                                        ->where('t.nomProf1=:professeur')
+                                        ->setParameter('professeur', $professeur);
              $equipes_prof=$qb->getQuery()->getResult();     
             foreach($equipes_prof as $equipe){
                  $lettre_equipes[$i]=$equipe->getLettreEquipe();
@@ -168,15 +180,15 @@ class SecretariatjuryController extends AbstractController
             return  $lettre_equipes;
             }
         }
-        
-         
+     */   
+      
         /**
 	* @Security("is_granted('ROLE_SUPER_ADMIN')")
          * 
          * @Route("/secretariatjury/charge_equipe1", name="secretariatjury_charge_equipe1")
          * 
          */
-	public function charge_equipe1(Request $request)
+ /* 	public function charge_equipe1(Request $request)
 	{ 
 
             $defaultData = ['message' => 'Charger le fichier Équipe'];
@@ -237,75 +249,61 @@ class SecretariatjuryController extends AbstractController
         $content = $this
                         ->renderView('secretariatjury\uploadexcel.html.twig', array('form'=>$form->createView(),));
 	return new Response($content);          
-        }       
+        }   
+ */       
         /**
 	* @Security("is_granted('ROLE_SUPER_ADMIN')")
          * 
-         * @Route("/secretariatjury/charge_equipe2", name="secretariatjury_charge_equipe2")
+         * @Route("/secretariatjury/cree_equipes", name="secretariatjury_cree_equipes")
          * 
          */
-	public function charge_equipe2(Request $request)
+/*	public function cree_equipes(Request $request)
 	{ 
 
             $defaultData = ['message' => 'Charger le fichier Équipe2'];
             $form = $this->createFormBuilder($defaultData)
-                            ->add('fichier',      FileType::class)
-                            ->add('Envoyer',      SubmitType::class)
-                            ->getForm();
+                         ->add('Créer',      SubmitType::class)
+                          ->getForm();
             
-            $repositoryTotEquipes = $this
+            $repositoryEquipesadmin = $this
 			->getDoctrine()
 			->getManager()
-			->getRepository('App:Totalequipes');
-            
+			->getRepository('App:Equipesadmin');
+            $repositoryEquipes = $this
+			->getDoctrine()
+			->getManager()
+			->getRepository('App:Equipes');
             $form->handleRequest($request);                            
             if ($form->isSubmitted() && $form->isValid()) 
                 {
-                $data=$form->getData();
-                $fichier=$data['fichier'];
-                $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($fichier);
-                $worksheet = $spreadsheet->getActiveSheet();
-            
-                $highestRow = $worksheet->getHighestRow();              
- 
-                $em = $this->getDoctrine()->getManager();
-                 
-                for ($row = 1; $row <= $highestRow; ++$row) 
+                $listEquipes=$repositoryEquipesadmin ->createQueryBuilder('e')
+                                                     ->select('e')
+                                                     ->where('e.selectionnee= TRUE')
+                                                     ->orderBy('e.lettre','ASC')
+                                                     ->getQuery()
+                                                     ->getResult();
+		$em = $this->getDoctrine()->getManager();
+                foreach ($listEquipes as $equipeadm)  
                    {                       
                    $equipe= new equipes(); 
-                   $value = $worksheet->getCellByColumnAndRow(1, $row)->getValue();
-                   $lettre=$value;
+                   $id=$equipeadm->getId();
+                   $equipe->setInfoequipe();
+                   $lettre=$equipeadm->getLettre();
                    $equipe->setLettre($lettre) ;
+                   $nomEq=$equipeadm->getTitreProjet();                   
                    $info=$repositoryTotEquipes->findOneByLettreEquipe($lettre);
         	   $equipe->setInfoequipe($info);
-                   
-                   $nomEq=$repositoryTotEquipes->getTotEquipesNom($lettre);
-                   if($nomEq)
-                       {
-                       $nomEquipe=$nomEq[0]['nomEquipe'];
-                       }
                    $equipe->setTitreProjet($nomEquipe);
-                   
-                   $value = $worksheet->getCellByColumnAndRow(2, $row)->getValue(); 
-                   $equipe->setOrdre($value) ;
-                   $value = $worksheet->getCellByColumnAndRow(3, $row)->getValue(); 
-                   $equipe->setHeure($value) ;
-                   $value = $worksheet->getCellByColumnAndRow(4, $row)->getValue(); 
-                   $equipe->setSalle($value) ;
-                   $value = $worksheet->getCellByColumnAndRow(5, $row)->getValue(); 
-                   $equipe->setIsef($value) ;
-                   
                    $em->persist($equipe);
-
                     }
                     $em->flush();
                     return $this->redirectToRoute('secretariatjury_accueil');
                 }
         $content = $this
-                        ->renderView('secretariatjury\uploadexcel.html.twig', array('form'=>$form->createView(),));
+                        ->renderView('secretariatjury\cree_equipes.html.twig', array('form'=>$form->createView(),));
 	return new Response($content);          
         }
-       
+ */      
  
        /**
 	* @Security("is_granted('ROLE_SUPER_ADMIN')")
@@ -313,7 +311,7 @@ class SecretariatjuryController extends AbstractController
          * @Route("/secretariatjury/charge_jures", name="secretariatjury_charge_jures")
          * 
          */
-	public function charge_jures(Request $request)
+/*	public function charge_jures(Request $request)
 	{ 
 
             $defaultData = ['message' => 'Charger le fichier Jures'];
@@ -363,7 +361,8 @@ class SecretariatjuryController extends AbstractController
                         ->renderView('secretariatjury\uploadexcel.html.twig', array('form'=>$form->createView(),));
                 return new Response($content);
         }
-	/**
+ * /
+    	/**
 	* @Security("is_granted('ROLE_SUPER_ADMIN')")
          * 
          * @Route("/secretariatjury/vueglobale", name="secretariatjury_vueglobale")

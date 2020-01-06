@@ -134,13 +134,12 @@ class Equipesadmin
     
     /**
      * @var string
-     *
      * @ORM\Column(name="rne", type="string", length=255, nullable=true)
      */
     private $rne;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\User", mappedBy="id")
+     * @ORM\OneToOne(targetEntity="App\Entity\User", cascade={"persist"})
      * @ORM\Column(type="integer", nullable=true)
      */
     private $idProf1;
@@ -597,7 +596,7 @@ class Equipesadmin
        return $this;
    }
 
-   public function getIdProf2(): int
+   public function getIdProf2()
    {
        return $this->idProf2;
    }

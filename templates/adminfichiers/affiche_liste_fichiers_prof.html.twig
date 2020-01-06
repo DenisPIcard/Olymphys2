@@ -33,15 +33,15 @@
         </table>
     <div class="well" >
         {% if is_granted('ROLE_JURY') %}   
-
-            {% if concours=='cia' %}
+           {% if concours=='cia' %}
                 <center><a href="{{ path('fichiers_afficher_liste_equipe_comite',{centre :centrecia.id })  }}" >Retour à la liste des équipes</a></center>
-           {% endif %}
-           {% if concours=='national' %}
+           {% elseif concours=='national' %}
                 <center><a href="{{ path('fichiers_afficherlesmemoires_cn')  }}" >Retour à la liste des équipes</a></center>
            {% endif %}      
-        {% else  %}  
-            <center><a href="{{ path('fichiers_afficherlesmemoiresinter_orgacia')  }}" >Retour à la liste des équipes</a></center>
+        {% elseif is_granted('ROLE_ORGACIA') %}
+             <center><a href="{{ path('fichiers_afficherlesmemoiresinter_orgacia')  }}" >Retour à la liste des équipes</a></center>
+        {% elseif is_granted('ROLE_PROF') %}
+             <center><a href="{{ path('fichiers_voir_mesfichiers')  }}" >Retour à la liste des équipes</a></center>
         {% endif %}
     </div>
        

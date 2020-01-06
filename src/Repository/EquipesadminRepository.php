@@ -31,15 +31,18 @@ class EquipesadminRepository extends ServiceEntityRepository
                              
                 }
    public function getEquipeNa(EquipesadminRepository $er): QueryBuilder
-                {   
-		
+                {   	
                     return $er ->createQueryBuilder('e')->select('e')
                                       ->where('e.selectionnee= TRUE')
-                                       ->orderBy('e.lettre','ASC');
-                          
-                             
+                                       ->orderBy('e.lettre','ASC');            
                 }
-                
-                
-       
-}
+    public function listEquipeNa()
+        {
+            return $this->createQueryBuilder('e')
+                        ->select('e')
+                        ->where('e.selectionnee= TRUE')
+                        ->orderBy('e.lettre','ASC')
+                        ->getQuery()
+                        ->getResult();    
+        }
+  }

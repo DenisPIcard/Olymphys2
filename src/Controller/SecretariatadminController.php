@@ -464,7 +464,7 @@ class SecretariatadminController extends AbstractController
          * @Route("/secretariatadmin/charge_equipe1", name="secretariatadmin_charge_equipe1")
          * 
          */
-	public function charge_equipe1(Request $request)
+/*	public function charge_equipe1(Request $request)
 	{ 
 
             $defaultData = ['message' => 'Charger le fichier Équipe'];
@@ -526,76 +526,62 @@ class SecretariatadminController extends AbstractController
                         ->renderView('secretariat\uploadexcel.html.twig', array('form'=>$form->createView(),));
 	return new Response($content);          
         }       
-        
+ */       
              
         /**
 	* @Security("is_granted('ROLE_SUPER_ADMIN')")
          * 
-         * @Route("/secretariatadmin/charge_equipe2", name="secretariatadmin_charge_equipe2")
+         * @Route("/secretariatadmin/cree_equipes", name="secretariatadmin_cree_equipes")
          * 
          */
-	public function charge_equipe2(Request $request)
+	public function cree_equipes(Request $request)
 	{ 
 
             $defaultData = ['message' => 'Charger le fichier Équipe2'];
             $form = $this->createFormBuilder($defaultData)
-                            ->add('fichier',      FileType::class)
-                            ->add('Envoyer',      SubmitType::class)
-                            ->getForm();
+                         ->add('Créer',      SubmitType::class)
+                          ->getForm();
             
-            $repositoryTotEquipes = $this
+            $repositoryEquipesadmin = $this
 			->getDoctrine()
 			->getManager()
-			->getRepository('App:Totalequipes');
-            
+			->getRepository('App:Equipesadmin');
+            $repositoryEquipes = $this
+			->getDoctrine()
+			->getManager()
+			->getRepository('App:Equipes');
             $form->handleRequest($request);                            
             if ($form->isSubmitted() && $form->isValid()) 
                 {
-                $data=$form->getData();
-                $fichier=$data['fichier'];
-                $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($fichier);
-                $worksheet = $spreadsheet->getActiveSheet();
-            
-                $highestRow = $worksheet->getHighestRow();              
- 
-                $em = $this->getDoctrine()->getManager();
-                 
-                for ($row = 1; $row <= $highestRow; ++$row) 
-                   {                       
+                $listEquipes=$repositoryEquipesadmin ->createQueryBuilder('e')
+                                                     ->select('e')
+                                                     ->where('e.selectionnee= TRUE')
+                                                     ->orderBy('e.lettre','ASC')
+                                                     ->getQuery()
+                                                     ->getResult();
+		$em = $this->getDoctrine()->getManager();
+                foreach ($listEquipes as $equipeadm)  
+                   {
+                   // dd($equipeadm);
+                   $lettre=$equipeadm->getLettre();
                    $equipe= new equipes(); 
-                   $value = $worksheet->getCellByColumnAndRow(1, $row)->getValue();
-                   $lettre=$value;
+                   $info=$repositoryEquipesadmin->findOneByLettre($lettre);
+                   $equipe->setInfoequipe($info);
+                   $lettre=$equipeadm->getLettre();
                    $equipe->setLettre($lettre) ;
-                   $info=$repositoryTotEquipes->findOneByLettreEquipe($lettre);
-        	   $equipe->setInfoequipe($info);
-                   
-                   $nomEq=$repositoryTotEquipes->getTotEquipesNom($lettre);
-                   if($nomEq)
-                       {
-                       $nomEquipe=$nomEq[0]['nomEquipe'];
-                       }
-                   $equipe->setTitreProjet($nomEquipe);
-                   
-                   $value = $worksheet->getCellByColumnAndRow(2, $row)->getValue(); 
-                   $equipe->setOrdre($value) ;
-                   $value = $worksheet->getCellByColumnAndRow(3, $row)->getValue(); 
-                   $equipe->setHeure($value) ;
-                   $value = $worksheet->getCellByColumnAndRow(4, $row)->getValue(); 
-                   $equipe->setSalle($value) ;
-                   $value = $worksheet->getCellByColumnAndRow(5, $row)->getValue(); 
-                   $equipe->setIsef($value) ;
-                   
+                   $nomEq=$equipeadm->getTitreProjet();                   
+                   $equipe->setTitreProjet($nomEq);
                    $em->persist($equipe);
-
                     }
                     $em->flush();
-                    return $this->redirectToRoute('secretariat_accueil');
+                    return $this->redirectToRoute('core_home');
                 }
         $content = $this
-                        ->renderView('secretariat\uploadexcel.html.twig', array('form'=>$form->createView(),));
+                        ->renderView('secretariatadmin\creer_equipes.html.twig', array('form'=>$form->createView(),));
 	return new Response($content);          
         }
-               /**
+        
+        /**
 	* @Security("is_granted('ROLE_SUPER_ADMIN')")
          * 
          * @Route("/secretariatadmin/charge_jures", name="secretariatadmin_charge_jures")
@@ -645,10 +631,10 @@ class SecretariatadminController extends AbstractController
                     $em->persist($jure);
                     }                     
                     $em->flush();
-                    return $this->redirectToRoute('secretariat_accueil');
+                    return $this->redirectToRoute('core_home');
                 }
                 $content = $this
-                        ->renderView('secretariat\uploadexcel.html.twig', array('form'=>$form->createView(),));
+                        ->renderView('secretariatadmin\charge_donnees_excel.html.twig', array('form'=>$form->createView(),));
                 return new Response($content);
         }
         
