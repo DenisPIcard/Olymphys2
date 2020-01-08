@@ -41,7 +41,7 @@ class Photosinterthumb
      */
       private $id;
       
-      
+    
       
       /**
         * @ORM\Column(type="string", length=255,  nullable=true)
@@ -70,7 +70,16 @@ class Photosinterthumb
        */
     private $updatedAt;
     
-   
+    public function getEdition()
+    {
+        return $this->edition;
+    }
+    
+    public function setEdition($edition)
+    {
+        $this->edition=$edition;
+        return $this;
+    }
     
     public function getPhotoFile()
     {
@@ -115,7 +124,16 @@ class Photosinterthumb
         return $this->id;
     }
 
-    
+    public function getEquipe()
+    {
+        return $this->equipe;
+    }
+
+    public function setEquipe($equipe)
+    {
+        $this->equipe = $equipe;
+        return $this;
+    }
      
 
     
@@ -187,5 +205,4 @@ public function personalNamer()    //permet à vichuploeder et à easyadmin de r
    
     
 }
-
 

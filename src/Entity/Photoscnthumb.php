@@ -24,7 +24,7 @@ use App\Entity\Edition ;
 
 /**
  * @ORM\Table(name="photoscnthumb")
- * @ORM\Entity(repositoryClass="App\Repository\PhotoscnhumbRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\PhotoscnthumbRepository")
  * @Vich\Uploadable
  */
 
@@ -60,6 +60,7 @@ class Photoscnthumb
      */
      private $photoFile;
     
+    
      
      /**
        * 
@@ -69,7 +70,7 @@ class Photoscnthumb
        */
     private $updatedAt;
     
-   
+    
     
     public function getPhotoFile()
     {
@@ -114,7 +115,7 @@ class Photoscnthumb
         return $this->id;
     }
 
-    
+   
      
 
     

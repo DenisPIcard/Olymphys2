@@ -1,0 +1,112 @@
+{% extends "base.html.twig" %}
+{% block stylesheets %}
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" id="bootstrap-css">
+  
+    
+    
+    {% endblock %}
+
+{% block title %} {{edition.ed}}   Les photos des épreuves interacadémiques {% endblock %}
+
+
+
+{% block titre3 %}{{edition.ed}} <sup>eme</sup> Les photos  des épreuves interacadémiques  du centre {{centre}} {% endblock %}
+
+
+{% block body %}
+    <div class="container-lg-12 align-left">
+    <div class="row ">
+        {% set i=0 %}
+         {% for form in formtab %}   
+     
+     {% form_theme form 'bootstrap_4_layout.html.twig' %} 
+      
+          
+      {% if loop.index<loop.length %}
+       
+           
+           
+              
+         
+           
+       {{ form_start(form) }}
+        <div class="my-custom-class-for-errors">
+        {{ form_errors(form) }}
+    </div>
+    
+    
+         <div class="col-lg-2">       
+       
+         {% for photo in liste_photos %}
+                  
+                      
+                       
+                   {% if photo.id == form.id.vars.data %}
+                       
+                   
+                        {{ form_widget(form.id)}}  
+                        {{ form_label(form.photo, photo.equipe.titreProjet) }}
+                        <div class="custom-control custom-checkbox">
+      {{ form_widget(form.photo,{'label': photo.equipe.numero, 'class':'custom-control-input'})}} {#  #}
+                        </div>
+                       
+                        <font size = "-2"></font>
+                       
+                       {# <div class="row>"> #}
+                           <a href="{{asset('/upload/images/'~edition.ed~'/int/'~photo.photo)}}">
+                           <img src="{{asset('/upload/images/'~edition.ed~'/int/thumb/'~photo.photo)}}"></a>
+                      {# </div>  #}
+                           
+                    
+                   
+                   {%endif %}
+                       
+             {% endfor %}
+        </div>   
+        
+     {{ form_end(form) }}
+    {% endif %}
+ {#   {% if loop.index==loop.length %}
+       <div class="w-100"></div>
+            {{ form_start(form) }}
+                           {{ form_widget(form.save, { 'label': 'Télécharger' })}}
+ 
+                           {{ form_end(form) }}                
+            {% endif %}#}
+        
+       
+        {% set i= i+1 %}
+        
+         
+   {% endfor %}
+  
+    </div>
+    </div>
+   {% if concours=='cia' %}
+    <center><a href="{{ path('photos_voirphotoscia',{edition : edition.ed})  }}" >Retour à la liste des centres</a></center>
+   {% endif %}
+   
+    {% if concours=='national' %}
+    <center><a href="{{ path('photos_voirphotoscn',{edition : edition.ed})  }}" >Retour à la liste des équipes</a></center>
+   {% endif %}
+   
+   {% block javascripts %}
+  
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  
+  
+        
+        
+        
+        
+    {% endblock %}  
+   
+   
+   
+   
+   
+   
+{% endblock %}
