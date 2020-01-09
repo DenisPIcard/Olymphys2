@@ -1819,7 +1819,7 @@ public function  voir_mesfichiers(Request $request){
          * 
          */          
 public function afficher_liste_fichiers_prof(Request $request , $numero_equipe){
-$repositoryMemoires= $this->getDoctrine()
+    $repositoryMemoires= $this->getDoctrine()
                               ->getManager()
                               ->getRepository('App:Memoires');
     $repositoryMemoiresinter= $this->getDoctrine()
@@ -1849,28 +1849,33 @@ $repositoryMemoires= $this->getDoctrine()
     $datelimnat=$edition->getDatelimnat();
     $dateouverturesite=$edition->getDateouverturesite();
     $dateconnect= new \datetime('now');
-    if (($dateconnect>$datelimcia) and ($dateconnect<$datelimnat)) {
-        $concours = 'national';
-    }
-    if (($dateconnect<$datelimcia) and ($dateconnect>$dateouverturesite)) {
-        $concours = 'academique';
-    }
+   
     
     $equipe_choisie= $repositoryEquipesadmin->findOneByNumero(['numero'=>$numero_equipe]);
     $memoiresinter= $repositoryMemoiresinter->findByEquipe(['equipe'=>$equipe_choisie]);
     $memoiresnat =   $repositoryMemoires->findByEquipe(['equipe'=>$equipe_choisie]);
     $fiche_securit = $repositoryFichessecur->findOneByEquipe(['equipe'=>$equipe_choisie]);    
     $resume= $repositoryResumes->findOneByEquipe(['equipe'=>$equipe_choisie]); 
-    $concours='cia';
-    if ($equipe_choisie->getlettre()){
-        $concours='national';
+     if (($dateconnect>$datelimcia) and ($dateconnect<$datelimnat)) {
+        $concours = 'national';
+       
+    }
+    if (($dateconnect<$datelimcia) and ($dateconnect>$dateouverturesite)) {
+        $concours = 'academique';
+    }
+    
+    
+    
+    $infoequipe=$equipe_choisie->getInfoequipe();
+    if ($equipe_choisie->getSelectionnee()==true ){
+        $infoequipe=$equipe_choisie->getInfoequipenat();
      }
     $centre=$equipe_choisie->getCentre()->getId();
     $user = $this->getUser();
     $roles=$user->getRoles();
     $i=0;
     
-    if ($concours== 'academique'){
+    
     foreach($memoiresinter as $memoireinter){
         $id=$memoireinter->getId();
         $formBuilder[$i]=$this->get('form.factory')->createNamedBuilder('Form'.$i, FormType::class,$memoireinter);  
@@ -1901,8 +1906,8 @@ $repositoryMemoires= $this->getDoctrine()
             }
         $i=$i+1;
         }
-    }
-     if ($concours== 'national'){
+    
+    if ($concours=='national'){
     foreach($memoiresnat as $memoirenat){
         $id=$memoirenat->getId();
         
@@ -1918,7 +1923,7 @@ $repositoryMemoires= $this->getDoctrine()
                 $id=$Form[$i]->get('id')->getData();
                 $memoirenat=$repositoryMemoiresnat->find(['id'=>$id]);
                 
-                $memoireName=$this->getParameter('app.path.memoires_nat').'/'.$memoirenat->getMemoire();
+                $memoireName=$this->getParameter(' app.path.memoires_nat').'/'.$memoirenat->getMemoire();
                 if(null !==$memoireName)
                     {
                     $response = new BinaryFileResponse($memoireName);
@@ -1934,7 +1939,7 @@ $repositoryMemoires= $this->getDoctrine()
             }
         $i=$i+1;
         }
-     }
+    }
     if ($fiche_securit){
         $id = $fiche_securit->getId();
         $formBuilder[$i]=$this->get('form.factory')->createNamedBuilder('Form'.$i, FormType::class,$fiche_securit);  
@@ -2050,7 +2055,7 @@ $repositoryMemoires= $this->getDoctrine()
             ($formtab);   
             $content = $this
                           ->renderView('adminfichiers\affiche_liste_fichiers_prof.html.twig', array('formtab'=>$formtab,
-                                                        'infoequipe'=>$equipe_choisie->getInfoequipe(), 'centrecia' =>$equipe_choisie->getCentre(),'concours'=>$concours)
+                                                        'infoequipe'=>$infoequipe, 'centrecia' =>$equipe_choisie->getCentre(),'concours'=>$concours)
                                             ); 
             return new Response($content); 
             }
