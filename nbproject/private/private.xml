@@ -5,6 +5,9 @@
         <group>
             <file>file:/C:/wamp64/www/Olymphys2/templates/photos/affiche_photos_cia.html.twig</file>
             <file>file:/C:/wamp64/www/Olymphys2/templates/core/index.html.twig</file>
+            <file>file:/C:/wamp64/www/Olymphys2/templates/photos/affiche_photos_cn.html.twig</file>
+            <file>file:/C:/wamp64/www/Olymphys2/templates/adminfichiers/equipe_liste.html.twig</file>
+            <file>file:/C:/wamp64/www/Olymphys2/src/Controller/FichiersController.php</file>
             <file>file:/C:/wamp64/www/Olymphys2/src/Controller/AdminController.php</file>
             <file>file:/C:/wamp64/www/Olymphys2/templates/photos/choix_edition.html.twig</file>
             <file>file:/C:/wamp64/www/Olymphys2/src/Controller/PhotosController.php</file>
