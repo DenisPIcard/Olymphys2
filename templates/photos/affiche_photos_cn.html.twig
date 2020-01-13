@@ -29,7 +29,7 @@
           {% endfor %}       
       {%  if n >0 %}         
           <div class="col-lg-2   col-sm-3">
-          <h8> {{equipe.lettre}}  </h8> 
+              <a href="{{path('photos_galleryphotos',{infos: 'national-'~edition~'-'~photo.equipe.id})}}"><h8> {{equipe.lettre}}  </h8> </a>
           
     <div id="carousel{{equipe.lettre}}" class="carousel slide" data-ride="carousel">
        

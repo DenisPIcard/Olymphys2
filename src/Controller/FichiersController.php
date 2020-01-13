@@ -2114,7 +2114,7 @@ public function afficher_liste_fichiers_prof_cn(Request $request, $lettre_equipe
          $user = $this->getUser();
     $roles=$user->getRoles();
     $i=0;
-    
+    if($memoiresnat){
    foreach($memoiresnat as $memoirenat){
         $id=$memoirenat->getId();
         
@@ -2146,7 +2146,7 @@ public function afficher_liste_fichiers_prof_cn(Request $request, $lettre_equipe
             }
         $i=$i+1;
         }
-    
+    }
     if ($resume){
            if ($resume->getUpdatedAt() >$datelimcia){
             $id = $resume->getId();

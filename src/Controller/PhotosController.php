@@ -408,7 +408,7 @@ class PhotosController extends  AbstractController
              
              If ($concours=='national'){
              
-             $equipe= $repositoryEquipesadmin->find(['id'=>$concoursedition[2]]);
+             $equipe= $repositoryEquipesadmin->find(['id'=>$concourseditioncentre[2]]);
                  $qb= $repositoryPhotoscn->createQueryBuilder('p')
                           ->where('p.equipe =: equipe')
                          ->setParameter('equipe',$equipe);

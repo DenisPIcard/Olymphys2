@@ -3,14 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/wamp64/www/Olymphys2/templates/photos/affiche_photos_cia.html.twig</file>
+            <file>file:/C:/wamp64/www/Olymphys2/templates/adminfichiers/affiche_liste_fichiers_prof.html.twig</file>
+            <file>file:/C:/wamp64/www/Olymphys2/src/Entity/Resumes.php</file>
             <file>file:/C:/wamp64/www/Olymphys2/templates/core/index.html.twig</file>
-            <file>file:/C:/wamp64/www/Olymphys2/templates/photos/affiche_photos_cn.html.twig</file>
-            <file>file:/C:/wamp64/www/Olymphys2/templates/adminfichiers/equipe_liste.html.twig</file>
             <file>file:/C:/wamp64/www/Olymphys2/src/Controller/FichiersController.php</file>
-            <file>file:/C:/wamp64/www/Olymphys2/src/Controller/AdminController.php</file>
-            <file>file:/C:/wamp64/www/Olymphys2/templates/photos/choix_edition.html.twig</file>
-            <file>file:/C:/wamp64/www/Olymphys2/src/Controller/PhotosController.php</file>
+            <file>file:/C:/wamp64/www/Olymphys2/src/Entity/Edition.php</file>
+            <file>file:/C:/wamp64/www/Olymphys2/templates/adminfichiers/choix_equipe_liste_cn.html.twig</file>
+            <file>file:/C:/wamp64/www/Olymphys2/templates/adminfichiers/liste_fichiers_prof.html.twig</file>
         </group>
     </open-files>
 </project-private>
