@@ -34,7 +34,7 @@
                         {% endif %}
                         {% if  (type_fichier=='fichesecur') or (type_fichier=='resume') %}
                             <div class="col">
-                                {% set infos =  equipe.numero ~ '-' ~ type_fichier %}
+                                {% set infos =  equipe.id ~ '-' ~ type_fichier %}
                                 <a class="btn btn-primary" href="{{ path('fichiers_confirme_charge_fichessecur_resume', {'infos': infos} ) }}" >Choisir cette équipe</a>
                             </div>
                         {% endif %}
@@ -57,7 +57,7 @@
                         {% endif %}
                         {% if  (type_fichier=='fichesecur') or (type_fichier=='resume') %}
                             <div class="col">
-                                {% set infos =  equipe.numero ~ '-' ~ type_fichier %}
+                                {% set infos =  equipe.id ~ '-' ~ type_fichier %}
                                 <a class="btn btn-primary" href="{{ path('fichiers_confirme_charge_fichessecur_resume', {'infos': infos} ) }}" >Choisir cette équipe</a>
                             </div>
                         {% endif %}

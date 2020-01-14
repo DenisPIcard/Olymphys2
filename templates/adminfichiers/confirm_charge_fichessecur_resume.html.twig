@@ -8,14 +8,14 @@
         du résumé 
     {% endif %}de l'équipe : 
 
-   {% if lettre_equipe  is defined %} 
-    {{lettre_equipe}} 
+   {% if equipe.lettre  is defined %} 
+    {{equipe.lettre}} 
     {% else%} 
     
-    {{numero_equipe}} 
+    {{equipe.numero}} 
      
     {% endif %} 
-    {{titre_projet}}
+    {{equipe.titreProjet}}
 {% endblock %}
 
 {% block navigation %}

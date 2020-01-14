@@ -20,7 +20,9 @@ easy_admin:
                        - { property : 'prix', type : 'easyadmin_autocomplete'}
                        - { property : 'prix', label: 'Prix' ,type : 'entity' , type_options : { class : 'App\Entity\Prix', query_builder : 'App\Repository\PrixRepository::getListPrix', 'choice_label' : 'getPrix'}} 
                        - { property : 'cadeau', type : 'entity' , type_options : { class : 'App\Entity\Cadeaux', query_builder : 'App\Repository\CadeauxRepository::getCadeaux', 'choice_label' : 'getContenu'}}
-                       - { property : 'visite', type : 'entity' , type_options : { class : 'App\Entity\Visites', query_builder : 'App\Repository\VisitesRepository::getVisites', 'choice_label' : 'getIntitule'}}     
+                       - { property : 'visite', type : 'entity' , type_options : { class : 'App\Entity\Visites', query_builder : 'App\Repository\VisitesRepository::getVisites', 'choice_label' : 'getIntitule'}}
+                       - { property : 'heure', type : 'text'}
+                       - { property : 'salle', type : 'text'}
             new :
                 title: 'Nouvelle équipe'
                    

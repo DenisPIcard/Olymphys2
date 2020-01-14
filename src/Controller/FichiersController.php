@@ -427,10 +427,20 @@ public function afficherlesmemoiresinter_orgacia(Request $request)
         $repositoryFichessecur= $this->getDoctrine()
 		->getManager()
 		->getRepository('App:Fichessecur');
+         $repositoryEdition= $this->getDoctrine()
+		->getManager()
+		->getRepository('App:Edition');
         $user = $this->getUser();
         $organisateurcia=$user->getUserName();
-        
-        
+        $edition= $repositoryEdition->findOneBy([], ['id' => 'desc']);
+        $datelimcia = $edition->getDatelimcia();
+        $datelimnat=$edition->getDatelimnat();
+    
+        $dateconnect= new \datetime('now');
+        $hist='n';
+        if ($dateconnect>$datelimcia){
+            $hist='y';
+        }
          $centre = $user->getCentrecia();
          if ($centre){ //c'est un organisateur on va afficher les équipes
             $centreville = $user->getCentrecia()->getCentre();            
@@ -451,7 +461,8 @@ public function afficherlesmemoiresinter_orgacia(Request $request)
                     ->renderView('adminfichiers\choix_equipe_liste_inter_orgacia.html.twig', 
                          array('liste_equipes'=>$liste_equipes,
                            'nombre_fichiers'=>$nombre_fichiers, 
-                           'centre'=>$centreville)
+                           'centre'=>$centreville,
+                             'hist'=>$hist)
                                 );
         
                   }
@@ -467,10 +478,13 @@ public function afficherlesmemoiresinter_orgacia(Request $request)
          }
          if(!$centre){      //c'est un membre du comité : on lui fait choisir le centre 
              $listecentres=$repositoryCentrescia->findAll();
+             
+             
+             
              if($listecentres){
                   
                  $content = $this
-                 ->renderView('adminfichiers\choix_centre_liste_comite.html.twig', array('liste_centres'=>$listecentres)
+                 ->renderView('adminfichiers\choix_centre_liste_comite.html.twig', array('liste_centres'=>$listecentres, 'hist'=>$hist)
                                 );
                return new Response($content);  
              } 
@@ -504,9 +518,8 @@ public function afficherlesmemoires(Request $request)  //Pour les épreuves nati
     $i=0;
     foreach($liste_equipes as $equipe){
         $nombre_memoires= count($repositoryMemoires->findByEquipe(['equipe'=>$equipe]));
-        $nombre_fiche= count($repositoryFichessecur->findByEquipe(['equipe'=>$equipe]));
         $nombre_resume= count($repositoryResumes->findByEquipe(['equipe'=>$equipe]));
-        $nombre_fichiers[$i] = $nombre_memoires + $nombre_fiche+$nombre_resume;            
+        $nombre_fichiers[$i] = $nombre_memoires +$nombre_resume;            
         $i=$i+1;
         }
     if($liste_equipes){
@@ -526,7 +539,7 @@ public function afficherlesmemoires(Request $request)  //Pour les épreuves nati
     return new Response($content);      
     } 
     /**
-         * @Security("is_granted('ROLE_COMITE')")
+         * @Security("is_granted('ROLE_JURY')")
          * 
          * @Route("/fichiers/afficherlesmemoires_cn", name="fichiers_afficherlesmemoires_cn")
          * 
@@ -573,7 +586,7 @@ public function afficherlesmemoires_cn(Request $request)
         
         $i=$i+1;
         }
-
+       
         $content = $this
                     ->renderView('adminfichiers\choix_equipe_liste_cn.html.twig', 
                          array('liste_equipes'=>$liste_equipes,
@@ -653,17 +666,18 @@ public function afficher_liste_equipe_comite(Request $request, $centre) {
     $repositoryMemoires= $this->getDoctrine()
                               ->getManager()
                               ->getRepository('App:Memoires');
-    $liste_equipes= $repositoryEquipesadmin->findBySelectionnee(['selectionnee'=>'1']);                           
+    $liste_equipes= $repositoryEquipesadmin->findBySelectionnee(['selectionnee'=>'1']);   
+    
     if($liste_equipes){
          $i=0;
          foreach($liste_equipes as $equipe){
-            $nombre_memoires= count($repositoryMemoires->findByEquipe(['equipe'=>$equipe]));         
+           $memoire_dep[i]= count($repositoryMemoires->findByEquipe(['equipe'=>$equipe]));         
             $i=$i+1;         
          }
          $content = $this
                  ->renderView('adminfichiers\choix_equipe_liste_cn.html.twig', array(
                               'liste_equipes'=>$liste_equipes, 
-                              'nombre_memoires'=>$nombre_memoires,
+                              'memoire_dep'=>$memoire_dep,
                                 ));
          return new Response($content);  
      }
@@ -695,7 +709,7 @@ public function choix_equipe_prof(Request $request, $type_fichier) {
     $datelimnat=$edition->getDatelimnat();
     $dateouverturesite=$edition->getDateouverturesite();
     $dateconnect= new \datetime('now');
-    if (($dateconnect>$datelimcia) and ($dateconnect<$datelimnat)) {
+    if (($dateconnect>$datelimcia) and ($dateconnect<=$datelimnat)) {
         $phase='national';
         $qb1 =$repositoryEquipesadmin->createQueryBuilder('t')
                              ->where('t.idProf1=:professeur')
@@ -704,7 +718,7 @@ public function choix_equipe_prof(Request $request, $type_fichier) {
                              ->andWhere('t.selectionnee  = TRUE');
         $liste_equipes=$qb1->getQuery()->getResult();    
         }
-    if (($dateconnect>$dateouverturesite) and ($dateconnect<$datelimcia)) {
+    if (($dateconnect>$dateouverturesite) and ($dateconnect<=$datelimcia)) {
         $phase= 'interacadémique';
         $qb2 =$repositoryEquipesadmin->createQueryBuilder('t')
                              ->where('t.idProf1=:professeur')
@@ -866,128 +880,7 @@ public function depose_memoire_orgacia(Request $request) //Pour les organisateur
 	return new Response($content);   
  }
 
-       /**
-         * @Security("is_granted('ROLE_PROF')")
-         * 
-         * @Route("/fichiers/charge_fiche_securite_resume/{type_fichier}", name="fichiers_charge_fiche_securite_resume")
-         * 
-         */
-public function charge_fiche_securite_resume(Request $request, $type_fichier)//Pas distinction entre résumé cia et nationaux, idem pour les fiches sécurités
-{           
-    $repositoryEdition= $this->getDoctrine()
-                             ->getManager()
-                             ->getRepository('App:Edition');
-    $repositoryTotalequipes= $this->getDoctrine()
-                                   ->getManager()
-                                   ->getRepository('App:Totalequipes');
-            
-    $repositoryEquipesadmin= $this->getDoctrine()
-                                   ->getManager()
-                                   ->getRepository('App:Equipesadmin');
-    $dates=$repositoryEdition->find(1);
-    $datelimcia = $dates->getDatelimcia();
-    $datelimnat=$dates->getDatelimnat();
-    $dateouverturesite=$dates->getDateouverturesite();
-    $professeur='';
-    $centre='';
-            //recupétation équipe(s) du prof1
-    $user = $this->getUser();
-    $roles=$user->getRoles();
-    foreach ($roles as $role){
-        if($role    =='ROLE_PROF'){
-            $professeur=$user->getId();
-            }
-        if ($role =='ROLE_ORGACIA'){
-            $centre=$user->getCentrecia()->getCentre();
-            $centrecia=$user->getCentrecia();
-           }
-        }
-    $fileName='';
-    $lettre_equipe_choisie = '';
-    $nom_equipe='';
-    $dateconnect= new \datetime('now');
-    if (($dateconnect>$datelimcia) and ($dateconnect<$datelimnat)) {//Pour ne sélectionner que les équipes sélectionnées d'un prof
-        $phase='national' ;
-        $equipe=new Equipesadmin(); 
-        $FormBuilder2= $this->get('form.factory')->createBuilder(FormType::class, $equipe);
-        $lettreexiste='';
-        $qb1 =$repositoryEquipesadmin->createQueryBuilder('t')
-                                     ->where('t.idProf1=:professeur')
-                                     ->orwhere('t.idProf2=:professeur')
-                                     ->setParameter('professeur', $professeur)
-                                     ->andWhere('t.selectionnee  = TRUE');
-        $equipes_prof=$qb1->getQuery()->getResult();              
-        $FormBuilder2->add('lettre',EntityType::class,[
-                                       'class' => 'App:Equipesadmin',
-                                       'query_builder' => $qb1,
-                                       'choice_label'=>'getInfoEquipe',
-                                       'label' => 'Choisir une équipe :',
-                                       ])
-                      ->add('OK', SubmitType::class);
-         }
-    if (($dateconnect>$dateouverturesite) and ($dateconnect<$datelimcia)) {//Poiur  ne sélectionner toutes les équipes d'un prof
-        $phase='interacadémique';
-        $equipe=new Equipesadmin(); 
-        $FormBuilder2= $this->get('form.factory')->createBuilder(FormType::class, $equipe);
-        if( $professeur != ''){
-            $qb2 =$repositoryEquipesadmin->createQueryBuilder('t')
-                                         ->where('t.idProf1=:professeur')
-                                         ->orwhere('t.idProf2=:professeur')
-                                         ->setParameter('professeur', $professeur);
-            $equipes_prof=$qb2->getQuery()->getResult();   
-            $FormBuilder2->add('numero',EntityType::class,[
-                                       'class' => 'App:Equipesadmin',
-                                       'query_builder' => $qb2,
-                                       'choice_label'=>'getInfoEquipe',
-                                       'label' => 'Choisir cette equipe : ',
-                                        ])
-                         ->add('OK', SubmitType::class);
-            }
-        if($centre != ''){
-            $qb2 =$repositoryEquipesadmin->createQueryBuilder('t')
-                                         ->where('t.centre =:centre')
-                                         ->setParameter('centre', $centrecia);
-            $equipes_prof=$qb2->getQuery()->getResult();   
-            $FormBuilder2->add('numero',EntityType::class,[
-                                       'class' => 'App:Equipesadmin',
-                                       'query_builder' => $qb2,
-                                       'choice_label'=>'getInfoEquipe',
-                                       'label' => 'Choisir cette equipe : ',
-                                       ])
-                          ->add('OK', SubmitType::class);
-            }
-                  
-        }
-    $form2=$FormBuilder2->getForm();
-    if ($request->isMethod('POST') && $form2->handleRequest($request)->isValid()) 
-        { 
-        if (($dateconnect>$datelimcia) and ($dateconnect<$datelimnat)) 
-            {   
-            if ( $form2->get('lettre')->getData()){
-                $lettre_equipe=$form2->get('lettre')->getData()->getLettre();
-                $numero_equipe= $repositoryEquipesadmin->findOneBy(['lettre'=>$lettre_equipe])->getNumero();
-                $infos=$numero_equipe.'-'. $type_fichier;
-                return $this->redirectToRoute('fichiers_confirme_charge_fichessecur_resume',array('infos'=>$infos));
-                }
-            }
-        if (($dateconnect>$dateouverturesite) and ($dateconnect<$datelimcia)) 
-            {    
-            if ($form2->get('numero')->getData()){
-                $numero_equipe=$form2->get('numero')->getData()->getNumero();
-                $infos=$numero_equipe.'-'. $type_fichier;
-                return $this->redirectToRoute('fichiers_confirme_charge_fichessecur_resume',array('infos'=>$infos));
-                }
-            }
-        $request->getSession()
-                ->getFlashBag()
-                ->add('info', 'Une erreur est survenue lors de cette opération. Veuilllez recommencer ou prévenir le comité  d\'un disfonctionement du site.');
-        return $this->redirectToRoute('core_home');   
-                             
-        }
-    $content = $this
-                   ->renderView('adminfichiers\charge_fichessecur_resume.html.twig', array('form'=>$form2->createView(),'typefichier'=>$type_fichier,'phase'=>$phase));
-    return new Response($content);   
-    }
+      
  
 /**
          * @Security("is_granted('ROLE_PROF')")
@@ -1012,9 +905,9 @@ public function  confirme_charge_fichessecur_resume(Request $request, $infos){
                              ->getManager()
                              ->getRepository('App:Resumes');  
     $info=explode("-",$infos);
-    $numero_equipe=$info[0];
+    $id_equipe=$info[0];
     $type_fichier=$info[1];
-    $Equipe_choisie=$repositoryEquipesadmin->findOneByNumero(['numero'=>$numero_equipe]);
+    $Equipe_choisie=$repositoryEquipesadmin->findOneBy(['id'=>$id_equipe]);
     if ($type_fichier=='fichesecur'){
         $Fiche = $repositoryFichessecur->FindBy(['equipe'=>$Equipe_choisie]);
         }               
@@ -1034,6 +927,7 @@ public function  confirme_charge_fichessecur_resume(Request $request, $infos){
         $lettre_equipe= $Equipe_choisie->getLettre();//on charge la lettre de l'équipe 
         if(!$lettre_equipe){                                     // si la lettre n'est pas attribuée on est en phase interac
                                          //On cherche un mémoire et son annexe déjà déposés pour cette équipe                            }
+            $numero_equipe=$Equipe_choisie->getNumero();
             $TitreProjet = $Equipe_choisie->getTitreProjet();
             }                  
         if($lettre_equipe){                                     // si la lettre est attribuée on est en phase  concours nationale
@@ -1042,8 +936,9 @@ public function  confirme_charge_fichessecur_resume(Request $request, $infos){
             $TitreProjet = $Equipe_choisie->getTitreProjet();
             }    
         if($Fiche){                                               //Si une fiche est déjà déposée on demande si on veut écraser le précédent
-            $form3 = $this->createForm(ConfirmType::class);                                  ;
-            if ($request->isMethod('POST') && $form3->handleRequest($request)->isValid()) 
+            $form3 = $this->createForm(ConfirmType::class);  
+            $form3->handleRequest($request);
+            if ($form3->isSubmitted() && $form3->isValid()) 
                 {  
                 if ($form3->get('OUI')->isClicked())
                     {
@@ -1060,9 +955,8 @@ public function  confirme_charge_fichessecur_resume(Request $request, $infos){
             $content = $this
                             ->renderView('adminfichiers\confirm_charge_fichessecur_resume.html.twig', array(
                                                     'form'=>$form3->createView(), 
-                                                    'lettre_equipe'=>$lettre_equipe,
-                                                    'numero_equipe'=>$numero_equipe, 
-                                                    'titre_projet' =>$TitreProjet, 
+                                                    'equipe'=>$Equipe_choisie, 
+                                                    
                                                     'typefichier'=>$type_fichier
                                                      )
                                                         );
@@ -1108,9 +1002,9 @@ public function  charge_fichessecur_resume_fichier(Request $request, $infos ,Mai
                           ->getRepository('App:User');
     $defaultData = ['message' => 'Charger le memoire'];
     $info=explode("-",$infos);
-    $numero_equipe=$info[0];
+    $id_equipe=$info[0];
     $type_fichier=$info[1];
-    $lettre_equipe= $repositoryEquipesadmin->findOneByNumero(['numero'=>$numero_equipe])->getLettre();
+    $lettre_equipe= $repositoryEquipesadmin->findOneBy(['id'=>$id_equipe])->getLettre();
     $repositoryEdition = $this->getDoctrine()->getRepository('App:Edition');
     $edition=$repositoryEdition->findOneBy([], ['id' => 'desc']);
     if($type_fichier=='fichesecur'){
@@ -1170,6 +1064,7 @@ public function  charge_fichessecur_resume_fichier(Request $request, $infos ,Mai
                         }
                     if ($Fiche==null){       //si il n'y a pas de Fiche encore  déposés il faut ajouter la ligne correpondant à la table fichessecur
                         if($type_fichier=='fichesecur'){
+                             $Fiche= new Fichesecur();
                             $Fiche->setEdition($edition);
                             $Fiche->setEquipe($Equipe_choisie);
                             $em->persist( $Fiche);
@@ -1184,7 +1079,7 @@ public function  charge_fichessecur_resume_fichier(Request $request, $infos ,Mai
                             $Fiche->setEdition($edition);
                             $Fiche->setEquipe($Equipe_choisie);
                             $Fiche->setResumeFile($file);
-                            $em->persist( $Fiche);
+                            $em->persist($Fiche);
                             $em->flush();
                             $nom_fichier = $Fiche->getResume();
                             }
@@ -1431,23 +1326,31 @@ public function  confirme_charge_memoires_fichier(Request $request,$numero_equip
         }
      if ($Equipe_choisie->getLettre()) { //une lettre donc phase nationale
         $memoires =$repositoryMemoires->getMemoires($Equipe_choisie);
+        $nombre=count($repositoryMemoires->getMemoires($Equipe_choisie));
         }
      $avertissement ='';
-     $avertissement1='';
-     $avertissement2='';
-     if ($memoires){
+    
+     if ($nombre>0){
         foreach($memoires as $memoire){
-            if ($memoire->getAnnexe() == 0 ){
-                $avertissement1= 'Le memoire existe déjà. ' ;
-                $flagmemoire=$memoire->getId();
-                }
-            if ($memoire->getAnnexe() == 1 ){
-                $avertissement2= 'L\'annexe existe déjà. ' ;
-                $flagannexe=$memoire->getId();
-                }
-            $avertissement= $avertissement1.' '.$avertissement2;
-            }
+            if ($nombre=== 1){
+      
+                            if ($memoire->getAnnexe() == 0 ){
+                                $avertissement= 'Le memoire existe déjà. Si vous verser un mémoire il va l\'écraser, sinon vous pouvez verser une annexe.' ;
+                                $flagmemoire=$memoire->getId();
+                                }
+                            if ($memoire->getAnnexe() == 1 ){
+                                $avertissement= 'L\'annexe existe déjà.Si vous verser une annexe, elle va l\'écraser, sinon vous pouvez verser un mémoire' ;
+                                $flagannexe=$memoire->getId();
+                                }
+                           // $avertissement= $avertissement1.' '.$avertissement2;
+            
         }
+        else {
+            $avertissement='Il existe déjà un mémoire et une annexe donc si vous continuez vous écraserez celui existant.';
+        }
+            
+        }
+     }
     if ($Equipe_choisie){
         $lettre_equipe= $Equipe_choisie->getLettre();//on charge la lettre de l'équipe 
         if(!$lettre_equipe){                                     // si la lettre n'est pas attribuée on est en phase interac
@@ -1474,7 +1377,7 @@ public function  confirme_charge_memoires_fichier(Request $request,$numero_equip
                 }
             $request->getSession()
                     ->getFlashBag()
-                    ->add('info', $avertissement.', Voulez-vous poursuivre et remplacer éventuellement un des  fichiers ? Cette opération est définitive, sans possibilité de récupération.') ;
+                    ->add('info', $avertissement) ;
             $content = $this
                         ->renderView('adminfichiers\confirm_charge_memoire.html.twig', array('form'=>$form3->createView(), 'lettre_equipe'=>$lettre_equipe, 'numero_equipe'=>$numero_equipe, 'titre_projet' =>$TitreProjet));
             return new Response($content);   
@@ -1799,7 +1702,7 @@ public function  voir_mesfichiers(Request $request){
                                       ->setParameter('professeur', $professeur);
         }
     $equipes_prof=$qb2->getQuery()->getResult();   
-     if ($dateconnect<$datelimcia) {
+     if ($dateconnect<=$datelimcia) {
     $FormBuilder2->add('numero',EntityType::class,[
                                        'class' => 'App:Equipesadmin',
                                        'query_builder' => $qb2,
@@ -1825,12 +1728,13 @@ public function  voir_mesfichiers(Request $request){
         $equipe_choisie = $form1->get('numero')->getData();
         $numero_equipe=$equipe_choisie->getNumero();
         $lettre_equipe=$equipe_choisie->getLettre();
-        if ($dateconnect<$datelimcia) {
-        return $this->redirectToRoute('fichiers_afficher_liste_fichiers_prof',array('numero_equipe'=>$numero_equipe));
+        $id_equipe=$equipe_choisie->getId();
+        if ($dateconnect<=$datelimcia) {
+        return $this->redirectToRoute('fichiers_afficher_liste_fichiers_prof',array('id_equipe'=>$id_equipe));
         }
         
         if ($dateconnect>$datelimcia)  {
-             return $this->redirectToRoute('fichiers_afficher_liste_fichiers_prof_cn',array('lettre_equipe'=>$lettre_equipe));
+             return $this->redirectToRoute('fichiers_afficher_liste_fichiers_prof_cn',array('id_equipe'=>$id_equipe));
             
         }
 }
@@ -1842,10 +1746,10 @@ public function  voir_mesfichiers(Request $request){
         /**
          * @Security("is_granted('ROLE_PROF')")
          * 
-         * @Route("/fichiers/afficher_liste_fichiers_prof/{numero_equipe}", name="fichiers_afficher_liste_fichiers_prof")
+         * @Route("/fichiers/afficher_liste_fichiers_prof/,{id_equipe}", name="fichiers_afficher_liste_fichiers_prof")
          * 
          */          
-public function afficher_liste_fichiers_prof(Request $request , $numero_equipe){
+public function afficher_liste_fichiers_prof(Request $request , $id_equipe){//pour les cia
     $repositoryMemoires= $this->getDoctrine()
                               ->getManager()
                               ->getRepository('App:Memoires');
@@ -1870,7 +1774,7 @@ public function afficher_liste_fichiers_prof(Request $request , $numero_equipe){
       $repositoryEdition= $this->getDoctrine()
                                  ->getManager()
                                  ->getRepository('App:Edition');
-    
+ 
     $edition=$repositoryEdition->findOneBy([], ['id' => 'desc']);
     $datelimcia = $edition->getDatelimcia();
     $datelimnat=$edition->getDatelimnat();
@@ -1878,23 +1782,22 @@ public function afficher_liste_fichiers_prof(Request $request , $numero_equipe){
     $dateconnect= new \datetime('now');
    
     
-    $equipe_choisie= $repositoryEquipesadmin->findOneByNumero(['numero'=>$numero_equipe]);
+    $equipe_choisie= $repositoryEquipesadmin->find(['id'=>$id_equipe]);
     $memoiresinter= $repositoryMemoiresinter->findByEquipe(['equipe'=>$equipe_choisie]);
     $fiche_securit = $repositoryFichessecur->findOneByEquipe(['equipe'=>$equipe_choisie]);    
     $resume= $repositoryResumes->findOneByEquipe(['equipe'=>$equipe_choisie]); 
-     if (($dateconnect>$datelimcia) and ($dateconnect<$datelimnat)) {
+     if (($dateconnect>$datelimcia) and ($dateconnect<$datelimnat)) {//inutile pour les prof , pour les comités et jury
         $concours = 'national';
        
     }
-    if (($dateconnect<$datelimcia) and ($dateconnect>$dateouverturesite)) {
+    if (($dateconnect<=$datelimcia) and ($dateconnect>$dateouverturesite)) {//inutile pour les prof , pour les comités et jury
         $concours = 'academique';
     }
     
     
-    
     $infoequipe=$equipe_choisie->getInfoequipe();
     if ($equipe_choisie->getSelectionnee()==true ){
-        $infoequipe=$equipe_choisie->getInfoequipenat();
+        $infoequipe=$equipe_choisie->getInfoequipenat();//inutile pour les prof , pour les comités et jury;
      }
     $centre=$equipe_choisie->getCentre()->getId();
     $user = $this->getUser();
@@ -2050,7 +1953,7 @@ public function afficher_liste_fichiers_prof(Request $request , $numero_equipe){
         if(!isset($formtab)){
             $request->getSession()
                     ->getFlashBag()
-                    ->add('info', 'Il n\'y a pas encore de fichier déposé pour l\'equipe n°'.$numero_equipe) ;
+                    ->add('info', 'Il n\'y a pas encore de fichier déposé pour l\'equipe n°'.$equipe_choisie->getNumero()) ;
             
             
             
@@ -2077,10 +1980,10 @@ public function afficher_liste_fichiers_prof(Request $request , $numero_equipe){
  /**
          * @Security("is_granted('ROLE_PROF')")
          * 
-         * @Route("/fichiers/afficher_liste_fichiers_prof_cn/{lettre_equipe}", name="fichiers_afficher_liste_fichiers_prof_cn")
+         * @Route("/fichiers/afficher_liste_fichiers_prof_cn/,{id_equipe}", name="fichiers_afficher_liste_fichiers_prof_cn")
          * 
          */
-public function afficher_liste_fichiers_prof_cn(Request $request, $lettre_equipe ){
+public function afficher_liste_fichiers_prof_cn(Request $request, $id_equipe ){
               
     $repositoryMemoiresnat= $this->getDoctrine()
                                  ->getManager()
@@ -2105,10 +2008,11 @@ public function afficher_liste_fichiers_prof_cn(Request $request, $lettre_equipe
     $dateconnect= new \datetime('now');
    
     
-    $equipe_choisie= $repositoryEquipesadmin->findOneByLettre(['lettre'=>$lettre_equipe]);
+    $equipe_choisie= $repositoryEquipesadmin->find(['id'=>$id_equipe]);
+    $lettre_equipe=$equipe_choisie->getLettre();
     $memoiresnat =   $repositoryMemoiresnat->findByEquipe(['equipe'=>$equipe_choisie]);
     $resume= $repositoryResumes->findOneByEquipe(['equipe'=>$equipe_choisie]); 
-     if (($dateconnect>$datelimcia) ) {
+     if (($dateconnect>=$datelimcia) ) {
         $concours = 'national';
         $infoequipe=$equipe_choisie->getInfoequipenat();
          $user = $this->getUser();
@@ -2220,7 +2124,7 @@ public function afficher_liste_fichiers_prof_cn(Request $request, $lettre_equipe
             ($formtab);   
             $content = $this
                           ->renderView('adminfichiers\affiche_liste_fichiers_prof.html.twig', array('formtab'=>$formtab,
-                                                        'infoequipe'=>$infoequipe, 'centrecia' =>$equipe_choisie->getCentre(),'concours'=>$concours)
+                                                        'infoequipe'=>$infoequipe, 'equipe' =>$equipe_choisie->getCentre(),'concours'=>$concours)
                                             ); 
             return new Response($content); 
             }
@@ -2229,7 +2133,7 @@ public function afficher_liste_fichiers_prof_cn(Request $request, $lettre_equipe
                     ->getFlashBag()
                     ->add('info', 'Il n\'y a pas encore de fichier déposé pour l\'equipe' .$lettre_equipe) ;
             
-            
+            $centre= $equipe_choisie->getCentre();
             
             
             foreach ($roles as $role){
@@ -2241,10 +2145,14 @@ public function afficher_liste_fichiers_prof_cn(Request $request, $lettre_equipe
                      return $this->redirectToRoute('fichiers_afficher_liste_equipe_comite',array('centre'=>$centre,'concours'=>$concours)); 
                      }
                      if ($concours=='national'){
-                     return $this->redirectToRoute('fichiers_afficherlesmemoires_cn',array('centre'=>$centre,'concours'=>$concours)); 
+                     return $this->redirectToRoute('fichiers_afficherlesmemoires_cn'); 
                      }
+                 }
                      if ($role=='ROLE_ORGACIA' || $role=='ROLE_JURYCIA'){
                      return $this->redirectToRoute('fichiers_afficherlesmemoiresinter_orgacia');   }
+                     if($role =='ROLE_JURY'){
+                      return $this->redirectToRoute('fichiers_afficherlesmemoires_cn');     
+                         
                      
                      }
                  }
