@@ -1086,6 +1086,10 @@ public function  charge_fichessecur_resume_fichier(Request $request, $infos ,Mai
                         }                    
                     if($Fiche){//si la fiche a  déjà été déposés on écrase seulement la précédente
                         if($type_fichier=='fichesecur'){
+                           $em ->remove($Fiche);
+                           $em->flush();
+                            $Fiche= new Fichessecur();
+                            
                             $Fiche->setEdition($edition);
                             $Fiche->setEquipe($Equipe_choisie);
                             $Fiche->setFicheFile($file);
@@ -1094,11 +1098,16 @@ public function  charge_fichessecur_resume_fichier(Request $request, $infos ,Mai
                             $nom_fichier = $Fiche->getFiche();
                             }
                         if($type_fichier=='resume'){
+                            $em ->remove($Fiche);
+                            $em->flush();
+                            $Fiche= new Resumes();
+                            
                             $Fiche->setEdition($edition);
                             $Fiche->setEquipe($Equipe_choisie);
                             $Fiche->setResumeFile($file);
-                            $em->persist( $Fiche);
+                            $em->persist($Fiche);
                             $em->flush();
+                           
                             $nom_fichier = $Fiche->getResume();
                             }
                         }
