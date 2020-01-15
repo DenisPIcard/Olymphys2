@@ -1064,7 +1064,7 @@ public function  charge_fichessecur_resume_fichier(Request $request, $infos ,Mai
                         }
                     if ($Fiche==null){       //si il n'y a pas de Fiche encore  déposés il faut ajouter la ligne correpondant à la table fichessecur
                         if($type_fichier=='fichesecur'){
-                             $Fiche= new Fichesecur();
+                            $Fiche= new Fichessecur();
                             $Fiche->setEdition($edition);
                             $Fiche->setEquipe($Equipe_choisie);
                             $em->persist( $Fiche);
@@ -2061,7 +2061,7 @@ public function afficher_liste_fichiers_prof_cn(Request $request, $id_equipe ){
         }
     }
     if ($resume){
-           if ($resume->getUpdatedAt() >$datelimcia){
+           
             $id = $resume->getId();
             $formBuilder[$i]=$this->get('form.factory')->createNamedBuilder('Form'.$i, FormType::class,$resume);  
             $formBuilder[$i] ->add('id',  HiddenType::class, ['disabled'=>true, 'label'=>false])
@@ -2089,7 +2089,7 @@ public function afficher_liste_fichiers_prof_cn(Request $request, $id_equipe ){
                     }
                 }
             $i=$i+1;
-    }}
+    }
         if ($request->isMethod('POST') ) 
             {
             if ($request->request->has('FormAll')) {         

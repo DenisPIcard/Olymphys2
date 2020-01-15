@@ -6,11 +6,13 @@
             <file>file:/C:/wamp64/www/Olymphys2/templates/adminfichiers/affiche_liste_fichiers_prof.html.twig</file>
             <file>file:/C:/wamp64/www/Olymphys2/templates/core/index.html.twig</file>
             <file>file:/C:/wamp64/www/Olymphys2/src/Entity/Resumes.php</file>
+            <file>file:/C:/wamp64/www/Olymphys2/templates/adminfichiers/confirm_charge_fichessecur_resume.html.twig</file>
             <file>file:/C:/wamp64/www/Olymphys2/src/Controller/FichiersController.php</file>
             <file>file:/C:/wamp64/www/Olymphys2/templates/adminfichiers/choix_equipe_liste_inter_orgacia.html.twig</file>
             <file>file:/C:/wamp64/www/Olymphys2/src/Entity/Memoiresinter.php</file>
             <file>file:/C:/wamp64/www/Olymphys2/templates/adminfichiers/choix_equipe_liste_cn.html.twig</file>
             <file>file:/C:/wamp64/www/Olymphys2/templates/adminfichiers/liste_fichiers_prof.html.twig</file>
+            <file>file:/C:/wamp64/www/Olymphys2/templates/adminfichiers/choix_equipe_prof.html.twig</file>
         </group>
     </open-files>
 </project-private>

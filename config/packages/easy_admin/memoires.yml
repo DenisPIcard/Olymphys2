@@ -36,7 +36,7 @@ easy_admin :
                   fields: 
                      
                       - { type: 'group', columns: 6, label: '<font color="red" > Choisir le fichier à déposer </font> ' } 
-                      - {property : 'equipe', type: 'entity' , type_options : { class : 'App\Entity\Equipesadmin',query_builder : 'App\Repository\EquipesadminRepository::getEquipeNa', 'choice_label' : 'getInfoequipe'}}
+                      - {property : 'equipe', type: 'entity' , type_options : { class : 'App\Entity\Equipesadmin',query_builder : 'App\Repository\EquipesadminRepository::getEquipeNa', 'choice_label' : 'getInfoequipenat'}}
                       - { property : 'memoireFile', label: 'Memoire ou annexe',  type : 'vich_file',  type_options : {}}
                       - { type: 'group', columns: 6, label: '<font color="red" > Cocher cette case si c''est une annexe </font>'}  
                       - { property : 'annexe' } 
