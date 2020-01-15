@@ -1065,6 +1065,7 @@ public function  charge_fichessecur_resume_fichier(Request $request, $infos ,Mai
                     if ($Fiche==null){       //si il n'y a pas de Fiche encore  déposés il faut ajouter la ligne correpondant à la table fichessecur
                         if($type_fichier=='fichesecur'){
                             $Fiche= new Fichessecur();
+                          
                             $Fiche->setEdition($edition);
                             $Fiche->setEquipe($Equipe_choisie);
                             $em->persist( $Fiche);
