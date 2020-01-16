@@ -2078,13 +2078,19 @@ public function afficher_liste_fichiers_prof_cn(Request $request, $id_equipe ){
                     $resumeName=$this->getParameter('app.path.resumes').'/'.$resume->getResume();
                     if(null !==$resumeName)
                         {
+                        //$content = file_get_contents($resumeName);
                         $response = new BinaryFileResponse($resumeName);
-                        $disposition = HeaderUtils::makeDisposition(
+                        /*$disposition = HeaderUtils::makeDisposition(
                                                         HeaderUtils::DISPOSITION_ATTACHMENT,
                                                         $resume->getResume()
-                                                            );
+                                                            );*/
+                        
+                        $response->headers->set('Content-Length: '.strlen( $resumeName ));
+                        $response->headers->set('Content-disposition: inline; filename="' . $resumeName . '"');
+                         $response->headers->set('Cache-Control: public, must-revalidate, max-age=0');
+                         $response->headers->set('Pragma: public');
                         $response->headers->set('Content-Type', 'application/pdf'); 
-                        $response->headers->set('Content-Disposition', $disposition);
+                        //$response->headers->set('Content-Disposition', $disposition);
                         return $response; 
                         }
                     }

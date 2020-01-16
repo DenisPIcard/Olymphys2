@@ -509,3 +509,6 @@ class PhotosController extends  AbstractController
            
          }
          
+         
+         
+         
