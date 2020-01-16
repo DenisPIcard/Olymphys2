@@ -160,7 +160,38 @@ class AdminController extends EasyAdminController
                  }
                  
             }
-    
+    public function updateMemoiresEntity($entity)
+            {   $repositoryMemoires = $this->getDoctrine()->getRepository('App:Memoires');
+                 $repositoryEdition = $this->getDoctrine()->getRepository('App:Edition');
+                if(!$entity->getEdition()){
+                 
+                  $edition=$repositoryEdition->findOneBy([], ['id' => 'desc']);
+                  $entity->setEdition($edition);
+                }
+                 $equipe = $entity->getEquipe();
+                 
+                 $memoires= $repositoryMemoires->findByEquipe(['equipe' =>$equipe]);
+                 if ($memoires){
+                          foreach($memoires as $memoire) {
+                              
+                              if($memoire->getAnnexe() ==true and $entity->getAnnexe() ==true){
+                                  
+                                  $memoire->setMemoireFile($entity->getMemoireFile());
+                                  
+                              }
+                              if($memoire->getAnnexe() ==false and $entity->getAnnexe() ==false){
+                                  $memoire->setMemoireFile($entity->getMemoireFile());
+                                  
+                              }
+                              parent::persistEntity($entity);
+                          }              
+                     
+                 }
+                 if(!$memoires){
+                     parent::persistEntity($entity);
+                 }
+                 
+            }
     
     public function persistMemoiresinterEntity($entity)
             {   $repositoryMemoiresinter = $this->getDoctrine()->getRepository('App:Memoiresinter');
@@ -182,7 +213,7 @@ class AdminController extends EasyAdminController
                                   $memoire->setMemoireFile($entity->getMemoireFile());
                                    $idmemoire=$memoire->getId();
                               }
-                              parent::persistEntity($memoire);
+                              parent::persistEntity($entity);
                           }              
                      
                  }
@@ -200,27 +231,50 @@ class AdminController extends EasyAdminController
                  
                  $memoires= $repositoryMemoires->findByEquipe(['equipe' =>$equipe]);
                  if ($memoires){
+                          $flag=0;
                           foreach($memoires as $memoire) {
                               
                               if($memoire->getAnnexe() ==true and $entity->getAnnexe() ==true){
                                   $memoire->setMemoireFile($entity->getMemoireFile());
-                                  $idmemoire=$memoire->getId();
-                                  
+                                 
+                                  parent::persistEntity($memoire);
+                                  $flag=1;
                               }
                               if($memoire->getAnnexe() ==false and $entity->getAnnexe() ==false){
                                   $memoire->setMemoireFile($entity->getMemoireFile());
-                                   $idmemoire=$memoire->getId();
+                                    parent::persistEntity($memoire);
+                                    $flag=1;
                               }
-                              parent::persistEntity($memoire);
+                              if ($flag==0){
+                                   
+                                   parent::persistEntity($entity);    
+                          
+                              }
                           }              
-                     
                  }
                  if(!$memoires){
                      parent::persistEntity($entity);
                  }
                  
             }          
+    public function updateFichessecurEntity($entity)
             
+            {     $repositoryFichessecur = $this->getDoctrine()->getRepository('App:Fichessecur');
+        $repositoryEdition = $this->getDoctrine()->getRepository('App:Edition');
+         $equipe = $entity->getEquipe();
+         $edition=$repositoryEdition->findOneBy([], ['id' => 'desc']);  
+         $entity->setEdition($edition);        
+                 $Fiche= $repositoryFichessecur->findOneByEquipe(['equipe' =>$equipe]);
+                  if($Fiche){
+                     $Fiche->setFicheFile($entity->getFicheFile());
+                      
+                  
+                  }
+                
+                  
+                  
+                   parent::persistEntity($entity);
+            }        
             
             
             
@@ -228,9 +282,10 @@ class AdminController extends EasyAdminController
             {     $repositoryEdition = $this->getDoctrine()->getRepository('App:Edition');
                   $edition=$repositoryEdition->findOneBy([], ['id' => 'desc']);
                   $entity->setEdition($edition);
+                   
                 parent::persistEntity($entity);
-            }
             
+            }     
        
     public function persistResumesEntity($entity)
             { $repositoryEdition = $this->getDoctrine()->getRepository('App:Edition');

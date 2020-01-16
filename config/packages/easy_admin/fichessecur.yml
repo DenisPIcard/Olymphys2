@@ -10,7 +10,7 @@ easy_admin :
              
              list :
                   max_results: 50
-                  actions: [{ name: 'Lire', icon: 'eye' }, '-edit']
+                  actions: [{ name: 'Lire', icon: 'eye' }]
                   batch_actions: 
                       - {name : 'telecharger', icon : 'download'}
                     
