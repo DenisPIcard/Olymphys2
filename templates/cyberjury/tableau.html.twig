@@ -36,11 +36,8 @@
         {% for equipes in listEquipes %}
      <tr>
      	<th>{{ loop.index }}  </th>
-     		<td> <a href="{{ path('cyberjury_evaluer_une_equipe', {'id': equipes.id} ) }}"
-                        {% if (equipes.isef) %} class ="btn btn-success btn-lg"
-                        {% else %} class ="btn btn-primary btn-lg"
-                        {% endif %}
-                        >{{ equipes.lettre }} </a> </td>
+     		<td> <a href="{{ path('cyberjury_evaluer_une_equipe', {'id': equipes.id} ) }}" class ="btn btn-primary btn-lg">
+                     {{ equipes.lettre }} </a> </td>
      		<td> {{ equipes.titre }} </td>        
      		<td>{{ equipes.exper }}</td>
      		<td>{{ equipes.demarche }}</td>
@@ -54,7 +51,7 @@
 				<td> <span class = "fas fa-minus-circle"> </span> </td>
 			{% endif %}
         <td>
-        <a href="https://odpf.org/images/archives_docs/26eme/memoires/Equipe{{ equipes.lettre }}/memoire.pdf" class="fas fa-book-reader" title="Accéder au mémoire de l'équipe" target="_blank"> </a>
+        <a href="https://olymphys.fr/public/upload/equipes/memoires/nat/27-eq-{{ equipes.lettre }}-memoire-{{equipes.infoequipe.titreprojet}}.pdf" class="fas fa-book-reader" title="Accéder au mémoire de l'équipe" target="_blank"> </a>
         <a href="{{ path('cyberjury_infos_equipe', {'id': equipes.id} ) }}" class="fas fa-info-circle" title="En savoir plus sur cette équipe"> </a>
         <a href="{{ path('cyberjury_phrases_amusantes', {'id': equipes.id} ) }}" class="fas fa-pencil-alt" title="Les phrases amusantes" > </a>
       </td>

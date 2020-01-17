@@ -139,7 +139,7 @@ class Equipesadmin
     private $rne;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\User", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="App\Entity\User", mappedBy="id")
      * @ORM\Column(type="integer", nullable=true)
      */
     private $idProf1;

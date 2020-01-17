@@ -593,7 +593,7 @@ class SecretariatadminController extends AbstractController
             $defaultData = ['message' => 'Charger le fichier Jures'];
             $form = $this->createFormBuilder($defaultData)
                             ->add('fichier',      FileType::class)
-                            ->add('Envoyer',      SubmitType::class)
+                            ->add('save',      SubmitType::class)
                             ->getForm();
             
             
@@ -605,7 +605,7 @@ class SecretariatadminController extends AbstractController
                 $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($fichier);
                 $worksheet = $spreadsheet->getActiveSheet();
             
-                $highestRow = $worksheet->getHighestRow();              
+                $highestRow = 20;              
  
                 $em = $this->getDoctrine()->getManager();
                 $lettres = range('A','Z') ;
@@ -628,13 +628,14 @@ class SecretariatadminController extends AbstractController
  
                         $colonne +=1;
                         }                    
-                    $em->persist($jure);
-                    }                     
+                    $em->persist($jure); 
                     $em->flush();
+                    }                     
+                   
                     return $this->redirectToRoute('core_home');
                 }
                 $content = $this
-                        ->renderView('secretariatadmin\charge_donnees_excel.html.twig', array('form'=>$form->createView(),));
+                        ->renderView('secretariatadmin\charge_donnees_excel.html.twig', array('titre'=>'Remplissage de la table Jurés','form'=>$form->createView(),));
                 return new Response($content);
         }
         

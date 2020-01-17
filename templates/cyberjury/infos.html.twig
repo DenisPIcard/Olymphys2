@@ -2,10 +2,10 @@
 {% block title %} En savoir plus sur cette équipe {% endblock %}
 
 {% block titre3 %} <a {% if (progression) %} class ="btn btn-primary btn-lg" {% else %} class ="btn btn-outline-primary btn-lg" {% endif %} 
-	href="{{ path('cyberjury_evaluer_une_equipe', {'id': id_equipe } ) }}" >{{ equipe.lettreEquipe }}</a>   
-    {{ equipe.nomEquipe }}
+	href="{{ path('cyberjury_evaluer_une_equipe', {'id': id_equipe } ) }}" >{{ equipe.lettre }}</a>   
+    {{ equipe.titreProjet }}
 
-<a href="https://odpf.org/images/archives_docs/26eme/memoires/Equipe{{ equipe.lettreEquipe }}/memoire.pdf" class="fas fa-book-reader" title="Accéder au mémoire de l'équipe" target="_blank"> </a>
+<a href="https://olymphys.fr/public/upload/equipes/memoires/nat/27-eq-{{ equipes.lettre }}-memoire-{{equipes.infoequipe.titreprojet}}.pdf" class="fas fa-book-reader" title="Accéder au mémoire de l'équipe" target="_blank"> </a>
 <a href="{{ path('cyberjury_phrases_amusantes', {'id': id_equipe} ) }}" class="fas fa-pencil-alt" title="Les phrases amusantes" > </a>
 
 {% endblock %} 
