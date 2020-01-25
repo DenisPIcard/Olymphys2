@@ -103,29 +103,45 @@ class JuryController extends AbstractController
 			->getManager()
 			->getRepository('App:Equipes')
 			;
+                $repositoryEquipesadmin = $this
+			->getDoctrine()
+			->getManager()
+			->getRepository('App:Equipesadmin')
+			;
                 $repositoryNotes = $this->getDoctrine()
 		->getManager()
 		->getRepository('App:Notes')
 		;
-
+                $repositoryMemoires = $this->getDoctrine()
+                                           ->getManager()
+                                           ->getRepository('App:Memoires');
 		$listEquipes=array();
                 $progression=array();
-                
+                $memoires=array();
  		foreach ($attrib as $key => $value) 
 		{
 			$equipe=$repositoryEquipes->findOneByLettre($key);
 			$listEquipes[$key] = $equipe;
 			$id = $equipe->getId();
                         $note=$repositoryNotes->EquipeDejaNotee($id_jure ,$id);
-			$progression[$key] = (!is_null($note)) ? 1 : 0 ;
-
-		}
+                        $progression[$key] = (!is_null($note)) ? 1 : 0 ;
+                        $idadm=$equipe->getInfoequipe();
+                        $memoire=$repositoryMemoires->findByEquipe($idadm);
+                        if($memoire !=[])
+                            {   if($memoire[0]->getAnnexe() == false)
+                                    {$memoires[$key] = $memoire[0];}
+                                else 
+                                    {$memoires[$key] = $memoire[1];}
+                            }
+                        
+                }
                 usort($listEquipes, function($a, $b) {
                 return $a->getOrdre() <=> $b->getOrdre();
                 });
-             
+                //dump($listEquipes);
+                //dd($memoires);
                 $content = $this->renderView('cyberjury/accueil.html.twig', 
-			array('listEquipes' => $listEquipes,'progression'=>$progression,'jure'=>$jure)
+			array('listEquipes' => $listEquipes,'progression'=>$progression,'jure'=>$jure,'memoires'=>$memoires)
 			);
                 
   
@@ -182,7 +198,19 @@ class JuryController extends AbstractController
 		->getRepository('App:Eleves');
 
 		$listEleves=$repositoryEleves->findByLettreEquipe($lettre);
-
+                $repositoryMemoires = $this->getDoctrine()
+                                           ->getManager()
+                                           ->getRepository('App:Memoires');
+                $idadm=$eq->getInfoequipe();
+                $memoire=$repositoryMemoires->findByEquipe($idadm);
+                $memoires='';
+                if($memoire !=[])
+                            {   if($memoire[0]->getAnnexe() == false)
+                                    {$memoires = $memoire[0];}
+                                else 
+                                    {$memoires = $memoire[1];}
+                            }
+     
 		$content = $this->renderView('cyberjury/infos.html.twig',
 			array(
 				'equipe'=>$equipe, 
@@ -190,7 +218,8 @@ class JuryController extends AbstractController
 				'listEleves'=>$listEleves, 
 				'id_equipe'=>$id,
 				'progression'=>$progression,
-				'jure'=>$jure
+				'jure'=>$jure,
+                                'memoires'=>$memoires
 				)
 			);
 		return new Response($content);   
@@ -394,7 +423,19 @@ class JuryController extends AbstractController
 		->getManager()
 		->getRepository('App:Notes')
 		->EquipeDejaNotee($id_jure, $id);
-
+                $repositoryMemoires = $this->getDoctrine()
+                                           ->getManager()
+                                           ->getRepository('App:Memoires');
+                $idadm=$equipe->getInfoequipe();
+                $memoire=$repositoryMemoires->findByEquipe($idadm);
+                $memoires='';
+                if($memoire !=[])
+                            {   if($memoire[0]->getAnnexe() == false)
+                                    {$memoires = $memoire[0];}
+                                else 
+                                    {$memoires = $memoire[1];}
+                            }
+     
 		$flag=0; 
 
 		if(is_null($notes))
@@ -446,14 +487,14 @@ class JuryController extends AbstractController
 			return $this->redirectToroute('cyberjury_tableau_de_bord');
 		}
 		// Si on n'est pas en POST, alors on affiche le formulaire. 
-
 		$content = $this->renderView('cyberjury/evaluer.html.twig', 
 			array(
 				'equipe'=>$equipe,
 				'form'=>$form->createView(),
 				'flag'=>$flag,
 				'progression'=>$progression,
-				'jure'=>$jure
+				'jure'=>$jure,
+                                'memoires'=>$memoires
 				  ));
 		return new Response($content);
 		
@@ -559,7 +600,19 @@ class JuryController extends AbstractController
 		->getDoctrine()
 		->getManager()
 		->getRepository('App:Equipes');
-
+                $repositoryMemoires = $this->getDoctrine()
+                                           ->getManager()
+                                           ->getRepository('App:Memoires');
+                $idadm=$equipe->getInfoequipe();
+                $memoire=$repositoryMemoires->findByEquipe($idadm);
+                $memoires='';
+                if($memoire !=[])
+                            {   if($memoire[0]->getAnnexe() == false)
+                                    {$memoires = $memoire[0];}
+                                else 
+                                    {$memoires = $memoire[1];}
+                            }
+     
 		$em=$this->getDoctrine()->getManager();
 
 		$form = $this->createForm(EquipesType::class, $equipe, array('Attrib_Phrases'=> true, 'Attrib_Cadeaux'=> false));
@@ -581,7 +634,8 @@ class JuryController extends AbstractController
 				'equipe'=>$equipe,
 				'form'=>$form->createView(),
 				'progression'=>$progression,
-				'jure'=>$jure
+				'jure'=>$jure,
+                                'memoires'=>$memoires
 				  ));
 		return new Response($content);
         }           

@@ -29,7 +29,7 @@
           {% endfor %}       
       {%  if n >0 %}         
           <div class="col-lg-2   col-sm-3">
-              <a href="{{path('photos_galleryphotos',{infos: 'national-'~edition~'-'~photo.equipe.id})}}"><h8> {{equipe.lettre}}  </h8> </a>
+              <a href="{{path('photos_galleryphotos',{infos: 'national-'~edition~'-'~equipe.id})}}"><h8> <button type="button" class="btn btn-primary">{{equipe.lettre}} </button> </h8> </a>
           
     <div id="carousel{{equipe.lettre}}" class="carousel slide" data-ride="carousel">
        
@@ -43,10 +43,10 @@
                  <div class="carousel-item active" data-interval="5000">
                            <a href="{{asset('/upload/images/'~edition~'/nat/'~photo.photo)}}">        
                                <div class="parent">
-                           <img src=" {{asset('/upload/images/'~edition~'/nat/thumb/'~photo.photo) }}"   alt="{{photo.equipe.TitreProjet }}">
+                                   <center>          <img src=" {{asset('/../public/upload/images/'~edition~'/nat/thumb/'~photo.photo) }}"   alt="{{photo.equipe.TitreProjet }}"></center>
                                </div>
                            </a>
-                           <center><div style="background:black;"><font color="white" size="-1">{{photo.equipe.titreProjet}} </font><br> <font color="white" size="-2">photo {{i}}/{{n}}</font></div></center>
+                           <center><div style="background:black;"> <font color="white" size="-2">photo {{i}}/{{n}}</font></div></center>
                  </div>
                     
                            {% endif %}
@@ -55,10 +55,10 @@
                        
                         <a href="{{asset('/upload/images/'~edition~'/nat/'~photo.photo)}}">                
                            <div class="parent">
-                            <img src=" {{asset('/upload/images/'~edition~'/nat/thumb/'~photo.photo) }}"   alt="{{photo.equipe.TitreProjet}}">
+                               <center><img src=" {{asset('/../public/upload/images/'~edition~'/nat/thumb/'~photo.photo) }}"   alt="{{photo.equipe.TitreProjet}}"></center>
                            </div>
                             </a> 
-                           <center><div style="background:black"><font color="white" size="-1">{{photo.equipe.titreProjet}} </font><br> <font color="white" size="-2"> photo {{i}}/{{n}}></font></div></center>
+                           <center><div style="background:black"> <font color="white" size="-2"> photo {{i}}/{{n}}></font></div></center>
                 </div>  
                 {% endif %}
                 {% set i= i+1 %}

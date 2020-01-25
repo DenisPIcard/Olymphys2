@@ -709,6 +709,7 @@ public function choix_equipe_prof(Request $request, $type_fichier) {
     $datelimnat=$edition->getDatelimnat();
     $dateouverturesite=$edition->getDateouverturesite();
     $dateconnect= new \datetime('now');
+    $phase='en cette période de l\année.';
     if (($dateconnect>$datelimcia) and ($dateconnect<=$datelimnat)) {
         $phase='national';
         $qb1 =$repositoryEquipesadmin->createQueryBuilder('t')
@@ -726,7 +727,7 @@ public function choix_equipe_prof(Request $request, $type_fichier) {
                              ->setParameter('professeur', $professeur);
         $liste_equipes=$qb2->getQuery()->getResult();   
          }
-    if($liste_equipes) {
+    if(isset($liste_equipes)) {
         $content = $this
                  ->renderView('adminfichiers\choix_equipe_prof.html.twig', array(
                      'liste_equipes'=>$liste_equipes, 'type_fichier'=>$type_fichier, 'phase'=>$phase, 'professeur'=>$user
@@ -1031,6 +1032,7 @@ public function  charge_fichessecur_resume_fichier(Request $request, $infos ,Mai
              }
         if($type_fichier=='resume'){
             $file=$form1->get('fiche')->getData();
+			$pages=1;
             require_once('../vendor/autoload.php');//Pour tester si le nombre de page est inférieur à 21.
             $parser = new \Smalot\PdfParser\Parser();
             $pdf = $parser->parseFile($file);
@@ -1079,13 +1081,15 @@ public function  charge_fichessecur_resume_fichier(Request $request, $infos ,Mai
                             $Fiche= new Resumes();
                             $Fiche->setEdition($edition);
                             $Fiche->setEquipe($Equipe_choisie);
+							$em->persist( $Fiche);
+                            $em->flush();							
                             $Fiche->setResumeFile($file);
                             $em->persist($Fiche);
                             $em->flush();
                             $nom_fichier = $Fiche->getResume();
                             }
                         }                    
-                    if($Fiche){//si la fiche a  déjà été déposés on écrase seulement la précédente
+                    if(isset($Fiche)){//si la fiche a  déjà été déposés on écrase seulement la précédente
                         if($type_fichier=='fichesecur'){
                            $em ->remove($Fiche);
                            $em->flush();

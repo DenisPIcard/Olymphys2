@@ -6,17 +6,21 @@
 
 {% block body %}
     <div class='well'>
-        {{ form_start(form) }}
+         {{ form_start(form) }}
     <div class="my-custom-class-for-errors">
         {{ form_errors(form) }}
     </div>
         <div class="form-group col-md-6">
-            {{ form_row(form.fichier,{  'class':'custom-file-input'}) }}
+
+           
+
+             {{ form_row(form.fichier,{  'class':'custom-file-input'}) }}
         </div>
+            
              <div class="form-group col-md-6">
              {{ form_widget(form.save, { 'label': 'Choisir ce fichier' }) }}
              </div>
-        {{ form_end(form) }}
+{{ form_end(form) }}
         {{ form(form) }}
     </div>
   {% block javascripts %}

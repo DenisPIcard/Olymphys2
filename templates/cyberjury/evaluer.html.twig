@@ -1,9 +1,10 @@
 {% extends "base.html.twig" %}
 {% block title %} Évaluer une équipe {% endblock %}
 
-{% block titre3 %} <span {% if (progression) %} class ="btn btn-primary btn-lg" {% else %} class ="btn btn-outline-primary btn-lg" {% endif %} > 
+{% block titre3 %} <span {% if (progression) %} class ="btn btn-outline-success btn-lg" {% else %} class ="btn btn-primary btn-lg" {% endif %} > 
 	{{equipe.lettre}} </span>  {{ equipe.titreProjet}} 
-<a href="https://odpf.org/images/archives_docs/26eme/memoires/Equipe{{ equipe.lettre }}/memoire.pdf" class="fas fa-book-reader" title="Accéder au mémoire de l'équipe" target="_blank"> </a>
+<a href="https://olymphys.fr/public/upload/equipes/memoires/nat/{{ memoires.memoire }}" class="fas fa-book-reader" title="Accéder au mémoire de l'équipe" target="_blank"> </a>
+
 
 <a href="{{ path('cyberjury_infos_equipe', {'id': equipe.id} ) }}" class="fas fa-info-circle" title="En savoir plus sur cette équipe"> </a>
 

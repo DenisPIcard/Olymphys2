@@ -29,7 +29,7 @@
           {% endfor %}       
       {%  if n >0 %}         
           <div class="col-lg-2   col-sm-3">
-           <a href="{{path('photos_galleryphotos',{infos : 'cia-'~edition~'-'~centre.id~concours})}}"> <h8> {{centre.centre}} </h8> </a>
+              <a href="{{path('photos_galleryphotos',{infos : 'cia-'~edition~'-'~centre.id~concours})}}"> <h8> <button type="button" class="btn btn-primary">{{centre.centre}} </button></h8> </a>
           
     <div id="carousel{{centre.centre}}" class="carousel slide" data-ride="carousel" >
        <div class="carousel-inner"style="max-width:300px; height:250px !important;" bkgcolor="black">
@@ -40,16 +40,16 @@
                  {% if i==1 %}
                  <div class="carousel-item active" data-interval="5000">
                                            
-                     <center><img src=" {{asset('/upload/images/'~edition~'/int/thumb/'~photo.photo) }}"  
+                     <center><img src=" {{asset('/../public/upload/images/'~edition~'/int/thumb/'~photo.photo) }}"  
                                   alt="{{photo.equipe.TitreProjet}}" width="auto"  height="200"></center>
                             
-                           <center><div style="background:black;"><font color="white" size="-1">{{photo.equipe.titreProjet}} </font><br> <font color="white" size="-2">photo {{i}}/{{n}}</font></div></center>
+                           <center><div style="background:black;"> <font color="white" size="-2">photo {{i}}/{{n}}</font></div></center>
                  </div>
                            {% endif %}
                             {% if i>1 %}
                    <div class="carousel-item" >
                              
-                       <center> <img src=" {{asset('/upload/images/'~edition~'/int/thumb/'~photo.photo) }}" 
+                       <center> <img src=" {{asset('/../public/upload/images/'~edition~'/int/thumb/'~photo.photo) }}" 
                                      alt="{{photo.equipe.TitreProjet}}"  width="auto"  height="200" ></center>
                        
                            <center><div style="background:black"><font color="white" size="-1">{{photo.equipe.titreProjet}} </font><br> <font color="white" size="-2"> photo {{i}}/{{n}}></font></div></center>

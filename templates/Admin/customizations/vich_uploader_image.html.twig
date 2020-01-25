@@ -8,10 +8,10 @@
     
     
     
-    <img src="{{ vich_uploader_asset(item, 'photoFile') | imagine_filter('my_thumb')}}">
+    <img src="{{ vich_uploader_asset(item, 'photoFile') }}">
 </a>
 
 <div id="easyadmin-lightbox-{{ item.id }}" class="easyadmin-lightbox">
     {# the second parameter is the name of the property with the UploadableField annotation #}
-    <img src="{{ vich_uploader_asset(item, 'photoFile')}}">
+    <img src="{{ vich_uploader_asset(item, 'photoFile')| imagine_filter('my_thumb')}}">
 </div>

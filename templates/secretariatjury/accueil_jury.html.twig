@@ -15,23 +15,22 @@
   <table class="table">  
 
 	{% for equipe in listEquipes %}
-      
+      {% set lettre = equipe.lettre %}    
       <tr class="active">
           <th><button type="button" class="btn btn-primary btn-lg">{{ equipe.lettre }}</button></th>
         <td>  {{ equipe.titreProjet }} </td>
       </tr>
-      {% set lettre = equipe.lettre %}
+ 
       <tr>
       	<th>Les élèves</th> 
         <td>
-            
-            {% for eleve in lesEleves[lettre] %}
-                {% if loop.index < lesEleves[lettre]|length %}
-                    {{ eleve.prenom|title }} {{ eleve.nom|title }} ({{eleve.classe}}),  
-                {% else %}
-                    {{ eleve.prenom|title }} {{ eleve.nom|title }} ({{eleve.classe}})
-                {% endif %}
-            {% endfor %}
+      		{% for eleve in lesEleves[lettre] %}
+            {% if loop.index < lesEleves[lettre]|length %}
+                {{ eleve.prenom|title }} {{ eleve.nom|title }} ({{eleve.classe}}),  
+            {% else %}
+              {{ eleve.prenom|title }} {{ eleve.nom|title }} ({{eleve.classe}})
+            {% endif %}
+          	{% endfor %}
         </td>
       </tr>
 
@@ -48,7 +47,7 @@
         </td>
       </tr>
 
-     <tr>
+      <tr>
       	<th>L'établissement</th> 
         <td> 
             {% for lycee in lycee[lettre] %}

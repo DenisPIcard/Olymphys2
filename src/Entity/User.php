@@ -83,14 +83,14 @@ class User implements UserInterface, \Serializable
      *
      * @ORM\Column(name="nom", type="string", length=255, nullable=true)
      */
-    private $nom;
+    protected $nom;
     
      /**
      * @var string
      *
      * @ORM\Column(name="prenom", type="string", length=255, nullable=true)
      */
-    private $prenom;  
+    protected $prenom;  
     
      /**
      * @var string

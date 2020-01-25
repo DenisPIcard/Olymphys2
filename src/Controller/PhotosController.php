@@ -339,6 +339,7 @@ class PhotosController extends  AbstractController
              $liste_equipes=$qb1->getQuery()->getResult();
              $qb2 =$repositoryPhotoscn->createQueryBuilder('p');
              $liste_photos=$qb2->getQuery()->getResult();
+             //dd($liste_photos);
              //$liste_photos=$repositoryPhotosinter->findByEdition(['edition'=>$edition]);
              if ($liste_photos)
              {
@@ -408,9 +409,9 @@ class PhotosController extends  AbstractController
              
              If ($concours=='national'){
              
-             $equipe= $repositoryEquipesadmin->find(['id'=>$concourseditioncentre[2]]);
+             $equipe= $repositoryEquipesadmin->findOneBy(['id'=>$concourseditioncentre[2]]);
                  $qb= $repositoryPhotoscn->createQueryBuilder('p')
-                          ->where('p.equipe =: equipe')
+                          ->where('p.equipe =:equipe')
                          ->setParameter('equipe',$equipe);
                    
                  $liste_photos=$qb->getQuery()->getResult();                 
@@ -491,7 +492,7 @@ class PhotosController extends  AbstractController
               
               if ($concours=='cia'){
                $content = $this
-                          ->renderView('photos/liste_photos.html.twig', array('formtab'=>$formtab,
+                          ->renderView('photos/liste_photos_cia.html.twig', array('formtab'=>$formtab,
                          'liste_photos'=>$liste_photos,'edition'=>$edition, 'centre'=>$centre->getCentre(),
                          'edition'=>$edition, 'liste_equipes'=> $liste_equipes, 'concours'=>'cia')); 
             return new Response($content); 
@@ -499,8 +500,8 @@ class PhotosController extends  AbstractController
               
                if ($concours=='national'){
                $content = $this
-                          ->renderView('photos/liste_photos.html.twig', array('formtab'=>$formtab, 'liste_photos'=>$liste_photos,
-                              'edition'=>$edition, 'centre'=>$centre->getCentre(), 'equipe'=>$equipe,'concours'=>'national')); 
+                          ->renderView('photos/liste_photos_cn.html.twig', array('formtab'=>$formtab, 'liste_photos'=>$liste_photos,
+                              'edition'=>$edition,  'equipe'=>$equipe,'concours'=>'national')); 
             return new Response($content); 
               }
              

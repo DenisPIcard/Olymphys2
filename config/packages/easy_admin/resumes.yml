@@ -19,7 +19,7 @@ easy_admin :
                     - {property : 'equipe.lettre', label: 'Lettre équipe'}
                     - {property : 'equipe.centre.centre', label: 'Centre'}
                     - {property: 'equipe.titreprojet', label : 'Projet'}
-                    - {property : 'resume', label : 'Fichier', template : 'Admin\customizations\vich_uploader_memoiresinter.html.twig', base_path: '%app.path.resumes%'}
+                    - {property : 'resume', label : 'Fichier', template : 'Admin\customizations\vich_uploader_memoiresinter.html.twig', base_path: '/../public/upload/equipes/resumes/'}
                     - {property: 'updatedat', type: 'datetime',label : 'Déposé le '}
                   sort: ['equipe.numero','ASC']
                   

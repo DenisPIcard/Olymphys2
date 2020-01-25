@@ -25,9 +25,9 @@ easy_admin :
                       children :
                         - label: 'Equipes'
                         - { label : 'Palmares des équipes', entity: 'Equipes' , icon : 'asterisk'}
-                        - { label : 'Administration des équipes' , entity : 'Selectionnees', icon : 'user-friends'}
                         - { entity: 'Memoires' , icon : 'asterisk'}
                         - { entity: 'Eleves' , icon : 'asterisk'}
+                        - { entity : 'Photoscn', 'label' : ' Lesphotos', icon : 'images'}
                         - label : 'Les recompenses'
                         - { entity:  'Prix' , icon : 'asterisk'}
                         - { entity: 'Visites' , icon : 'asterisk'}
@@ -35,8 +35,8 @@ easy_admin :
                         
                     - { label: 'Retour à la page d''accueil', route: 'core_home' , icon : 'home'}
                     - { label : 'Deconnexion' , route: 'logout', icon : 'door-open'}
-                   #- {  label: 'Retour à la page d''accueil', url: '/public/index.php' , icon : 'home'}
-                   # - { label : 'Deconnexion' , url : '/public/index.php/logout', icon : 'door-open'
+                    # - { label: 'Retour à la page d''accueil', url: '/public/index.php' , icon : 'home'}
+                     #- { label : 'Deconnexion' , url : '/public/index.php/logout', icon : 'door-open'}
                 form_theme:
                 - '@EasyAdmin/form/bootstrap_4.html.twig'
                 - '@VichUploader/Form/fields.html.twig'    
