@@ -19,6 +19,6 @@ class PhotosinterthumbRepository extends ServiceEntityRepository
 {
      public function __construct(ManagerRegistry $registry)
                     {
-                        parent::__construct($registry, Photosinter::class);
+                        parent::__construct($registry, Photosinterthumb::class);
                     }
 }

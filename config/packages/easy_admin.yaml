@@ -14,6 +14,7 @@ imports :
       - { resource: easy_admin/memoiresinter.yml }  
       - { resource: easy_admin/fichessecur.yml }  
       - { resource: easy_admin/photosinter.yml }  
+      - { resource: easy_admin/photoscn.yml }  
       - { resource: easy_admin/centrescia.yml } 
       - { resource: easy_admin/elevesinter.yml } 
       - { resource: easy_admin/resumes.yml } 

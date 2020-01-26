@@ -10,7 +10,7 @@ easy_admin :
                - {name : 'new', label : 'Déposer une photo'}
              
              list :
-                  max_results: 30
+                  max_results: 50
                   actions: [{ name: 'Lire', icon: 'eye' }, '-edit']
                   batch_actions: 
                       - {name : 'telecharger', icon : 'download'}
