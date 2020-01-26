@@ -138,8 +138,6 @@ class JuryController extends AbstractController
                 usort($listEquipes, function($a, $b) {
                 return $a->getOrdre() <=> $b->getOrdre();
                 });
-                //dump($listEquipes);
-                //dd($memoires);
                 $content = $this->renderView('cyberjury/accueil.html.twig', 
 			array('listEquipes' => $listEquipes,'progression'=>$progression,'jure'=>$jure,'memoires'=>$memoires)
 			);
@@ -567,69 +565,51 @@ class JuryController extends AbstractController
          * 
          * @Route("/phrases_amusantes/{id}", name = "cyberjury_phrases_amusantes",requirements={"id_equipe"="\d{1}|\d{2}"})
 	 */
-	public function phrases(Request $request, Equipes $equipe, $id)
-	{
-
-		$user=$this->getUser();
-		$nom=$user->getUsername();
-
-		$repositoryJure = $this
-			->getDoctrine()
-			->getManager()
-			->getRepository('App:Jures')
-			;
-
-		$jure=$repositoryJure->findOneByNomJure($nom);
-		$id_jure = $jure->getId();
-
-		$notes = $repositoryNotes = $this->getDoctrine()
-		->getManager()
-		->getRepository('App:Notes')
-		->EquipeDejaNotee($id_jure, $id);
-		$progression = (!is_null($notes)) ? 1 : 0 ;
-
-		$repositoryPhrases = $this->getDoctrine()
-		->getManager()
-		->getRepository('App:Phrases');
-
-		$repositoryLiaison = $this->getDoctrine()
-		->getManager()
-		->getRepository('App:Liaison');
-
-		$repositoryEquipes = $this
-		->getDoctrine()
-		->getManager()
-		->getRepository('App:Equipes');
-                $repositoryMemoires = $this->getDoctrine()
-                                           ->getManager()
-                                           ->getRepository('App:Memoires');
-                $idadm=$equipe->getInfoequipe();
-                $memoire=$repositoryMemoires->findByEquipe($idadm);
-                $memoires='';
-                if($memoire !=[])
-                            {   if($memoire[0]->getAnnexe() == false)
-                                    {$memoires = $memoire[0];}
-                                else 
-                                    {$memoires = $memoire[1];}
-                            }
-     
-		$em=$this->getDoctrine()->getManager();
-
-		$form = $this->createForm(EquipesType::class, $equipe, array('Attrib_Phrases'=> true, 'Attrib_Cadeaux'=> false));
-	
-		// Si la requête est en post, c'est que le visiteur a soumis le formulaire. 
-		if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
-			// création et gestion du formulaire. 
-			
-			$em->persist($equipe);
-			$em->flush();
-			$request -> getSession()->getFlashBag()->add('notice', 'Phrase et prix amusants bien enregistrés');
-			
-			return $this->redirectToroute('cyberjury_accueil');
-		}
-		// Si on n'est pas en POST, alors on affiche le formulaire. 
-
-		$content = $this->renderView('cyberjury\phrases.html.twig', 
+public function phrases(Request $request, Equipes $equipe, $id)
+    {
+    $user=$this->getUser();
+    $nom=$user->getUsername();
+    $repositoryJure = $this->getDoctrine()
+                            ->getManager()
+                            ->getRepository('App:Jures');
+    $jure=$repositoryJure->findOneByNomJure($nom);
+    $id_jure = $jure->getId();
+    $notes = $repositoryNotes = $this->getDoctrine()
+                                     ->getManager()
+                                      ->getRepository('App:Notes')
+                                      ->EquipeDejaNotee($id_jure, $id);
+    $progression = (!is_null($notes)) ? 1 : 0 ;
+    $repositoryPhrases = $this->getDoctrine()
+                              ->getManager()
+                              ->getRepository('App:Phrases');
+    $repositoryLiaison = $this->getDoctrine()
+                              ->getManager()
+                              ->getRepository('App:Liaison');
+    $repositoryEquipes = $this->getDoctrine()
+                              ->getManager()
+                               ->getRepository('App:Equipes');
+    $repositoryMemoires = $this->getDoctrine()
+                               ->getManager()
+                               ->getRepository('App:Memoires');
+    $idadm=$equipe->getInfoequipe();
+    $memoire=$repositoryMemoires->findByEquipe($idadm);
+    $memoires='';
+    if($memoire !=[])
+        {   
+        if($memoire[0]->getAnnexe() == false)
+            {$memoires = $memoire[0];}
+        else 
+            {$memoires = $memoire[1];}
+        }
+    $em=$this->getDoctrine()->getManager();
+    $form = $this->createForm(EquipesType::class, $equipe, array('Attrib_Phrases'=> true, 'Attrib_Cadeaux'=> false));
+    if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+	$em->persist($equipe);
+	$em->flush();
+	$request -> getSession()->getFlashBag()->add('notice', 'Phrase et prix amusants bien enregistrés');
+        return $this->redirectToroute('cyberjury_accueil');
+	}
+    $content = $this->renderView('cyberjury\phrases.html.twig', 
 			array(
 				'equipe'=>$equipe,
 				'form'=>$form->createView(),
@@ -637,6 +617,6 @@ class JuryController extends AbstractController
 				'jure'=>$jure,
                                 'memoires'=>$memoires
 				  ));
-		return new Response($content);
-        }           
+    return new Response($content);
+    }           
 }

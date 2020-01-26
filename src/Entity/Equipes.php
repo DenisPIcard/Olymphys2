@@ -62,13 +62,6 @@ class Equipes
      */
     private $salle; 
     
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="isef", type="boolean", nullable=true)
-     */
-    private $isef; 
-    
      /**
      * @var int
      *
@@ -279,30 +272,6 @@ class Equipes
     public function getSalle()
     {
         return $this->salle;
-    }
-    
-     /**
-     * Set isef
-     *
-     * @param boolean $isef
-     *
-     * @return Equipes
-     */
-    public function setIsef($isef)
-    {
-        $this->isef = $isef;
-
-        return $this;
-    }
-
-    /**
-     * Get salle
-     *
-     * @return string
-     */
-    public function getIsef()
-    {
-        return $this->isef;
     }
     
     /**

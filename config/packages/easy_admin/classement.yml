@@ -1,0 +1,21 @@
+easy_admin :
+    entities :
+        Classement :
+            class :  App\Entity\Classement
+            label : 'Répartition des prix<'
+            list :
+                permission: 'ROLE_COMITE'               
+                fields : 
+                    - {property : 'niveau'}
+                    - {property : 'montant'}
+                    - {property : 'nbreprix'}
+                sort : ['niveau', ASC]
+            edit :
+                title : 'modifier la répartition'
+                permission : 'ROLE_COMITE'
+                fields : 
+                    - {property : 'niveau'}
+                    - {property : 'montant'}
+                    - {property : 'nbreprix'}
+             
+            
