@@ -9,7 +9,7 @@ easy_admin :
              
              list :
                   max_results: 30
-                  actions: [{ name: 'Lire', icon: 'eye' ,label: ''},'-edit']
+                  actions: [{ name: 'Lire', icon: 'eye' ,label: ''}]
                   batch_actions: 
                       - {name : 'telechargernat', icon : 'download'}
                     
