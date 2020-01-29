@@ -24,13 +24,13 @@
       <tr>
       	<th>Les élèves</th> 
         <td>
-      		{% for eleve in lesEleves[lettre] %}
-            {% if loop.index < lesEleves[lettre]|length %}
-                {{ eleve.prenom|title }} {{ eleve.nom|title }} ({{eleve.classe}}),  
-            {% else %}
-              {{ eleve.prenom|title }} {{ eleve.nom|title }} ({{eleve.classe}})
-            {% endif %}
-          	{% endfor %}
+            {% for eleve in lesEleves[lettre] %}
+                {% if loop.index < lesEleves[lettre]|length %}
+                    {{ eleve.prenom|title }} {{ eleve.nom|title }} ({{eleve.classe}}),  
+                {% else %}
+                    {{ eleve.prenom|title }} {{ eleve.nom|title }} ({{eleve.classe}})
+                {% endif %}
+            {% endfor %}
         </td>
       </tr>
 
@@ -51,7 +51,7 @@
       	<th>L'établissement</th> 
         <td> 
             {% for lycee in lycee[lettre] %}
-                <i>{{ lycee.appellationOfficielle|title}} </i>, <b> ville : </b> {{lycee.commune |title}}  - <b>{{ lycee.academie|upper}} </b>
+                <i>Lycée {{ lycee.nom|title}} </i>, <b> ville : </b> {{lycee.commune |title}}  - <b>{{ lycee.academie|upper}} </b>
             {% endfor %}
         </td>
       </tr>
