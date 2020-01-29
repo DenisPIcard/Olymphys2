@@ -22,10 +22,18 @@
 
     <tbody>
       {% for equipe in listEquipes %}
+          {% set lettre = equipe.lettre %} 
       <tr >
-        <td rowspan="4"> <b>{{ equipe.infoequipe.lyceeAcademie|upper}} </b></td>
-        <td> {{ equipe.infoequipe.denominationLycee |upper}} {{ equipe.infoequipe.nomLycee |upper}} - {{ equipe.infoequipe.lyceeLocalite |upper}} </td>
-        <td> {{ equipe.infoequipe.prenomProf1|title}} {{ equipe.infoequipe.nomProf1|upper}} </td>
+        {% for lycee in lycee[lettre] %}
+            <td rowspan="4"> <b>{{ lycee.academie|upper}} </b>
+            </td>
+            <td> Lycée {{ lycee.nom |upper}} - {{ lycee.commune |upper}} </td>    
+        {% endfor %}
+        <td> 
+            {% for prof in prof1[lettre] %}
+                {{ prof.prenom|title}} {{ prof.nom|upper}}
+            {% endfor %}
+        </td>
         <td 
           {% if equipe.classement == '1er' %} class="danger" 
           {% elseif  equipe.classement == '2ème' %} class="warning" 
@@ -44,7 +52,11 @@
       </tr>
       <tr>
         <td rowspan="2"> <b><font color ="red">{{ equipe.titreProjet }} </font></b></td>
-        <td> {{ equipe.infoequipe.prenomProf2|title}} {{ equipe.infoequipe.nomProf2|upper}} </td>
+        <td> 
+            {% for prof in prof2[lettre] %}
+               {{ prof.prenom|title}} {{ prof.nom|upper}}
+             {% endfor %}
+         </td>
         
         <td> 
           {% if equipe.classement == '1er' %}
@@ -69,7 +81,6 @@
         {% set lettre = equipe.lettre %}
         <td>
           {% for eleve in lesEleves[lettre] %}
-
             {% if loop.index < lesEleves[lettre]|length %}
                 {{ eleve.prenom|title }} {{ eleve.nom|upper }},  
             {% else %}

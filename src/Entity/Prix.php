@@ -47,6 +47,22 @@ class Prix
      * @ORM\Column(name="attribue", type="boolean")
      */
     private $attribue;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $voix;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $intervenant;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $remisPar;
+    
     /**
      * Get id
      *
@@ -128,5 +144,47 @@ class Prix
     public function getAttribue()
     {
         return $this->attribue;
+    }
+
+    public function getVoix(): ?string
+    {
+        return $this->voix;
+    }
+
+    public function setVoix(?string $voix): self
+    {
+        $this->voix = $voix;
+
+        return $this;
+    }
+    /**
+     * Get intervenany
+     *
+     * @return boolean
+     */
+    public function getIntervenant()
+    {
+        return $this->intervenant;
+    }
+    /**
+     * @param boolean $intervenant
+     */
+    public function setIntervenant($intervenant)
+    {
+        $this->intervenant = $intervenant;
+
+        return $this;
+    }
+
+    public function getRemisPar(): ?string
+    {
+        return $this->remisPar;
+    }
+
+    public function setRemisPar(?string $remisPar): self
+    {
+        $this->remisPar = $remisPar;
+
+        return $this;
     }
 }

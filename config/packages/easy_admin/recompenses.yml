@@ -2,6 +2,19 @@ easy_admin :
     entities :
         Prix :
             class : App\Entity\Prix 
+            label: Les Prix
+            list:
+                batch_action: ['delete']
+            edit:
+                title: 'Modifier un prix'
+                fields:
+                    - 'prix'
+                    - 'classement'
+                    - 'attribue' 
+                    - { property: 'voix', type_options :{disabled: true}} 
+                    - { property: 'intervenant', type_options :{disabled: true}} 
+                    - { property: 'remisPar', type_options :{disabled: true}}
+                    
             
         Visites :
             class : App\Entity\Visites
