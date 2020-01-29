@@ -41,7 +41,7 @@
                  {% if i==1 %}
                      
                  <div class="carousel-item active" data-interval="5000">
-                           <a href="{{asset('/upload/images/'~edition~'/nat/'~photo.photo)}}">        
+                           <a href="{{asset('/../public/upload/images/'~edition~'/nat/'~photo.photo)}}">        
                                <div class="parent">
                                    <center>          <img src=" {{asset('/../public/upload/images/'~edition~'/nat/thumb/'~photo.photo) }}"   alt="{{photo.equipe.TitreProjet }}"></center>
                                </div>
@@ -53,7 +53,7 @@
                             {% if i>1 %}
                    <div class="carousel-item" >
                        
-                        <a href="{{asset('/upload/images/'~edition~'/nat/'~photo.photo)}}">                
+                        <a href="{{asset('/../public/upload/images/'~edition~'/nat/'~photo.photo)}}">                
                            <div class="parent">
                                <center><img src=" {{asset('/../public/upload/images/'~edition~'/nat/thumb/'~photo.photo) }}"   alt="{{photo.equipe.TitreProjet}}"></center>
                            </div>

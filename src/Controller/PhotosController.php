@@ -244,7 +244,7 @@ class PhotosController extends  AbstractController
              
              
               return $this->render('photos/deposephotos.html.twig', [
-                'form' => $form->createView(),'session'=>$edition->getEd()
+                'form' => $form->createView(),'session'=>$edition->getEd(),'concours'=>$concours
         ]);
         
         

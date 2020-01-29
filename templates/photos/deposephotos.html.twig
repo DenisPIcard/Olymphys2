@@ -1,9 +1,30 @@
 {% extends "base.html.twig" %}
-{% block title %} Photos des épreuves interacadémiques de la {{session}}{% endblock %}
+{% block title %} Photos des épreuves
+    {%if concours=='cia' %}
+    interacadémiques 
+    {% endif %}
+    {% if concours =='national' %}
+    nationales 
+    {% endif %}
+    de la {{session}}
 
 
 
-{% block titre3 %}Déposer les photos des épreuves interacadémiques de la {{session}}<sup> eme </sup>édition {% endblock %}
+
+{% endblock %}
+
+
+
+{% block titre3 %}Déposer les photos des épreuves 
+     {%if concours=='cia' %}
+    interacadémiques 
+    {% endif %}
+    {% if concours =='cn' %}
+    nationales 
+    {% endif %}
+    
+    
+    de la {{session}}<sup> eme </sup>édition {% endblock %}
 
 
 {% block body %}
