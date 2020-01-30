@@ -29,7 +29,32 @@
 
 {% block body %}
     <div class="well">
-        {{form(form)}}
+          {% form_theme form 'bootstrap_4_layout.html.twig' %}
+       {{ form_start(form) }}
+    <div class="my-custom-class-for-errors">
+        {{ form_errors(form) }}
+    </div>          
+       
+                  
+
+    
+        <div class="form-inline">
+             <div class="form-group mb-2">
+            {{form_row(form.equipe)}}
+        </div>
+            <div class="form-group mx-sm-3 mb-2">
+            {{form_row(form.photoFiles)}}
+        </div>
+        <div class= "btn btn-primary mb-2">
+            {{form_row(form.Valider, {'label':'Charger les photos '})}}
+        </div>
+        </div>  
+        
+        {{ form_end(form) }}
+    </div>
+        
+        
+        
  {% block javascripts %}
         <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js" ></script> 
         

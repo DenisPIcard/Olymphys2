@@ -36,7 +36,7 @@ class PhotoscnType extends AbstractType
                                          'mapped'=>false
                                          ])
                                       ->add('photoFiles', FileType::class, [
-                                      'label' => 'Choisir les photos(format .jpeg)',
+                                      'label' => 'Choisir les photos(format .jpeg), plusieurs photos autorisé',
                                         'mapped' => false,
                                        'required' => false,
                                         'multiple'=>true,
