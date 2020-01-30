@@ -11,7 +11,8 @@
 
 
 
-{% block titre3 %}{{edition.ed}} <sup>eme</sup> Les photos  des épreuves nationales. Equipe  {{equipe.lettre}} {% endblock %}
+{% block titre3 %}<center>{{edition.ed}} <sup>eme</sup> Les photos  des épreuves nationales.</center></br> 
+    <Font color="blue">Equipe  {{equipe.lettre}}  :  {{equipe.Titreprojet}}</font>{% endblock %}
 
 
 {% block body %}
@@ -54,8 +55,8 @@
                         <font size = "-2"></font>
                        
                        {# <div class="row>"> #}
-                           <a href="{{asset('/../public/upload/images/'~edition.ed~'/nat/'~photo.photo)}}">
-                           <img src="{{asset('/../public/upload/images/'~edition.ed~'/nat/thumb/'~photo.photo)}}"></a>
+                           <a href="{{asset('/upload/images/'~edition.ed~'/nat/'~photo.photo)}}">
+                           <img src="{{asset('/upload/images/'~edition.ed~'/nat/thumb/'~photo.photo)}}"></a>
                       {# </div>  #}
                            
                     

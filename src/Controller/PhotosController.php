@@ -168,14 +168,12 @@ class PhotosController extends  AbstractController
                          list($width_orig, $height_orig) = getimagesize($photo->getPhotoFile());
                          
                          $dim=max($width_orig, $height_orig);
-                         if ($width_orig>$height_orig){
-                         $percent = 300/$width_orig;
-                         }
-                          if ($width_orig<=$height_orig){
+                       
+                          
                          $percent = 200/$height_orig;
                                                 
                          
-                         }
+                         
                          $new_width = $width_orig * $percent;
                          $new_height = $height_orig * $percent;
                           $image =imagecreatefromjpeg($photo->getPhotoFile());
@@ -184,19 +182,10 @@ class PhotosController extends  AbstractController
 
                             imagecopyresampled($thumb,$image, 0, 0, 0, 0, $new_width, $new_height, $width_orig, $height_orig);
                            
-                            if ($width_orig<=$height_orig){
-                            $image=imagecreate(300,200);
-                         //$blanc = imagecolorallocate($image, 255, 255, 255);
-                         
-                           imagejpeg($image, $this->getParameter($paththumb).'/'.$photo->getPhoto()); 
-                           }
-                            
-                            
-                            
-                           if ($width_orig>$height_orig){  
+                           
                           //dd($thumb);
                           imagejpeg($thumb, $this->getParameter($paththumb).'/'.$photo->getPhoto()); 
-                           }
+                           
                           //$thumbfile=new UploadedFile($this->getParameter($paththumb).'/thumb.jpg','thumb.jpg');
                          //dd($thumbfile);
                          //$photothumb->setEdition($edition);

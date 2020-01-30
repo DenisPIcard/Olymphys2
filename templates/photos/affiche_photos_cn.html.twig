@@ -41,9 +41,9 @@
                  {% if i==1 %}
                      
                  <div class="carousel-item active" data-interval="5000">
-                           <a href="{{asset('/../public/upload/images/'~edition~'/nat/'~photo.photo)}}">        
+                           <a href="{{asset('/upload/images/'~edition~'/nat/'~photo.photo)}}">        
                                <div class="parent">
-                                   <center>          <img src=" {{asset('/../public/upload/images/'~edition~'/nat/thumb/'~photo.photo) }}"   alt="{{photo.equipe.TitreProjet }}"></center>
+                                   <center><div style="background:black">          <img src=" {{asset('/upload/images/'~edition~'/nat/thumb/'~photo.photo) }}"   alt="{{photo.equipe.TitreProjet }}"></div></center>
                                </div>
                            </a>
                            <center><div style="background:black;"> <font color="white" size="-2">photo {{i}}/{{n}}</font></div></center>
@@ -53,12 +53,12 @@
                             {% if i>1 %}
                    <div class="carousel-item" >
                        
-                        <a href="{{asset('/../public/upload/images/'~edition~'/nat/'~photo.photo)}}">                
+                        <a href="{{asset('/upload/images/'~edition~'/nat/'~photo.photo)}}">                
                            <div class="parent">
-                               <center><img src=" {{asset('/../public/upload/images/'~edition~'/nat/thumb/'~photo.photo) }}"   alt="{{photo.equipe.TitreProjet}}"></center>
+                               <center><div style="background:black;"><img src=" {{asset('/upload/images/'~edition~'/nat/thumb/'~photo.photo) }}"   alt="{{photo.equipe.TitreProjet}}"></div></center>
                            </div>
                             </a> 
-                           <center><div style="background:black"> <font color="white" size="-2"> photo {{i}}/{{n}}></font></div></center>
+                           <center><div style="background:black"> <font color="white" size="-2"> photo {{i}}/{{n}}</font></div></center>
                 </div>  
                 {% endif %}
                 {% set i= i+1 %}
