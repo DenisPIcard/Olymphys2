@@ -1,18 +1,27 @@
 # See dos how to configure the bundle: https://symfony.com/doc/current/bundles/LiipImagineBundle/basic-usage.html
 
 liip_imagine:
-
-    resolvers :
-        default :
-            web_path : ~
-
-    filter_sets:
-
-        cache: ~
-
+   resolvers:
+        default:
+            web_path:   
+               web_root :  "%kernel.project_dir%/public"
+               cache_prefix: "media/cache"
+  # paramètre de chargement des fichiers d’origine
+   loaders:
+    default:
+        filesystem:
+            bundle_resources:
+                enabled: true
+            data_root: "app.path.photosnat" #where my originals files are stored`
+                    
+   
+  
+  
+   filter_sets:
+      
         # the name of the "filter set"
-        my_thumb:
-
+      my_thumb:
+            cache : default
             # adjust the image quality to 75%
             jpeg_quality: 100
 
@@ -27,4 +36,6 @@ liip_imagine:
                 # create a 2px black border: center the thumbnail on a black background
                 # 4px larger to create a 2px border around the final image
                 background: { size: [244, 184], position: center, color: '#000000' }
-                
+           
+            
+                    

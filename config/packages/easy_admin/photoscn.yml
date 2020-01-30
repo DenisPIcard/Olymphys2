@@ -11,7 +11,7 @@ easy_admin :
              
              list :
                   max_results: 50
-                  actions: [{ name: 'Lire', icon: 'eye' }, '-edit']
+                  actions: [{ name: 'Enregistrer', icon: 'download' }, '-edit']
                   batch_actions: 
                       - {name : 'telecharger', icon : 'download'}
                   # image_base_path: 'app/public/upload/images/27/int'   
@@ -19,8 +19,7 @@ easy_admin :
                   fields:
                    - {property: 'equipe.lettre', label: 'lettre'}
                    - {property: 'equipe.titreprojet', label : 'Projet'}
-                   - {property: 'photo', label : 'Nom'}
-                   - {property : 'photo',  template : 'Admin\customizations\vich_uploader_image.html.twig', base_path: '%app.path.photosnat%', propertyFile: 'photoFile'}
+                   - {property : 'photo',  template : 'Admin\customizations\vich_uploader_image.html.twig', base_path: '/upload/images/27/nat', propertyFile: 'photoFile'}
                    - {property: 'updatedAt', label : 'Déposé le '} 
                   sort: ['equipe.lettre','ASC']
                   

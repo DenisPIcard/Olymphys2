@@ -8,7 +8,7 @@
     
     
     
-    <img src="{{ vich_uploader_asset(item, 'photoFile') }}">
+    <img src="{{ vich_uploader_asset(item, 'photoFile') | imagine_filter('my_thumb')}}}">
 </a>
 
 <div id="easyadmin-lightbox-{{ item.id }}" class="easyadmin-lightbox">

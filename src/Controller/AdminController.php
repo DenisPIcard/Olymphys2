@@ -12,6 +12,7 @@ use App\Entity\Equipes;
 use App\Entity\Equipesadmin;
 use App\Entity\Fichessecur;
 use App\Entity\Photosinter;
+use App\Entity\Photoscn;
 use App\Entity\Elevesinter;
 use App\Entity\Resumes;
 use App\Entity\Edition;
@@ -110,8 +111,13 @@ class AdminController extends EasyAdminController
               $name=$entity->getResume();
               $application=  'application/pdf';
          }
-         
-         
+         if ($class==Photoscn::class)
+         {
+              $fichier=$this->getParameter('app.path.photosnat').'/'.$entity->getPhoto();
+              
+              $application= 'image/jpeg';
+              $name=$entity->getPhoto();
+         }
          
          $response = new BinaryFileResponse($fichier);
          
@@ -128,6 +134,50 @@ class AdminController extends EasyAdminController
          return $response; 
          }
     }
+    public function EnregistrerAction() {
+        $fichier='';
+          $class = $this->entity['class'];
+         $repository = $this->getDoctrine()->getRepository($class);
+         $id = $this->request->query->get('id');
+         $entity = $repository->find($id);
+        if ($class==Photoscn::class)
+         {
+              $fichier=$this->getParameter('app.path.photosnat').'/'.$entity->getPhoto();
+              
+              $application= 'image/jpeg';
+              $name=$entity->getPhoto();
+         }
+         
+         if ($class==Photosinter::class)
+         {
+              $fichier=$this->getParameter('repertoire_photosinter').'/'.$entity->getPhoto();
+              
+              $application= 'image/jpeg';
+              $name=$entity->getPhoto();
+         }
+         
+         $response = new BinaryFileResponse($fichier);
+         
+         $disposition = HeaderUtils::makeDisposition(
+           HeaderUtils::DISPOSITION_ATTACHMENT,
+                 
+           $name
+                 );
+         $response->headers->set('Content-Type', $application); 
+         $response->headers->set('Content-Disposition', $disposition);
+         
+        
+         //$content = $this->render('secretariat\lire_memoire.html.twig', array('repertoirememoire' => $this->getParameter('repertoire_memoire_national'),'memoire'=>$fichier));
+         return $response; 
+        
+        
+    }
+    
+    
+    
+    
+    
+    
     public function updateMemoiresinterEntity($entity)
             {   $repositoryMemoiresinter = $this->getDoctrine()->getRepository('App:Memoiresinter');
                  $repositoryEdition = $this->getDoctrine()->getRepository('App:Edition');

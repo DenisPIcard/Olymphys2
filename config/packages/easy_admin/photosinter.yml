@@ -11,7 +11,7 @@ easy_admin :
              
              list :
                   max_results: 30
-                  actions: [{ name: 'Lire', icon: 'eye' }, '-edit']
+                  actions: [{ name: 'Enregistrer', icon: 'download' }, '-edit']
                   batch_actions: 
                       - {name : 'telecharger', icon : 'download'}
                   # image_base_path: 'app/public/upload/images/27/int'   
