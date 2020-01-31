@@ -140,10 +140,11 @@ class AdminController extends EasyAdminController
          $repository = $this->getDoctrine()->getRepository($class);
          $id = $this->request->query->get('id');
          $entity = $repository->find($id);
+        
         if ($class==Photoscn::class)
          {
               $fichier=$this->getParameter('app.path.photosnat').'/'.$entity->getPhoto();
-              
+             
               $application= 'image/jpeg';
               $name=$entity->getPhoto();
          }

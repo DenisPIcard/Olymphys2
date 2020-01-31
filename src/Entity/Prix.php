@@ -54,7 +54,7 @@ class Prix
     private $voix;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $intervenant;
 
@@ -158,16 +158,16 @@ class Prix
         return $this;
     }
     /**
-     * Get intervenany
+     * Get intervenant
      *
-     * @return boolean
+     * 
      */
     public function getIntervenant()
     {
         return $this->intervenant;
     }
     /**
-     * @param boolean $intervenant
+     * 
      */
     public function setIntervenant($intervenant)
     {

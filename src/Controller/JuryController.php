@@ -94,6 +94,7 @@ class JuryController extends AbstractController
 			;
 
 		$jure=$repositoryJure->findOneByNomJure($nom);
+    
 		$id_jure = $jure->getId();
                 
  		$attrib = $jure->getAttributions();

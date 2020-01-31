@@ -89,7 +89,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\AcceptHeader;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Filesystem;
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Form\AbstractType;
 
 
@@ -2184,8 +2184,119 @@ public function afficher_liste_fichiers_prof_cn(Request $request, $id_equipe ){
         }
         
     }
+       /**
+         * @IsGranted("IS_AUTHENTICATED_ANONYMOUSLY")
+         * 
+         * @Route("/fichiers/choixedition", name="fichiers_choixedition")
+         * 
+         */    
+        public function choixedition(Request $request)
+        {
+            $repositoryEdition= $this->getDoctrine()
+		->getManager()
+		->getRepository('App:Edition');
+            $qb=$repositoryEdition->createQueryBuilder('e')
+                                      ->orderBy('e.edition', 'DESC');
 
 
+            $Editions = $qb->getQuery()->getResult();
+             return $this->render('adminfichiers/choix_edition.html.twig', [
+                'editions' => $Editions]);
+            
+            
+            
+        }
+        /**
+         *@IsGranted("IS_AUTHENTICATED_ANONYMOUSLY")
+         * 
+         * @Route("/fichiers/voirmemoires,{editionId_concours}", name="fichiers_voirmemoires")
+         * 
+         */    
+        public function voirmemoires(Request $request, $editionId_concours)
+        {   $editionconcours=explode('-',$editionId_concours);
+        
+            $IdEdition = $editionconcours[0];
+            $concours = $editionconcours[1];
+            $repositoryEdition = $this->getDoctrine()
+		->getManager()
+		->getRepository('App:Edition');
+             $repositoryMemoiresinter = $this->getDoctrine()
+		->getManager()
+		->getRepository('App:Memoiresinter');    
+             $repositoryMemoires = $this->getDoctrine()
+		->getManager()
+		->getRepository('App:Memoires'); 
+              $repositoryResumes = $this->getDoctrine()
+		->getManager()
+		->getRepository('App:Resumes'); 
+               $repositoryEquipes = $this->getDoctrine()
+		->getManager()
+		->getRepository('App:Equipesadmin'); 
+              
+            $edition = $repositoryEdition->find(['id'=>$IdEdition]);
+            
+            if ($concours=='cia'){
+               $qb= $repositoryMemoiresinter->createQueryBuilder('m')
+                                      ->leftJoin('m.equipe', 'e')
+                                      ->where('e.selectionnee=:selectionnee')
+                                      ->orderBy('e.lyceeAcademie', 'ASC')
+                                     ->setParameter('selectionnee',FALSE)
+                                      ->andWhere('m.edition=:edition')
+                                      ->setParameter('edition', $edition);
+                $memoirestab=$qb->getQuery()->getResult();
+                $qb3= $repositoryResumes->createQueryBuilder('r')
+                                      ->leftJoin('r.equipe', 'e')
+                                      ->where('e.selectionnee=:selectionnee')
+                                      ->setParameter('selectionnee',FALSE)
+                                      ->orderBy('e.lyceeAcademie', 'ASC')
+                                      ->andWhere('r.edition=:edition')
+                                      ->setParameter('edition', $edition);
+                  $resumestab=$qb3->getQuery()->getResult();
+             }
+            if ($concours=='cn'){
+                $qb= $repositoryMemoires->createQueryBuilder('m')
+                                      ->leftJoin('m.equipe', 'e')
+                                      ->orderBy('e.lettre', 'ASC')
+                                      ->andWhere('m.edition=:edition')
+                                      ->setParameter('edition', $edition);
+               $memoirestab=$qb->getQuery()->getResult();
+               $qb3= $repositoryResumes->createQueryBuilder('r')
+                                      ->leftJoin('r.equipe', 'e')
+                                      ->where('e.selectionnee=:selectionnee')
+                                      ->setParameter('selectionnee',TRUE)
+                                      ->orderBy('e.lettre', 'ASC')
+                                      ->andWhere('r.edition=:edition')
+                                      ->setParameter('edition', $edition);
+               $resumestab=$qb3->getQuery()->getResult();
+            }
+             
+              
+             $i=0;
+            foreach($resumestab as $resume){
+                 $equipe=$resume->getEquipe();
+               $j=0;
+                foreach($memoirestab as $memoire){
+                    
+                
+                    if ($memoire->getEquipe()==$equipe){
+                        $fichiersEquipe[$i][$j]=$memoire;   
+                            $j++;
+                       }
+                }
+                 $fichiersEquipe[$i][$j]=$resume;
+                 $i++;
+              }
+            
+              $content = $this
+                          ->renderView('adminfichiers\affiche_memoires.html.twig',
+                                  array('fichiersequipes'=>$fichiersEquipe,
+                                           'edition'=>$edition, 
+                                            'concours'=>$concours
+                                            )); 
+            return new Response($content); 
+            
+            
+        }
 
 }                 
                    

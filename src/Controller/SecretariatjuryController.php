@@ -1533,8 +1533,13 @@ public function tableau_excel_palmares_jury(Request $request)
                     {
                     $sheet ->setCellValue('A'.$ligne, 'Voix Off' );
                     }
-                $sheet ->setCellValue('E'.$ligne, 'par '.$equipe->getPrix()->getRemisPar() );
-                $inter=$equipe->getPrix()->getIntervenant();
+                $sheet ->setCellValue('D'.$ligne, 'par '.$equipe->getPrix()->getRemisPar() );
+                
+                 $sheet->getStyle('A'.$ligne.':E'.$ligne)->applyFromArray($borderArray);
+                
+                
+                 
+                 $inter=$equipe->getPrix()->getIntervenant();
                 $sheet ->setCellValue('D'.$ligne, $equipe->getPrix()->getPrix() );
                 if($inter)
                     {
@@ -1542,14 +1547,21 @@ public function tableau_excel_palmares_jury(Request $request)
                           ->applyFromArray($styleTitre) ;
                     }
                 }
-                $sheet->getStyle('A'.$ligne.':E'.$ligne)->applyFromArray($borderArray);
+               
     
             
             $ligne +=1; 
             $sheet->getRowDimension($ligne)->setRowHeight(30);
             
             $sheet->mergeCells('B'.$ligne.':D'.$ligne);
-            $sheet->setCellValue('A'.$ligne, 'Voix Off');
+            if($voix)
+                    {
+                    $sheet ->setCellValue('A'.$ligne, $voix );
+                    }
+                else 
+                    {
+                    $sheet ->setCellValue('A'.$ligne, 'Voix Off' );
+                    }
              if ($equipe->getPhrases() != null)
                 {
                 $sheet->setCellValue('B'.$ligne, $equipe->getPhrases()->getPhrase().' '.$equipe->getLiaison()->getLiaison().' '.$equipe->getPhrases()->getPrix());
