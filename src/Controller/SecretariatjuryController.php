@@ -363,8 +363,11 @@ class SecretariatjuryController extends AbstractController
                                ->getManager()
                                ->getRepository('App:Prix');
 	$ListPremPrix = $repositoryPrix->findByClassement('1er');
+        
         $ListDeuxPrix = $repositoryPrix->findByClassement('2ème');
+         
 	$ListTroisPrix = $repositoryPrix->findByClassement('3ème');
+  
         $content = $this->renderView('secretariatjury/lesprix.html.twig',
 			array('ListPremPrix' => $ListPremPrix, 
                               'ListDeuxPrix' => $ListDeuxPrix, 
@@ -1525,8 +1528,9 @@ public function tableau_excel_palmares_jury(Request $request)
             if($equipe->getPrix()!==null)
                 {
                 $voix=$equipe->getPrix()->getVoix();
+                
                 if($voix)
-                    {
+                    { 
                     $sheet ->setCellValue('A'.$ligne, $voix );
                     }
                 else 
@@ -1537,23 +1541,14 @@ public function tableau_excel_palmares_jury(Request $request)
                 
                  $sheet->getStyle('A'.$ligne.':E'.$ligne)->applyFromArray($borderArray);
                 
-                
-                 
-                 $inter=$equipe->getPrix()->getIntervenant();
                 $sheet ->setCellValue('D'.$ligne, $equipe->getPrix()->getPrix() );
-                if($inter)
-                    {
-                    $sheet->getStyle('E'.$ligne)
-                          ->applyFromArray($styleTitre) ;
-                    }
-                }
-               
-    
+                 $sheet->getStyle('A'.$ligne.':E'.$ligne)
+                  ->applyFromArray($styleText) ;
+              $ligne +=1; 
+              $sheet->getRowDimension($ligne)->setRowHeight(30);
+               $sheet->mergeCells('B'.$ligne.':C'.$ligne);
+            $voix=$equipe->getPrix()->getVoix();
             
-            $ligne +=1; 
-            $sheet->getRowDimension($ligne)->setRowHeight(30);
-            
-            $sheet->mergeCells('B'.$ligne.':D'.$ligne);
             if($voix)
                     {
                     $sheet ->setCellValue('A'.$ligne, $voix );
@@ -1561,6 +1556,49 @@ public function tableau_excel_palmares_jury(Request $request)
                 else 
                     {
                     $sheet ->setCellValue('A'.$ligne, 'Voix Off' );
+                    }
+                  $sheet ->setCellValue('B'.$ligne, 'Ce prix sera remis par : ' );   
+                  $sheet ->setCellValue('D'.$ligne, $equipe->getPrix()->getRemisPar() );  
+                   $sheet->getStyle('A'.$ligne.':E'.$ligne)
+                  ->applyFromArray($styleText) ;
+                   
+                   if($equipe->getPrix()->getIntervenant())
+                   {
+                                    $ligne +=1; 
+                                     $sheet->mergeCells('B'.$ligne.':D'.$ligne);
+                                    $voix=$equipe->getPrix()->getVoix();
+
+                              if($voix)
+                                      {
+                                      $sheet ->setCellValue('A'.$ligne, $voix );
+                                      }
+                                  else 
+                                      {
+                                      $sheet ->setCellValue('A'.$ligne, 'Camille' );
+                                      }
+                                      $sheet ->setCellValue('B'.$ligne, $equipe->getPrix()->getIntervenant() );   
+                                      $sheet->mergeCells('B'.$ligne.':D'.$ligne);
+                                       $sheet->getStyle('A'.$ligne.':D'.$ligne)
+                                    ->applyFromArray($styleText) ;
+                      $sheet->getStyle('A'.$ligne.':E'.$ligne)->applyFromArray($borderArray);
+                   }
+                    }
+               
+    
+            
+            $ligne +=1; 
+            $sheet->getRowDimension($ligne)->setRowHeight(30);
+            
+            $sheet->mergeCells('B'.$ligne.':D'.$ligne);
+            $voix=$equipe->getPrix()->getVoix();
+            
+            if($voix)
+                    {
+                    $sheet ->setCellValue('A'.$ligne, $voix );
+                    }
+                else 
+                    {
+                    $sheet ->setCellValue('A'.$ligne, 'Camille' );
                     }
              if ($equipe->getPhrases() != null)
                 {

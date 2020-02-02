@@ -2252,6 +2252,15 @@ public function afficher_liste_fichiers_prof_cn(Request $request, $id_equipe ){
                                       ->andWhere('r.edition=:edition')
                                       ->setParameter('edition', $edition);
                   $resumestab=$qb3->getQuery()->getResult();
+                   $qb2= $repositoryEquipes->createQueryBuilder('e')
+                                      ->where('e.selectionnee=:selectionnee')
+                                      ->setParameter('selectionnee',FALSE)
+                                      ->orderBy('e.lyceeAcademie', 'ASC');
+                                     
+                  $listeequipe=$qb2->getQuery()->getResult();
+                  
+                  
+                  
              }
             if ($concours=='cn'){
                 $qb= $repositoryMemoires->createQueryBuilder('m')
@@ -2268,18 +2277,32 @@ public function afficher_liste_fichiers_prof_cn(Request $request, $id_equipe ){
                                       ->andWhere('r.edition=:edition')
                                       ->setParameter('edition', $edition);
                $resumestab=$qb3->getQuery()->getResult();
+               $qb2= $repositoryEquipes->createQueryBuilder('e')
+                                      ->where('e.selectionnee=:selectionnee')
+                                      ->setParameter('selectionnee',TRUE)
+                                      ->orderBy('e.lyceeAcademie', 'ASC');
+                                      
+                  $listeequipe=$qb2->getQuery()->getResult();
             }
              
               
              $i=0;
-            foreach($resumestab as $resume){
-                 $equipe=$resume->getEquipe();
+            foreach($listeequipe as $equipe){
+                 
                $j=0;
                 foreach($memoirestab as $memoire){
                     
                 
                     if ($memoire->getEquipe()==$equipe){
                         $fichiersEquipe[$i][$j]=$memoire;   
+                            $j++;
+                       }
+                } 
+                 foreach($resumestab as $resume){
+                    
+                
+                    if ($resume->getEquipe()==$equipe){
+                        $fichiersEquipe[$i][$j]=$resume;   
                             $j++;
                        }
                 }

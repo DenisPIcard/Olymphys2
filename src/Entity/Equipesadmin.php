@@ -131,12 +131,18 @@ class Equipesadmin
      * @ORM\Column(name="nom_prof2", type="string", length=255, nullable=true)
      */
     private $nomProf2; 
-    
-    /**
+     /**
      * @var string
+     *
      * @ORM\Column(name="rne", type="string", length=255, nullable=true)
      */
-    private $rne;
+    
+   private $rne; 
+    /**
+     *  @ORM\ManyToOne(targetEntity="App\Entity\Rne")
+     * @ORM\JoinColumn(name ="rne_id", referencedColumnName = "id",nullable=true)
+     */
+    private $rneId;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\User", mappedBy="id")
@@ -566,6 +572,28 @@ class Equipesadmin
     public function setRne($rne)
     {
         $this->rne=$rne;
+        return $this;
+    }
+    
+     /**
+     * Get rneId
+     *
+     * 
+     */
+    public function getRneId()
+    {
+       return  $this->rneId;
+    }
+    /**
+     * Set rne
+     *
+     * 
+     *
+     * @return Equipesadmin
+     */
+    public function setRneId($rne_id)
+    {
+        $this->rneId=$rne_id;
         return $this;
     }
     

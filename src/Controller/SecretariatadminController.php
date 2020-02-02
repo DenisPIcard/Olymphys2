@@ -638,7 +638,37 @@ class SecretariatadminController extends AbstractController
                         ->renderView('secretariatadmin\charge_donnees_excel.html.twig', array('titre'=>'Remplissage de la table Jurés','form'=>$form->createView(),));
                 return new Response($content);
         }
-        
-        
+        /**
+	* @Security("is_granted('ROLE_SUPER_ADMIN')")
+         * 
+         * @Route("/secretariatadmin/charge_equipe_id_rne", name="secretariatadmin_charge_equipe_id_rne")
+         * 
+         */
+	public function charge_equipe_id_rne(Request $request)
+	{ 
+                    $repositoryEquipes=$this->getDoctrine()
+			->getManager()
+			->getRepository('App:Equipesadmin');
+                   $repositoryRne=$this->getDoctrine()
+			->getManager()
+			->getRepository('App:Rne');
+                  $equipes= $repositoryEquipes->findAll();
+                  $em=$this->getDoctrine()->getManager();
+                  $rnes= $repositoryRne->findAll();
+                  foreach($equipes as $equipe){
+                      foreach($rnes as $rne){
+                          if ($rne->getRne()==$equipe->getRne()){
+                          $equipe->setRneId($rne);
+                          }
+                      } 
+                   $em->persist($equipe);
+                   $em->flush();
+                      
+                          }
+                 return $this->redirectToRoute('core_home');
+       
+            
+          
+                   }
         
 }
