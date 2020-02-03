@@ -11,9 +11,9 @@ easy_admin :
                     - 'prix'
                     - 'classement'
                     - 'attribue' 
-                    - { property: 'voix', type_options :{disabled: true}} 
-                    - { property: 'intervenant', type_options :{disabled: true}} 
-                    - { property: 'remisPar', type_options :{disabled: true}}
+                    - { property: 'voix'} 
+                    - { property: 'intervenant'} 
+                    - { property: 'remisPar'}
                     
             
         Visites :

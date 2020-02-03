@@ -16,7 +16,7 @@ easy_admin:
                 fields: 
                        - { property : 'lettre', type : 'text' , type_options :{disabled: true}}
                        - { property : 'titreprojet', type : 'text' , type_options :{disabled: false}}
-                       - { property : 'classement', type : 'text' , type_options :{disabled: true}}
+                       - { property : 'classement', type : 'text'}
                        - { property : 'prix', type : 'easyadmin_autocomplete'}
                        - { property : 'prix', label: 'Prix' ,type : 'entity' , type_options : { class : 'App\Entity\Prix', query_builder : 'App\Repository\PrixRepository::getListPrix', 'choice_label' : 'getPrix'}} 
                        - { property : 'cadeau', type : 'entity' , type_options : { class : 'App\Entity\Cadeaux', query_builder : 'App\Repository\CadeauxRepository::getCadeaux', 'choice_label' : 'getContenu'}}
