@@ -10,7 +10,7 @@
     {% if concours=='cn' %}
     Liste des memoires des épreuves nationales 
     {% endif %}
-    
+   {%  dump(edition) %}
     de la {{edition.ed}}<sup>e</sup> édition.
     {% endblock %}
 
@@ -78,7 +78,7 @@
  
     <div class="well" >
        
-            <center><a href="{{ path('fichiers_choixedition')  }}" >Retour au choix des mémoires</a></center>
+            <center><a href="{{ path('fichiers_choixedition',{type_fichier:'memoire'})  }}" >Retour au choix des mémoires</a></center>
         
     </div>
        

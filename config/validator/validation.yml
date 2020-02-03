@@ -60,4 +60,12 @@ App\Entity\Photoscnthumb:
        photoFile:
             - File:
                 mimeTypes: [image/jpeg] 
-                mimeTypesMessage: Veuillez télécharger un fichier du bon format                
+                mimeTypesMessage: Veuillez télécharger un fichier du bon format
+                
+App\Entity\Presentation:
+    properties:
+       presentationFile:
+            - File:
+                maxSize: 10000k
+                mimeTypes:  [application/pdf, application/x-pdf] 
+                mimeTypesMessage: Veuillez télécharger un fichier du bon format  

@@ -1,18 +1,26 @@
 {% extends "base.html.twig" %}
+ {% if type_fichier=='presentation' %}
+  {% set type_fichier = 'présentation' %}
+  {% endif %}
 
+{% block title %} Choix des {{type_fichier}}s{% endblock %}
+{% block titre3 %} Choisir les {{type_fichier}}s{% endblock %}
 
-{% block title %} Choix des mémoires{% endblock %}
-
-
-
-{% block titre3 %} Choisir les mémoires {% endblock %}
+{% if type_fichier=='présentation' %}
+  {% set type_fichier = 'presentation' %}
+  {% endif %}
 
 
 {% block body %}
+    {% for message in app.session.flashbag.get('info') %}
+    <div class="alert alert-info"> {{ message }}</div>
+  {% endfor %} 
+    
+
   {% for edition in editions %}
       <h2>La {{ edition.ed}}<sup>e</sup>  édition </h2>
-      <li><a  class="button" href="{{ path('fichiers_voirmemoires',{editionId_concours : edition.id~'-cia'})}}" >Concours interacadémiques</a>
-      <li><a  class="button" href="{{ path('fichiers_voirmemoires',{editionId_concours : edition.id~'-cn'})}}" >Concours national</a>
+      {# <li><a  class="button" href="{{ path('fichiers_voir'~type_fichier~'s',{editionId_concours : edition.id~'-cia'})}}" >Concours interacadémiques</a> #}
+      <li><a  class="button" href="{{ path('fichiers_voir'~type_fichier~'s',{editionId_concours : edition.id~'-cn'})}}" >Concours national</a>
       <hr>
  {% endfor %}
       
@@ -20,7 +28,11 @@
   
 
       
- 
+ <div class="well" >
+       
+            <center><a href="{{ path('core_home')}}" >Retour à la page d'accueil</a></center>
+        
+    </div>
     
        
    

@@ -1,0 +1,61 @@
+{% extends "base.html.twig" %}
+{% block title %} Liste des presentations{% endblock %}
+
+
+
+{% block titre3 %}
+   
+    {% if concours=='cn' %}
+    Liste des présentations des épreuves nationales 
+    {% endif %}
+    {% dump(edition.ed) %}
+   de la {{edition.ed}}<sup>e</sup> édition.
+    {% endblock %}
+
+
+{% block body %}
+    <div class="well">
+    
+                          
+        {% for fichier in fichiersequipes %}
+         
+             <div class="col">
+      
+                      {% set presentation=fichier %}
+    
+                  {% if presentation is not null %}
+                    Eq {{presentation.equipe.lettre}}-
+                    <a href="{{asset('/upload/equipes/presentations/'~presentation.presentation)}}" target="blank">{{presentation.equipe.titreProjet}}</a>
+              
+                    <h8><i>Lycée {{presentation.equipe.rneId.nom}}, {{presentation.equipe.rneId.commune}} </i> </h8>
+                    {% endif %}
+                                      
+                   
+                  
+                </div>
+                
+              {% endfor %}
+           
+           
+        </div>
+          
+ 
+    <div class="well" >
+       
+            <center><a href="{{ path('fichiers_choixedition',{type_fichier:'presentation'})  }}" >Retour au choix des présentations</a></center>
+        
+    </div>
+       
+    {% block javascripts %}
+        <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js" ></script> 
+        {#<script src="./coverage/bs-custom-file-input.js"></script>#}
+        <script>
+            {# $(document).ready(function () {
+                bsCustomFileInput.init()
+            })#}
+                bsCustomFileInput.init()
+        </script>
+    {% endblock %}  
+{% endblock %}
+
+

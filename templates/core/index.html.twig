@@ -114,14 +114,15 @@
                 <a  class="dropdown-item" href="{{ path('fichiers_choix_equipe_prof',{type_fichier : 'fichesecur' })}}" class="btn btn-outline-primary" role="button" aria-pressed="true">Téléverser la fiche sécurité de mon équipe</a>
                 <a  class="dropdown-item" href="{{ path('fichiers_choix_equipe_prof',{type_fichier : 'memoire'}) }}" class="btn btn-outline-primary"  role="button" aria-pressed="true">Téléverser le mémoire ou l'annexe de mon équipe </a> 
                 <a  class="dropdown-item" href="{{ path('fichiers_choix_equipe_prof', {type_fichier : 'resume'}) }}" class="btn btn-outline-primary"  role="button" aria-pressed="true">Téléverser le résumé de mon équipe </a> 
+                <a  class="dropdown-item" href="{{ path('fichiers_choix_equipe_prof', {type_fichier : 'presentation'}) }}" class="btn btn-outline-primary"  role="button" aria-pressed="true">Téléverser la présentation de mon équipe </a>
                 <a  class="dropdown-item" href="{{ path('fichiers_voir_mesfichiers') }}" class="btn btn-outline-primary"  role="button" aria-pressed="true">Voir la liste de mes fichiers déposés </a>
             </div>
 
     {% endif %}
     </li>
     <li><a href="{{path('photos_choixedition')}}" class="btn btn-primary" role="button" aria-pressed="true">Galeries Photos</a></li>
-    <li><a href="{{path('fichiers_choixedition')}}" class="btn btn-primary" role="button" aria-pressed="true">Mémoires</a></li>
-    <li><a href="#" class="btn btn-outline-primary" role="button" aria-pressed="true">Présentations</a></li>
+    <li><a href="{{path('fichiers_choixedition',{type_fichier:'memoire'})}}" class="btn btn-primary" role="button" aria-pressed="true">Mémoires</a></li>
+    <li><a href="{{path('fichiers_choixedition',{type_fichier:'presentation'})}}" class="btn btn-primary" role="button" aria-pressed="true">Présentations</a></li>
     
 </ul>
 </nav>

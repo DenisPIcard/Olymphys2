@@ -82,3 +82,13 @@ vich_uploader:
             namer: 
                 service: vich_uploader.namer_property
                 options: { property: 'personalNamer'}
+                
+        presentation :
+            uri_prefix: '%app.path.presentation%'
+            upload_destination: '%app.path.presentation%'
+            inject_on_load: true
+            delete_on_update: true
+            delete_on_remove: true
+            namer: 
+                service: vich_uploader.namer_property
+                options: { property: 'personalNamer'}

@@ -16,7 +16,7 @@ parameters:
     app.path.photosinterthumb:  '%kernel.project_dir%/public/upload/images/27/int/thumb'     #sur le site /../public/upload/images/27/int/thumb 
     app.path.photosnatthumb: '%kernel.project_dir%/public/upload/images/27/nat/thumb'      #sur le site /../public/upload/images/27/nat/thumb
     app.path.photosnat :  '%kernel.project_dir%/public/upload/images/27/nat'      #sur le site /../public/upload/images/27/nat
-
+    app.path.presentation :  '%kernel.project_dir%/public/upload/equipes/presentations' 
 services:
     # default configuration for services in *this* file
     _defaults:
