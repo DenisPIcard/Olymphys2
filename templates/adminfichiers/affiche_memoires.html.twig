@@ -47,10 +47,14 @@
                         {{memoire.equipe.lettre}} - 
                      <a href="{{asset('/upload/equipes/memoires/nat/'~memoire.memoire)}}">{{memoire.equipe.titreProjet}}</a>
                     {% endif %}
-                  
                     <h8><i>Lycée {{memoire.equipe.rneId.nom}}, {{memoire.equipe.rneId.commune}} </i> </h8>
-                    {% endif %}
-                     
+                  {% endif %}
+                     {% if memoire is null %}
+                              {% if resume is not null %}
+                               <h8><i>Lycée {{resume.equipe.rneId.nom}}, {{resume.equipe.rneId.commune}} </i> </h8>
+                              
+                              {% endif %}
+                     {% endif %}
                     
                     (
                     {% if annexe is not null %}

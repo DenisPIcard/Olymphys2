@@ -19,7 +19,9 @@
 
   {% for edition in editions %}
       <h2>La {{ edition.ed}}<sup>e</sup>  édition </h2>
-      {# <li><a  class="button" href="{{ path('fichiers_voir'~type_fichier~'s',{editionId_concours : edition.id~'-cia'})}}" >Concours interacadémiques</a> #}
+      {% if type_fichier != 'presentation' %}
+      <li><a  class="button" href="{{ path('fichiers_voir'~type_fichier~'s',{editionId_concours : edition.id~'-cia'})}}" >Concours interacadémiques</a> 
+          {% endif %}
       <li><a  class="button" href="{{ path('fichiers_voir'~type_fichier~'s',{editionId_concours : edition.id~'-cn'})}}" >Concours national</a>
       <hr>
  {% endfor %}
