@@ -16,9 +16,9 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Vich\UploaderBundle\Naming\NamerInterface;
 use Vich\UploaderBundle\Naming\PropertyNamer;
 /**
- * Fichiersequipes
+ * Presentation
  * @Vich\Uploadable
- * @ORM\Table(name="Presentation")
+ * @ORM\Table(name="presentation")
  * @ORM\Entity(repositoryClass="App\Repository\PresentationRepository")
  * 
  */
