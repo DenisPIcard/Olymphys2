@@ -63,7 +63,7 @@
                             </div>
                         {% endif %}
                          {% if  type_fichier=='presentation' %}
-                             {% dump(type_fichier) %}
+                             
                             <div class="col">
                                 {% set infos =  equipe.id ~ '-' ~ type_fichier %}
                                 <a class="btn btn-primary" href="{{ path('fichiers_confirme_charge_fichessecur_resume', {'infos': infos} ) }}" >Choisir cette équipe</a>

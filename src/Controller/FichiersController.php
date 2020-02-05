@@ -713,7 +713,7 @@ public function choix_equipe_prof(Request $request, $type_fichier) {
     $dateconnect= new \datetime('now');
     
      if ($dateconnect>$datelimnat)  {
-         $phase='national.';
+         $phase='national';
     if ($type_fichier== 'presentation'){
         $qb1 =$repositoryEquipesadmin->createQueryBuilder('t')
                              ->where('t.idProf1=:professeur')
@@ -1893,6 +1893,9 @@ public function afficher_liste_fichiers_prof(Request $request , $id_equipe){//po
     $repositoryFichessecur= $this->getDoctrine()
                                  ->getManager()
                                  ->getRepository('App:Fichessecur');
+    $repositoryPresentation= $this->getDoctrine()
+                                 ->getManager()
+                                 ->getRepository('App:Presentation');
       $repositoryEdition= $this->getDoctrine()
                                  ->getManager()
                                  ->getRepository('App:Edition');
@@ -1908,6 +1911,8 @@ public function afficher_liste_fichiers_prof(Request $request , $id_equipe){//po
     $memoiresinter= $repositoryMemoiresinter->findByEquipe(['equipe'=>$equipe_choisie]);
     $fiche_securit = $repositoryFichessecur->findOneByEquipe(['equipe'=>$equipe_choisie]);    
     $resume= $repositoryResumes->findOneByEquipe(['equipe'=>$equipe_choisie]); 
+    $presentation= $repositoryPresentation->findOneByEquipe(['equipe'=>$equipe_choisie]);
+   
      if (($dateconnect>$datelimcia) and ($dateconnect<$datelimnat)) {//inutile pour les prof , pour les comités et jury
         $concours = 'national';
        
@@ -2017,6 +2022,36 @@ public function afficher_liste_fichiers_prof(Request $request , $id_equipe){//po
                 }
             $i=$i+1;
             }
+  if ($presentation){
+            $id = $presentation->getId();
+            $formBuilder[$i]=$this->get('form.factory')->createNamedBuilder('Form'.$i, FormType::class,$resume);  
+            $formBuilder[$i] ->add('id',  HiddenType::class, ['disabled'=>true, 'label'=>false])
+                             ->add('memoire', TextType::class,['disabled'=>true,  'label'=>false,'data'=>$presentation->getPresentation(), 'mapped'=>false])
+                             ->add('save', submitType::class);
+            $Form[$i]=$formBuilder[$i]->getForm();
+            $formtab[$i]=$Form[$i]->createView();
+            if ($request->isMethod('POST') ) 
+                {
+                if ($request->request->has('Form'.$i)) {
+                    $id=$Form[$i]->get('id')->getData();
+                    $presentation=$repositoryPresentation->find(['id'=>$id]);
+                    $presentationName=$this->getParameter('app.path.presentation').'/'.$presentation->getPresentation();
+                    if(null !==$resumeName)
+                        {
+                        $response = new BinaryFileResponse($presentationName);
+                        $disposition = HeaderUtils::makeDisposition(
+                                                        HeaderUtils::DISPOSITION_ATTACHMENT,
+                                                        $resume->getResume()
+                                                            );
+                        $response->headers->set('Content-Type', 'application/pdf'); 
+                        $response->headers->set('Content-Disposition', $disposition);
+                        return $response; 
+                        }
+                    }
+                }
+            $i=$i+1;
+            }           
+            
         if ($request->isMethod('POST') ) 
             {
             if ($request->request->has('FormAll')) {         
@@ -2040,6 +2075,12 @@ public function afficher_liste_fichiers_prof(Request $request , $id_equipe){//po
                         $Resume=$this->getParameter('app.path.resumes').'/'.$resume->getResume();
                         if ($Resume){
                             $zipFile->addFromString(basename($Resume),  file_get_contents($Resume));}
+                        }
+                        
+                     if ($presentation){
+                        $Presentation=$this->getParameter('app.path.presentation').'/'.$presentation->getPresentation();
+                        if ($Presentation){
+                            $zipFile->addFromString(basename($Presentation),  file_get_contents($Presentation));}
                         }
                     if ($fichesecurit){
                         $fichesecur=$this->getParameter('app.path.fichessecur').'/'.$fichesecurit->getFiche();
@@ -2119,6 +2160,9 @@ public function afficher_liste_fichiers_prof_cn(Request $request, $id_equipe ){
     $repositoryResumes= $this->getDoctrine()
                               ->getManager()
                               ->getRepository('App:Resumes');
+    $repositoryPresentation= $this->getDoctrine()
+                              ->getManager()
+                              ->getRepository('App:Presentation');
     $repositoryEdition= $this->getDoctrine()
                                  ->getManager()
                                  ->getRepository('App:Edition');
@@ -2134,6 +2178,8 @@ public function afficher_liste_fichiers_prof_cn(Request $request, $id_equipe ){
     $lettre_equipe=$equipe_choisie->getLettre();
     $memoiresnat =   $repositoryMemoiresnat->findByEquipe(['equipe'=>$equipe_choisie]);
     $resume= $repositoryResumes->findOneByEquipe(['equipe'=>$equipe_choisie]); 
+    $presentation= $repositoryPresentation->findOneByEquipe(['equipe'=>$equipe_choisie]);
+   
      if (($dateconnect>=$datelimcia) ) {
         $concours = 'national';
         $infoequipe=$equipe_choisie->getInfoequipenat();
@@ -2204,6 +2250,35 @@ public function afficher_liste_fichiers_prof_cn(Request $request, $id_equipe ){
                 }
             $i=$i+1;
     }
+    if ($presentation){
+            $id = $presentation->getId();
+            $formBuilder[$i]=$this->get('form.factory')->createNamedBuilder('Form'.$i, FormType::class,$presentation);  
+            $formBuilder[$i] ->add('id',  HiddenType::class, ['disabled'=>true, 'label'=>false])
+                             ->add('memoire', TextType::class,['disabled'=>true,  'label'=>false,'data'=>$presentation->getPresentation(), 'mapped'=>false])
+                             ->add('save', submitType::class);
+            $Form[$i]=$formBuilder[$i]->getForm();
+            $formtab[$i]=$Form[$i]->createView();
+            if ($request->isMethod('POST') ) 
+                {
+                if ($request->request->has('Form'.$i)) {
+                    $id=$Form[$i]->get('id')->getData();
+                    $presentation=$repositoryPresentation->find(['id'=>$id]);
+                    $presentationName=$this->getParameter('app.path.presentation').'/'.$presentation->getPresentation();
+                    if(null !==$presentationName)
+                        {
+                        $response = new BinaryFileResponse($presentationName);
+                        $disposition = HeaderUtils::makeDisposition(
+                                                        HeaderUtils::DISPOSITION_ATTACHMENT,
+                                                        $resume->getResume()
+                                                            );
+                        $response->headers->set('Content-Type', 'application/pdf'); 
+                        $response->headers->set('Content-Disposition', $disposition);
+                        return $response; 
+                        }
+                    }
+                }
+            $i=$i+1;
+            }        
         if ($request->isMethod('POST') ) 
             {
             if ($request->request->has('FormAll')) {         
@@ -2224,7 +2299,11 @@ public function afficher_liste_fichiers_prof_cn(Request $request, $id_equipe ){
                         if ($Resume){
                             $zipFile->addFromString(basename($Resume),  file_get_contents($Resume));}
                         }
-                    
+                     if ($presentation){
+                        $Presentation=$this->getParameter('app.path.presentation').'/'.$presentation->getPresentation();
+                        if ($Presentation){
+                            $zipFile->addFromString(basename($Presentation),  file_get_contents($Presentation));}
+                        }
                     $zipFile->close();
                     $response = new Response(file_get_contents($FileName));//voir https://stackoverflow.com/questions/20268025/symfony2-create-and-download-zip-file
                     $disposition = HeaderUtils::makeDisposition(
@@ -2379,6 +2458,7 @@ public function afficher_liste_fichiers_prof_cn(Request $request, $id_equipe ){
                $memoirestab=$qb->getQuery()->getResult();
                $qb3= $repositoryResumes->createQueryBuilder('r')
                                       ->leftJoin('r.equipe', 'e')
+                                      ->orderBy('e.lettre', 'ASC')
                                       ->where('e.selectionnee=:selectionnee')
                                       ->setParameter('selectionnee',TRUE)
                                       ->orderBy('e.lettre', 'ASC')
@@ -2388,7 +2468,7 @@ public function afficher_liste_fichiers_prof_cn(Request $request, $id_equipe ){
                $qb2= $repositoryEquipes->createQueryBuilder('e')
                                       ->where('e.selectionnee=:selectionnee')
                                       ->setParameter('selectionnee',TRUE)
-                                      ->orderBy('e.lyceeAcademie', 'ASC');
+                                      ->orderBy('e.lettre', 'ASC');
                                       
                   $listeequipe=$qb2->getQuery()->getResult();
             }
@@ -2417,10 +2497,12 @@ public function afficher_liste_fichiers_prof_cn(Request $request, $id_equipe ){
                             $j++;
                        }
                 }
-                 $fichiersEquipe[$i][$j]=$resume;
+                 
+                 
              }
                  $i++;
               }
+              
             if ($fichiersEquipe !== null){
               $content = $this
                           ->renderView('adminfichiers\affiche_memoires.html.twig',
