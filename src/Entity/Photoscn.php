@@ -71,7 +71,7 @@ class Photoscn
      
      /**
        *  
-       * @ORM\OneToOne(targetEntity="App\Entity\Photoscnthumb")
+       * @ORM\OneToOne(targetEntity="App\Entity\Photoscnthumb",orphanRemoval=true)
        * @ORM\JoinColumn(name="thumb_id",  referencedColumnName="id" )
        */
       private $thumb;

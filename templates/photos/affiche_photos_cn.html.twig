@@ -23,42 +23,43 @@
         {% set n= 0 %}
          {% for photo in liste_photos %}
              
-             {%if photo.equipe.lettre == equipe.lettre %}
+             {%if photo.equipe.id == equipe.id %}
                  {% set n= n+1%}
              {%endif %}
           {% endfor %}       
       {%  if n >0 %}         
           <div class="col-lg-2   col-sm-3">
-              <a href="{{path('photos_galleryphotos',{infos: 'national-'~edition~'-'~equipe.id})}}"><h8> <button type="button" class="btn btn-primary">{{equipe.lettre}} </button> </h8> </a>
+              {%  set titre = equipe.titreProjet[0:40] %}
+              <a href="{{path('photos_galleryphotos',{infos: 'national-'~edition~'-'~equipe.id})}}"><h8> <button type="button" class="btn btn-primary"><font size="-2">{{equipe.lettre}} -{{ titre}}</font> </button> </h8> </a>
           
     <div id="carousel{{equipe.lettre}}" class="carousel slide" data-ride="carousel">
        
            <div class="carousel-inner">
               {% set i = 1 %} 
-         {% for photo in liste_photos %}
+         {% for photo in liste_photos  if i<5 %}
              
-             {%if photo.equipe.lettre == equipe.lettre %}
+             {%if photo.equipe.lettre == equipe.lettre%}
                  {% if i==1 %}
                      
                  <div class="carousel-item active" data-interval="5000">
-                           <a href="{{asset('/upload/images/'~edition~'/nat/'~photo.photo)}}">        
+                           <a href="{{path('photos_galleryphotos',{infos: 'national-'~edition~'-'~equipe.id})}}">        
                                <div class="parent">
                                    <center><div style="background:black">          <img src=" {{asset('/upload/images/'~edition~'/nat/thumb/'~photo.photo) }}"   alt="{{photo.equipe.TitreProjet }}"></div></center>
                                </div>
                            </a>
-                           <center><div style="background:black;"> <font color="white" size="-2">photo {{i}}/{{n}}</font></div></center>
+                            {# <center><div style="background:black;"> <font color="white" size="-2">photo {{i}}/{{n}}</font></div></center> #}
                  </div>
                     
                            {% endif %}
                             {% if i>1 %}
                    <div class="carousel-item" >
                        
-                        <a href="{{asset('/upload/images/'~edition~'/nat/'~photo.photo)}}">                
+                        <a href="{{path('photos_galleryphotos',{infos: 'national-'~edition~'-'~equipe.id})}}}">                
                            <div class="parent">
                                <center><div style="background:black;"><img src=" {{asset('/upload/images/'~edition~'/nat/thumb/'~photo.photo) }}"   alt="{{photo.equipe.TitreProjet}}"></div></center>
                            </div>
                             </a> 
-                           <center><div style="background:black"> <font color="white" size="-2"> photo {{i}}/{{n}}</font></div></center>
+                           {# <center><div style="background:black"> <font color="white" size="-2"> photo {{i}}/{{n}}</font></div></center> #}
                 </div>  
                 {% endif %}
                 {% set i= i+1 %}
@@ -83,7 +84,7 @@
               {%endif %}
           
           {% endif %}          
-    
+    </a>
                  
             
 {%endfor %}

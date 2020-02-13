@@ -332,17 +332,27 @@ class Equipesadmin
     }
     public function getInfoequipenat()
     {   
+        if ($this->getSelectionnee()==TRUE){
+             
+            
+            
+            $infoequipe=$this->getTitreProjet() ;
+          
         
-        $Lettre=$this->getLettre();
-        if ($this->getLettre())
+        }
+        $lettre=$this->getLettre();
+        if ($lettre) 
         {
-        
+        $Lettre=$this->getLettre();
         
         $nom_equipe=$this->getTitreProjet() ;
         $ville=$this->getLyceeLocalite();
         
-        $infoequipe= 'Eq '.$Lettre.' - '.$nom_equipe.'-'.$ville;        
-        return $infoequipe;}
+        $infoequipe= 'Eq '.$Lettre.' - '.$nom_equipe.'-'.$ville;   
+        }   
+        if ($infoequipe){
+        return $infoequipe;
+        }
     }
     
 
@@ -612,7 +622,7 @@ class Equipesadmin
        return $this->getPrenomProf2().' '.$this->getNomProf2();
    }
 
-   public function getIdProf1(): int
+   public function getIdProf1()
    {
        return $this->idProf1;
    }

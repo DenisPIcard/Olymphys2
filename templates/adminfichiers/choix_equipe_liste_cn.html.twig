@@ -15,6 +15,7 @@
         <table> 
             {%set i = 0 %} 
     {% for equipe in liste_equipes %}
+        {% if equipe.lettre != null %}
         <div class="row">
             <div class="col">
                 {% if memoire_dep[i] ==true %}
@@ -35,6 +36,7 @@
                 </div>
                  
      </div>
+     {% endif %}
     {% endfor %}
            
         </table>

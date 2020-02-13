@@ -510,7 +510,28 @@ class AdminController extends EasyAdminController
               $entityManager->flush();
           }
         }
-        
+        if ($class=='App\Entity\Photoscn'){
+            $repositoryPhotoscn=$this->getDoctrine()->getRepository('App:Photoscn');
+            $id= $this->request->query->get('id');
+            $image= $repositoryPhotoscn->find(['id'=>$id]);
+            $thumb=$repositoryPhotoscn->find(['id'=>$id])->getThumb();
+            $image->setThumb(null);
+            $entityManager->remove($thumb);
+            $entityManager->flush();
+            
+            
+        }
+         if ($class=='App\Entity\Photosinter'){
+            $repositoryPhotosinter=$this->getDoctrine()->getRepository('App:Photosinter');
+            $id= $this->request->query->get('id');
+            $image= $repositoryPhotosinter->find(['id'=>$id]);
+            $thumb=$repositoryPhotosinter->find(['id'=>$id])->getThumb();
+            $image->setThumb(null);
+            $entityManager->remove($thumb);
+            $entityManager->flush();
+            
+            
+        }
       return parent::deleteAction();
     }
     

@@ -326,8 +326,15 @@ class PhotosController extends  AbstractController
                      ->where('e.selectionnee = TRUE')
                      ->orderBy('e.lettre','ASC');
              $liste_equipes=$qb1->getQuery()->getResult();
-             $qb2 =$repositoryPhotoscn->createQueryBuilder('p');
+             
+             
+             
+             $qb2 =$repositoryPhotoscn->createQueryBuilder('p')
+                     ->leftJoin('p.equipe', 'e')
+                     ->orderBy('e.lettre','ASC');
+            
              $liste_photos=$qb2->getQuery()->getResult();
+             
              //dd($liste_photos);
              //$liste_photos=$repositoryPhotosinter->findByEdition(['edition'=>$edition]);
              if ($liste_photos)
