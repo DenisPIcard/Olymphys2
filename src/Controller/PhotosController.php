@@ -166,9 +166,9 @@ class PhotosController extends  AbstractController
                          //$fileName=$edition->getEd().'-eq-'.$numero_equipe.'-'.$nom_equipe.'-'.uniqid().'.'.$file->guessExtension();//inutile avec vichuploader
                          
                          list($width_orig, $height_orig) = getimagesize($photo->getPhotoFile());
-                         
+                         $headers = exif_read_data($photo->getPhotoFile());
                          $dim=max($width_orig, $height_orig);
-                       
+                        dd($headers);
                           
                          $percent = 200/$height_orig;
                                                 
