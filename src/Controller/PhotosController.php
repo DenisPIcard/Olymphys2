@@ -168,7 +168,7 @@ class PhotosController extends  AbstractController
                          list($width_orig, $height_orig) = getimagesize($photo->getPhotoFile());
                          $headers = exif_read_data($photo->getPhotoFile());
                          $dim=max($width_orig, $height_orig);
-                        dd($headers);
+                       
                           
                          $percent = 200/$height_orig;
                                                 
