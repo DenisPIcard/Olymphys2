@@ -20,7 +20,7 @@ easy_admin :
                    - {property: 'equipe.centre.centre', label: 'Centre'}
                    - {property : 'equipe.numero', label: 'Numero équipe'}
                    - {property: 'equipe.titreprojet', label : 'Projet'}
-                   - {property : 'photo',  template : 'Admin\customizations\vich_uploader_image.html.twig', base_path: '/../public/upload/images/27/int/', propertyFile: 'photoFile'}
+                   - {property : 'photo',  template : 'Admin\customizations\vich_uploader_image_inter.html.twig', base_path: '/../public/upload/images/27/int/', propertyFile: 'photoFile'}
                    - {property: 'updatedAt', label : 'Déposé le '} 
                   sort: ['equipe.centre','ASC']
                   
