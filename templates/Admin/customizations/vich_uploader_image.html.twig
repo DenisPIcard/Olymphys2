@@ -8,10 +8,10 @@
     
     
     
-    <img src="{{ asset('/upload/images/27/nat/thumb/'~ value)}}">
+    <img src="{{ asset('/upload/images/'~item.edition.ed~'/nat/thumb/'~ value)}}">
 </a>
 
 <div id="easyadmin-lightbox-{{ item.id }}" class="easyadmin-lightbox">
     {# the second parameter is the name of the property with the UploadableField annotation #}
-    <img src="{{ asset( '/upload/images/27/nat/thumb/'~ value)}}">
+    <img src="{{ asset( '/upload/images/'~item.edition.ed~'/nat/thumb/'~ value)}}">
 </div>
