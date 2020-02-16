@@ -30,15 +30,15 @@
       {%  if n >0 %}         
           <div class="col-lg-2   col-sm-3">
               {%  set titre = equipe.titreProjet[0:40] %}
-              <a href="{{path('photos_galleryphotos',{infos: 'national-'~edition~'-'~equipe.id})}}"><h8> <button type="button" class="btn btn-primary"><font size="-2">{{equipe.lettre}} -{{ titre}}</font> </button> </h8> </a>
+              <a href="{{path('photos_galleryphotos',{infos: 'national-'~edition~'-'~equipe.id})}}"><h8> <button type="button" class="btn btn-primary"><font size="-2">{{equipe.lettre}}  {{ titre}}</font> </button> </h8> </a>
           
-    <div id="carousel{{equipe.lettre}}" class="carousel slide" data-ride="carousel">
+    <div id="carousel{{equipe.id}}" class="carousel slide" data-ride="carousel">
        
            <div class="carousel-inner">
               {% set i = 1 %} 
          {% for photo in liste_photos  if i<5 %}
              
-             {%if photo.equipe.lettre == equipe.lettre%}
+             {% if photo.equipe.id == equipe.id %}
                  {% if i==1 %}
                      
                  <div class="carousel-item active" data-interval="5000">
@@ -67,11 +67,11 @@
          {% endfor %}
        </div>
       
-          <a class="carousel-control-prev" href="#carousel{{equipe.lettre}}" role="button" data-slide="prev">
+          <a class="carousel-control-prev" href="#carousel{{equipe.id}}" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="sr-only">Previous</span>
                   </a>
-          <a class="carousel-control-next" href="#carousel{{equipe.lettre}}" role="button" data-slide="next">
+          <a class="carousel-control-next" href="#carousel{{equipe.id}}" role="button" data-slide="next">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                     <span class="sr-only">Next</span>
                   </a>
