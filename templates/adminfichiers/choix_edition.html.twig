@@ -1,14 +1,12 @@
 {% extends "base.html.twig" %}
- {% if type_fichier=='presentation' %}
-  {% set type_fichier = 'présentation' %}
+ {% if type_fichier =='presentation' %}
+  {% set typefichier = 'présentation' %}
   {% endif %}
 
-{% block title %} Choix des {{type_fichier}}s{% endblock %}
-{% block titre3 %} Choisir les {{type_fichier}}s{% endblock %}
+{% block title %} Choix des {{typefichier}}s{% endblock %}
+{% block titre3 %} Choisir les {{typefichier}}s{% endblock %}
 
-{% if type_fichier=='présentation' %}
-  {% set type_fichier = 'presentation' %}
-  {% endif %}
+
 
 
 {% block body %}
