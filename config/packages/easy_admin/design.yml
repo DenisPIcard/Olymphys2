@@ -27,6 +27,7 @@ easy_admin :
                         - { label : 'Palmares des équipes', entity: 'Equipes' , icon : 'asterisk'}
                         - { label : 'Administration des équipes' , entity : 'Selectionnees', icon : 'user-friends'}
                         - { entity: 'Memoires' , icon : 'asterisk'}
+                        - { label : 'Annexes' , entity : 'Annexes' , icon : 'asterisk'}
                         - { entity: 'Eleves' , icon : 'asterisk'}
                         - { label : 'Les photos', entity: 'Photoscn' , icon : 'images'}
                         - label : 'Les recompenses'

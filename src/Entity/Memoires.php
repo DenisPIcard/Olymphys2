@@ -151,7 +151,7 @@ class Memoires //extends BaseMedia
 public function personalNamer()    //permet à easyadmin de renonnmer le fichier, ne peut pas être utilisé directement
  {
            
-            $edition=$this->getEdition()->getEd();
+           $edition=$this->getEdition()->getEd();  
            $equipe=$this->getEquipe();
            $lettre_equipe=$equipe->getLettre();
            $nom_equipe=$equipe->getTitreProjet();
