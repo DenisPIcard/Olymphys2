@@ -307,7 +307,41 @@ class AdminController extends EasyAdminController
                      parent::persistEntity($entity);
                  }
                  
-            }          
+            }      
+ public function persistAnnexesEntity($entity)
+            {   $repositoryMemoires = $this->getDoctrine()->getRepository('App:Memoires');
+                 $repositoryEdition = $this->getDoctrine()->getRepository('App:Edition');
+                  $edition=$repositoryEdition->findOneBy([], ['id' => 'desc']);
+                  $entity->setEdition($edition);
+                 $equipe = $entity->getEquipe();
+                 
+                 $memoires= $repositoryMemoires->findByEquipe(['equipe' =>$equipe]);
+                 if ($memoires){
+                          $flag=0;
+                          foreach($memoires as $memoire) {
+                              
+                              if($memoire->getAnnexe() ==true and $entity->getAnnexe() ==true){
+                                  $memoire->setMemoireFile($entity->getMemoireFile());
+                                 
+                                  parent::persistEntity($memoire);
+                                  $flag=1;
+                              }
+                              if($memoire->getAnnexe() ==false and $entity->getAnnexe() ==false){
+                                  $memoire->setMemoireFile($entity->getMemoireFile());
+                                    parent::persistEntity($memoire);
+                                    $flag=1;
+                              }
+                              if ($flag==0){
+                                   
+                                   parent::persistEntity($entity);    
+                          
+                              }
+                          }              
+                 }
+                 if(!$memoires){
+                     parent::persistEntity($entity);
+                 }
+            }
     public function updateFichessecurEntity($entity)
             
             {     $repositoryFichessecur = $this->getDoctrine()->getRepository('App:Fichessecur');
