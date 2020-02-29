@@ -618,6 +618,9 @@
     "tecnickcom/tcpdf": {
         "version": "6.3.2"
     },
+    "twbs/bootstrap": {
+        "version": "v4.4.1"
+    },
     "twig/twig": {
         "version": "v2.11.3"
     },

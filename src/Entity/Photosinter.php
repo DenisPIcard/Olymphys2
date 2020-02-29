@@ -75,7 +75,12 @@ class Photosinter
        * @ORM\JoinColumn(name="thumb_id",  referencedColumnName="id" )
        */
       private $thumb;
-     
+       /**
+        * @ORM\Column(type="string", length=125,  nullable=true)
+        * 
+        * @var string
+        */
+      private $coment;
      
      /**
        * 
@@ -160,7 +165,16 @@ class Photosinter
         $this->thumb = $thumb;
         return $this;
     }
+    public function getComent()
+    {
+        return $this->coment;
+    }
 
+    public function setComent($coment)
+    {
+        $this->coment = $coment;
+        return $this;
+    }
     
 public function personalNamer()    //permet à vichuploeder et à easyadmin de renommer le fichier, ne peut pas être utilisé directement
  {         $edition='x';

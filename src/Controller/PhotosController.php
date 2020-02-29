@@ -285,16 +285,16 @@ class PhotosController extends  AbstractController
              $repositoryPhotosinter=$this->getDoctrine()
                                    ->getManager()
                                    ->getRepository('App:Photosinter');
-             $edition=$repositoryEdition->findByEd(['ed'=>27]);
+             
              $liste_centres=$repositoryCentrescia->findAll();
              $qb =$repositoryPhotosinter->createQueryBuilder('t');
                                //->where('t.edition =: edition')
                               // ->setParameter('edition', $edition);
-                               
+            $edition=$repositoryEdition->find(['id'=>$edition]);  
              $liste_photos=$qb->getQuery()->getResult();
              //$liste_photos=$repositoryPhotosinter->findByEdition(['edition'=>$edition]);
              return $this->render('photos/affiche_photos_cia.html.twig', [
-                'liste_photos' => $liste_photos,'edition'=>27,'liste_centres'=>$liste_centres, 'concours'=>'cia']);
+                'liste_photos' => $liste_photos,'edition'=>$edition,'liste_centres'=>$liste_centres, 'concours'=>'cia']);
              
              
             
@@ -320,7 +320,7 @@ class PhotosController extends  AbstractController
              $repositoryPhotoscn=$this->getDoctrine()
                                    ->getManager()
                                    ->getRepository('App:Photoscn');
-             $edition=$repositoryEdition->findOneByEd(['ed'=>27]);
+             $edition=$repositoryEdition->find(['id'=>$edition]);
              
              $qb1=$repositoryEquipesadmin->createQueryBuilder('e')
                      ->where('e.selectionnee = TRUE')
@@ -340,7 +340,7 @@ class PhotosController extends  AbstractController
              if ($liste_photos)
              {
              return $this->render('photos/affiche_photos_cn.html.twig', [
-                'liste_photos' => $liste_photos,'edition'=>27,'liste_equipes'=>$liste_equipes,  'concours'=>'national']);
+                'liste_photos' => $liste_photos,'edition'=>$edition,'liste_equipes'=>$liste_equipes,  'concours'=>'national']);
              
             }
              
@@ -352,15 +352,14 @@ class PhotosController extends  AbstractController
              return $this->redirectToRoute('core_home');
               }
             }
-    
-       /**
+         
+        /**
          * 
          * @IsGranted("IS_AUTHENTICATED_ANONYMOUSLY")
          * @Route("/photos/galleryphotos, {infos}", name="photos_galleryphotos")
          * 
-         */    
-         public function galleryphotos(Request $request, $infos)
-         {
+         */        
+         public function galleryphotos(Request $request, $infos) {
              $repositoryEdition= $this->getDoctrine()
 		->getManager()
 		->getRepository('App:Edition');
@@ -383,7 +382,7 @@ class PhotosController extends  AbstractController
                                    ->getRepository('App:Centrescia');
            $concourseditioncentre =explode('-',$infos);
             $concours=$concourseditioncentre[0];
-            $edition=$repositoryEdition->findOneByEd(['ed' =>$concourseditioncentre[1]]);
+            $edition=$repositoryEdition->find(['id' =>$concourseditioncentre[1]]);
             
              If ($concours=='cia'){
              $centre = $repositoryCentrescia->find(['id'=>$concourseditioncentre[2]]);
@@ -396,10 +395,94 @@ class PhotosController extends  AbstractController
                 $qb2=$repositoryPhotosinter->createQueryBuilder('p')
                          ->join('p.equipe','r')
                          ->where('r.centre =:centre')
-                         ->setParameter('centre', $centre);
+                         ->setParameter('centre', $centre)
+                        ->orderBy('r.numero','ASC');
+                  $liste_photos=$qb2->getQuery()->getResult();  
+          
+             }
+             
+             If ($concours=='national'){
+             
+             $equipe= $repositoryEquipesadmin->findOneBy(['id'=>$concourseditioncentre[2]]);
+                 $qb= $repositoryPhotoscn->createQueryBuilder('p')
+                          ->where('p.equipe =:equipe')
+                         ->setParameter('equipe',$equipe);
+                   
+                 $liste_photos=$qb->getQuery()->getResult();                 
+             }
+             
+              if ($concours=='cia'){
+               $content = $this
+                          ->renderView('photos/liste_photos_cia_carrousels.html.twig', array('liste_photos'=>$liste_photos,'edition'=>$edition, 'centre'=>$centre,
+                        'liste_equipes'=> $liste_equipes, 'concours'=>'cia')); 
+            return new Response($content); 
+              }
+              
+               if ($concours=='national'){
+               $content = $this
+                          ->renderView('photos/liste_photos_cn_carrousels.html.twig', array('liste_photos'=>$liste_photos,
+                              'edition'=>$edition,  'equipe'=>$equipe,'concours'=>'national')); 
+            return new Response($content); 
+              }
+             
+             
+             
+             
+         }   
+            
+            
+            
+            
+    
+       /**
+         * 
+         * @IsGranted("ROLE_ORGACIA")
+         * @Route("/photos/gestion_photos, {infos}", name="photos_gestion_photos")
+         * 
+         */    
+         public function gestion_photos(Request $request, $infos)
+         {
+             $repositoryEdition= $this->getDoctrine()
+		->getManager()
+		->getRepository('App:Edition');
+              
+             $repositoryEquipesadmin= $this->getDoctrine()
+		->getManager()
+		->getRepository('App:Equipesadmin');
+             $repositoryPhotos=$this->getDoctrine()
+                                   ->getManager()
+                                   ->getRepository('App:Photosinter');
+             
+             $repositoryPhotoscn=$this->getDoctrine()
+                                   ->getManager()
+                                   ->getRepository('App:Photoscn');
+             $repositoryPhotosinter=$this->getDoctrine()
+                                   ->getManager()
+                                   ->getRepository('App:Photosinter');
+              $repositoryCentrescia=$this->getDoctrine()
+                                   ->getManager()
+                                   ->getRepository('App:Centrescia');
+              
+           $concourseditioncentre =explode('-',$infos);
+            $concours=$concourseditioncentre[0];
+            $edition=$repositoryEdition->find(['id' =>$concourseditioncentre[1]]);
+            
+             If ($concours=='cia'){
+              $centre = $repositoryCentrescia->find(['id'=>$concourseditioncentre[2]]);
+                    
+                 $qb= $repositoryEquipesadmin->createQueryBuilder('e')
+                         ->where('e.centre=:centre')
+                         ->setParameter('centre',$centre);
+                 $liste_equipes=$qb->getQuery()->getResult();
+                
+                $qb2=$repositoryPhotosinter->createQueryBuilder('p')
+                         ->join('p.equipe','r')
+                         ->where('r.centre =:centre')
+                         ->setParameter('centre', $centre)
+                        ->orderBy('r.numero','ASC');
                   $liste_photos=$qb2->getQuery()->getResult();  
                  
-                
+               
                  
              }
              
@@ -421,74 +504,66 @@ class PhotosController extends  AbstractController
                                            'label'=>'',
                                         'required'=>false,
                                          'mapped'=>false
-                                         ]);
+                                         ])
+                                         ->add('coment', TextType::class,[
+                                             //'mapped'=>false,
+                                             'required'=>false,
+                                             ])
+                                        ->add('sauver',SubmitType::class)
+                                        ->add('effacer',SubmitType::class)
+                    ;
+            
                                        
                               
                         $Form[$i]=$formBuilder[$i]->getForm();
+                        $Form[$i]->handleRequest($request);
                   $formtab[$i]=$Form[$i]->createView();
-             
-                  $i=$i+1;
-              
-             }
-              if (isset($formtab)){
-              $formBuilder[$i]=$this->get('form.factory')->createNamedBuilder('Form'.$i, FormType::class,$photo);  
-              //$formBuilder[$i]->add('save', SubmitType::class);     
-                        $Form[$i]=$formBuilder[$i]->getForm();
-                  $formtab[$i]=$Form[$i]->createView();   
-              }
-              $imax= $i;
-              //dd($formtab);
-               if ($request->isMethod('POST') ) {
-                    if ($request->request->has('Form'.$imax)) {
-                    //$conn_id = ftp_connect('localhost',8000);
-                    
-                       for ($i=0 ;$i<$imax; $i++ ){
-                        $id=$Form[$i]->get('id')->getData();
-                           
-                            
-                            if ($concours=='cia'){
-                            $photo= $repositoryPhotosinter->find(['id'=>$id]);
-                            $file_path = $this->getParameter('app.path.photosinter').'/'.$photo->getPhoto();
-                            }
-                             if ($concours=='national'){
+                  
+                   if ($request->isMethod('POST') ) {
+                      //dd($request);
+                     //dd($Form[$i]);
+                   if ($request->request->has('Form'.$i)) {
+                   if ($concours=='national'){
                             $photo= $repositoryPhotoscn->find(['id'=>$id]);
-                            $file_path = $this->getParameter('app.path.photoscn').'/'.$photo->getPhoto();
+                      //dd($photo);
+                           // $file_path = $this->getParameter('app.path.photosnat').'/'.$photo->getPhoto();
+                   }
+                   if ($concours=='cia'){
+                            $photo= $repositoryPhotosinter->find(['id'=>$id]);
+                      //dd($photo);
+                           // $file_path = $this->getParameter('app.path.photosnat').'/'.$photo->getPhoto();
+                   }
+                   
+                           //dd('Form'.$i);
+                            if ( $Form[$i]->get('sauver')->isClicked())
+                            {   
+                                
+                                $em=$this->getDoctrine()->getManager();
+                                $photo->setComent($Form[$i]->get('coment')->getData());
+                                $em->persist($photo);
+                                $em->flush();
+                               
+                                return $this->redirectToRoute('photos_galleryphotos', array('infos'=>$infos));
+                                
+                                
                             }
-                            //dd($file_path);
-                            //$size = ftp_size($conn_id, $file_path);
-                            //dump($size);
-                          //header("Content-Type: application/octet-stream");
-                         //header("Content-Disposition: attachment; filename=".$file_path);
-                           //header("Content-Length: $size"); 
-                             
-                            //ftp_get($conn_id, "php://output", $file_path, FTP_BINARY);
-                            $file=new File($file_path);
-                        $response[$i] = new BinaryFileResponse($file_path);
-                          $disposition = HeaderUtils::makeDisposition(
-                                                    HeaderUtils::DISPOSITION_ATTACHMENT,
-                                                    $photo->getPhoto()
-                                                );
-                    $response[$i]->headers->set('Content-Type', $file->guessExtension()); 
-                    $response[$i]->headers->set('Content-Disposition', $disposition);
-                    
+                             if ( $Form[$i]->get('effacer')->isClicked()){
+                                 return $this->redirectToRoute('photos_confirme_efface_photo', array('concours_photoid_infos'=>$concours.':'.$photo->getId().':'.$infos));
+                                 
                              }
-                        return $response; 
-                        
-                       }
-                        
-                        
-                        
-                    }
-                    
-              
-                    
-                    
-                    
-                    
-              
+                            
+                            
+                            
+                   
+                   }
+                   }
+                   
+                  $i=$i+1;
+             }
+             
               if ($concours=='cia'){
                $content = $this
-                          ->renderView('photos/liste_photos_cia.html.twig', array('formtab'=>$formtab,
+                          ->renderView('photos/gestion_photos_cia.html.twig', array('formtab'=>$formtab,
                          'liste_photos'=>$liste_photos,'edition'=>$edition, 'centre'=>$centre->getCentre(),
                          'edition'=>$edition, 'liste_equipes'=> $liste_equipes, 'concours'=>'cia')); 
             return new Response($content); 
@@ -496,13 +571,73 @@ class PhotosController extends  AbstractController
               
                if ($concours=='national'){
                $content = $this
-                          ->renderView('photos/liste_photos_cn.html.twig', array('formtab'=>$formtab, 'liste_photos'=>$liste_photos,
+                          ->renderView('photos/gestion_photos_cn.html.twig', array('formtab'=>$formtab, 'liste_photos'=>$liste_photos,
                               'edition'=>$edition,  'equipe'=>$equipe,'concours'=>'national')); 
             return new Response($content); 
               }
              
          }
            
+          /**
+         * 
+         * @IsGranted("ROLE_ORGACIA")
+         * @Route("/photos/confirme_efface_photo, {concours_photoid_infos}", name="photos_confirme_efface_photo")
+         * 
+         */    
+         public function confirme_efface_photo(Request $request, $concours_photoid_infos){
+              
+             $photoid_concours =explode(':',$concours_photoid_infos);
+             $photoid=$photoid_concours[1];
+             $concours=$photoid_concours[0];
+             $infos=$photoid_concours[2];
+             
+             
+             $repositoryPhotosinter=$this->getDoctrine()
+                                   ->getManager()
+                                   ->getRepository('App:Photosinter');
+             
+             $repositoryPhotoscn=$this->getDoctrine()
+                                   ->getManager()
+                                   ->getRepository('App:Photoscn');
+             if( $concours=='cia'){
+                 $photo=$repositoryPhotosinter-> find(['id'=>$photoid]);
+             }
+              if( $concours=='national'){
+                 $photo=$repositoryPhotoscn-> find(['id'=>$photoid]);
+             }
+             
+            
+              $Form=$this->createForm(ConfirmType::class);  
+              $Form->handleRequest($request);
+              $form=$Form->createView();
+             if ($Form->isSubmitted() && $Form->isValid()) {
+             
+             if( $Form->get('OUI')->isClicked()){
+             
+             $em=$this->getDoctrine()->getManager();
+                                 $em->remove($photo);
+                                 $em->flush(); 
+             return $this->redirectToRoute('photos_galleryphotos', array('infos'=>$infos));                
+             }
+              if( $Form->get('NON')->isClicked()){
+                   return $this->redirectToRoute('photos_gestion_photos', array('infos'=>$infos));  
+              }
+              }
+             
+             
+             
+           $content = $this->renderView('/photos/confirm_supprimer.html.twig', array('form'=>$form, 'photo'=>$photo,'concours'=>$concours));
+                                return new Response($content); 
+                                 
+                                 
+                                 
+                                   
+             
+         }
+         
+         
+         
+         
            
          }
          

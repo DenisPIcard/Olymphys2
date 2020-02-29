@@ -7,11 +7,11 @@
     
     
     {% endblock %}
-{% block title %} {{edition}}   Les photos des épreuves nationales {% endblock %}
+{% block title %} {{edition.ed}}   Les photos des épreuves nationales {% endblock %}
 
 
 
-{% block titre3 %}{{edition}} <sup>eme</sup> Les photos  des épreuves nationales  {% endblock %}
+{% block titre3 %}{{edition.ed}} <sup>eme</sup> Les photos  des épreuves nationales  {% endblock %}
 
 
 {% block body %}
@@ -30,7 +30,7 @@
       {%  if n >0 %}         
           <div class="col-lg-2   col-sm-3">
               {%  set titre = equipe.titreProjet[0:40] %}
-              <a href="{{path('photos_galleryphotos',{infos: 'national-'~edition~'-'~equipe.id})}}"><h8> <button type="button" class="btn btn-primary"><font size="-2">{{equipe.lettre}}  {{ titre}}</font> </button> </h8> </a>
+              <a href="{{path('photos_galleryphotos',{infos: 'national-'~edition.id~'-'~equipe.id})}}"><h8> <button type="button" class="btn btn-primary"><font size="-2">{{equipe.lettre}}  {{ titre}}</font> </button> </h8> </a>
           
     <div id="carousel{{equipe.id}}" class="carousel slide" data-ride="carousel">
        
@@ -42,9 +42,9 @@
                  {% if i==1 %}
                      
                  <div class="carousel-item active" data-interval="5000">
-                           <a href="{{path('photos_galleryphotos',{infos: 'national-'~edition~'-'~equipe.id})}}">        
+                           <a href="{{path('photos_galleryphotos',{infos: 'national-'~edition.id~'-'~equipe.id})}}">        
                                <div class="parent">
-                                   <center><div style="background:black">          <img src=" {{asset('/upload/images/'~edition~'/nat/thumb/'~photo.photo) }}"   alt="{{photo.equipe.TitreProjet }}"></div></center>
+                                   <center><div style="background:black">          <img src=" {{asset('/upload/images/'~edition.ed~'/nat/thumb/'~photo.photo) }}"   alt="{{photo.equipe.TitreProjet }}"></div></center>
                                </div>
                            </a>
                             {# <center><div style="background:black;"> <font color="white" size="-2">photo {{i}}/{{n}}</font></div></center> #}
@@ -54,9 +54,9 @@
                             {% if i>1 %}
                    <div class="carousel-item" >
                        
-                        <a href="{{path('photos_galleryphotos',{infos: 'national-'~edition~'-'~equipe.id})}}}">                
+                        <a href="{{path('photos_galleryphotos',{infos: 'national-'~edition.id~'-'~equipe.id})}}}">                
                            <div class="parent">
-                               <center><div style="background:black;"><img src=" {{asset('/upload/images/'~edition~'/nat/thumb/'~photo.photo) }}"   alt="{{photo.equipe.TitreProjet}}"></div></center>
+                               <center><div style="background:black;"><img src=" {{asset('/upload/images/'~edition.ed~'/nat/thumb/'~photo.photo) }}"   alt="{{photo.equipe.TitreProjet}}"></div></center>
                            </div>
                             </a> 
                            {# <center><div style="background:black"> <font color="white" size="-2"> photo {{i}}/{{n}}</font></div></center> #}
@@ -66,7 +66,7 @@
              {% endif %}
          {% endfor %}
        </div>
-      
+      {#
           <a class="carousel-control-prev" href="#carousel{{equipe.id}}" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="sr-only">Previous</span>
@@ -74,7 +74,7 @@
           <a class="carousel-control-next" href="#carousel{{equipe.id}}" role="button" data-slide="next">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                     <span class="sr-only">Next</span>
-                  </a>
+                  </a>#}
     {% set m = m+1 %} 
     </div> 
      </div>        
@@ -91,7 +91,7 @@
 </div>
      
  
-
+<a href="{{ path('photos_choixedition')  }}" >Retour au choix du concours</a>
        
    
  {% block javascripts %}

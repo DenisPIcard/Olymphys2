@@ -7,11 +7,11 @@
     
     
     {% endblock %}
-{% block title %} {{edition}}   Les photos des épreuves interacadémiques {% endblock %}
+{% block title %} {{edition.ed}}   Les photos des épreuves interacadémiques {% endblock %}
 
 
 
-{% block titre3 %}{{edition}} <sup>eme</sup> Les photos  des épreuves interacadémiques  {% endblock %}
+{% block titre3 %}{{edition.ed}} <sup>eme</sup> Les photos  des épreuves interacadémiques  {% endblock %}
 
 
 {% block body %}
@@ -29,46 +29,47 @@
           {% endfor %}       
       {%  if n >0 %}         
           <div class="col-lg-2   col-sm-3">
-              <a href="{{path('photos_galleryphotos',{infos : 'cia-'~edition~'-'~centre.id~concours})}}"> <h8> <button type="button" class="btn btn-primary">{{centre.centre}} </button></h8> </a>
-          
+              <a href="{{path('photos_galleryphotos',{infos : 'cia-'~edition.id~'-'~centre.id~concours})}}"> <h8> <button type="button" class="btn btn-primary">{{centre.centre}} </button></h8> </a>
+      <a href="{{path('photos_galleryphotos',{infos : 'cia-'~edition.id~'-'~centre.id~concours})}}">      
     <div id="carousel{{centre.centre}}" class="carousel slide" data-ride="carousel" >
        <div class="carousel-inner"style="max-width:300px; height:250px !important;" bkgcolor="black">
               {% set i = 1 %} 
-         {% for photo in liste_photos %}
+         {% for photo in liste_photos if i<5 %}
              
             {%if photo.equipe.centre.centre == centre.centre %}
                  {% if i==1 %}
                  <div class="carousel-item active" data-interval="5000">
                                            
-                     <center><img src=" {{asset('/upload/images/'~edition~'/int/thumb/'~photo.photo) }}"  
+                     <center><img src=" {{asset('/upload/images/'~edition.ed~'/int/thumb/'~photo.photo) }}"  
                                   alt="{{photo.equipe.TitreProjet}}" width="auto"  height="200"></center>
                             
-                           <center><div style="background:black;"> <font color="white" size="-2">photo {{i}}/{{n}}</font></div></center>
+                           
                  </div>
                            {% endif %}
                             {% if i>1 %}
                    <div class="carousel-item" >
                              
-                       <center> <img src=" {{asset('/public/upload/images/'~edition~'/int/thumb/'~photo.photo) }}" 
+                       <center> <img src=" {{asset('/upload/images/'~edition.ed~'/int/thumb/'~photo.photo) }}" 
                                      alt="{{photo.equipe.TitreProjet}}"  width="auto"  height="200" ></center>
                        
-                           <center><div style="background:black"><font color="white" size="-1">{{photo.equipe.titreProjet}} </font><br> <font color="white" size="-2"> photo {{i}}/{{n}}></font></div></center>
+                         
                 </div>  
                 {% endif %}
                 {% set i= i+1 %}
              {% endif %}
          {% endfor %}
        </div>
-          <a class="carousel-control-prev" href="#carousel{{centre.centre}}" role="button" data-slide="prev">
+          {#<a class="carousel-control-prev" href="#carousel{{centre.centre}}" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="sr-only">Previous</span>
                   </a>
           <a class="carousel-control-next" href="#carousel{{centre.centre}}" role="button" data-slide="next">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                     <span class="sr-only">Next</span>
-                  </a>
+                  </a>#}
     {% set m = m+1 %} 
     </div> 
+      </a>
      </div>        
             {% if m%3 == 0  %}
              <div class="w-100"></div>
@@ -83,7 +84,7 @@
 </div>
      
  
-
+<a href="{{ path('photos_choixedition')  }}" >Retour au choix du concours</a>
        
    
  {% block javascripts %}

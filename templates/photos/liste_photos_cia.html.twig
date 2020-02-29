@@ -2,7 +2,7 @@
 {% block stylesheets %}
     
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" id="bootstrap-css">
-  
+   <link rel="stylesheet" href="{{asset('/css/imagesgalery.css')}}">
     
     
     {% endblock %}
@@ -11,85 +11,56 @@
 
 
 
-{% block titre3 %}{{edition.ed}} <sup>eme</sup> Les photos  des épreuves interacadémiques  du centre {{centre}} {% endblock %}
+{% block titre3 %}{{edition.ed}} <sup>eme</sup> Les photos  des épreuves interacadémiques  du centre {{centre.centre}} {% endblock %}
 
 
 {% block body %}
-    <div class="container-lg-12 align-left">
-    <div class="row ">
-        {% set i=0 %}
-       
-         {% for form in formtab %}   
-     
-     {% form_theme form 'bootstrap_4_layout.html.twig' %} 
-      
-          
-      {% if loop.index<loop.length %}
-       
-           
-           
-              
-         
-           
-       {{ form_start(form) }}
-        <div class="my-custom-class-for-errors">
-        {{ form_errors(form) }}
-    </div>
-    
-    
-         <div class="col-lg-2">       
-       
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+<ul class="navbar-nav">
+    <li><a href="{{path('photos_gestion_photos',{infos:concours~'-'~edition.id~'-'~centre.id})}}" class="btn btn-primary" role="button" aria-pressed="true">Gestion des photos</a></li>
+</ul>
+    </nav>
+    <div class="container-lg-12">
+   
+       <div class="row">
          {% for photo in liste_photos %}
                   
                      
-                        
-                   {% if photo.id == form.id.vars.data %}
-                      
-                        {{ form_widget(form.id)}}  
-                        {{ form_label(form.photo, photo.equipe.titreProjet) }}
-                        
-                        <div class="custom-control custom-checkbox">
-      {{ form_widget(form.photo,{'label': photo.equipe.numero, 'class':'custom-control-input'})}} {#  #}
-                        </div>
-                       
-                        <font size = "-2"></font>
+                   <div class="container">      
+                 
                        
                        {# <div class="row>"> #}
                            <a href="{{asset('/upload/images/'~edition.ed~'/int/'~photo.photo)}}">
-                           <img src="{{asset('/upload/images/'~edition.ed~'/int/thumb/'~photo.photo)}}"></a>
+                               <center><img src="{{asset('/upload/images/'~edition.ed~'/int/thumb/'~photo.photo)}}"></center></a>
+                               <div class="text">
+                                   {% if photo.coment=='' %}
+                                       <font size = "-2">Eq {{photo.equipe.numero}} </font>   
+                                       
+                                    {% else %}   
+                                       
+                               <font size = "-2">{{photo.coment}}</font>
+                               {% endif %}
+                           </div>
+                               
                       {# </div>  #}
                            
                     
                    
-                   {%endif %}
+                 </div>  
                        
              {% endfor %}
-        </div>   
-        
-     {{ form_end(form) }}
-    {% endif %}
- {#   {% if loop.index==loop.length %}
-       <div class="w-100"></div>
-            {{ form_start(form) }}
-                           {{ form_widget(form.save, { 'label': 'Télécharger' })}}
- 
-                           {{ form_end(form) }}                
-            {% endif %}#}
-        
-       
-        {% set i= i+1 %}
-        
          
-   {% endfor %}
+    </div>
+    
   
     </div>
-    </div>
+  
    {% if concours=='cia' %}
-    <center><a href="{{ path('photos_voirphotoscia',{edition : edition.ed})  }}" >Retour à la liste des centres</a></center>
+    <center><a href="{{ path('photos_voirphotoscia',{edition : edition.id})  }}" >Retour à la liste des centres</a></center>
    {% endif %}
    
     {% if concours=='national' %}
-    <center><a href="{{ path('photos_voirphotoscn',{edition : edition.ed})  }}" >Retour à la liste des équipes</a></center>
+    <center><a href="{{ path('photos_voirphotoscn',{edition : edition.id})  }}" >Retour à la liste des équipes</a></center>
    {% endif %}
    
    {% block javascripts %}

@@ -53,6 +53,12 @@ class Photoscn
         * @var string
         */
       private $photo;
+      /**
+        * @ORM\Column(type="string", length=125,  nullable=true)
+        * 
+        * @var string
+        */
+      private $coment;
      
     /**
      *  
@@ -195,7 +201,16 @@ public function personalNamer()    //permet à vichuploeder et à easyadmin de r
            return $fileName;
  }
     
+public function getComent()
+    {
+        return $this->coment;
+    }
     
+    public function setComent($commentaire)
+    {
+        $this->coment=$commentaire;
+        return $this;
+    }    
  
 
 

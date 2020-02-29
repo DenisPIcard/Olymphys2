@@ -1,0 +1,25 @@
+    .container {
+        display: inline-block;
+        position: relative;
+         background-color:black;
+         width: 350px;
+         height: 250px
+    }
+    
+    .container .align-middle{
+        
+     vertical-align :middle
+    }
+    .container .text {
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1;
+        position: absolute;
+        text-align: center;
+        font-family: Georgia;
+        margin: 0 auto;
+        left: 0;
+        right: 0;
+        top: 80%;
+        color: white;
+        width: 80%;
+    }
