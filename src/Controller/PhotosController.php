@@ -543,7 +543,7 @@ class PhotosController extends  AbstractController
                                 $em->persist($photo);
                                 $em->flush();
                                
-                                return $this->redirectToRoute('photos_galleryphotos', array('infos'=>$infos));
+                                return $this->redirectToRoute('photos_gestion_photos', array('infos'=>$infos));
                                 
                                 
                             }
@@ -617,7 +617,7 @@ class PhotosController extends  AbstractController
              $em=$this->getDoctrine()->getManager();
                                  $em->remove($photo);
                                  $em->flush(); 
-             return $this->redirectToRoute('photos_galleryphotos', array('infos'=>$infos));                
+             return $this->redirectToRoute('photos_gestion_photos', array('infos'=>$infos));                
              }
               if( $Form->get('NON')->isClicked()){
                    return $this->redirectToRoute('photos_gestion_photos', array('infos'=>$infos));  
