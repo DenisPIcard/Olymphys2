@@ -1,0 +1,133 @@
+{# templates/Core/index.html.twig#}
+{% extends "base.html.twig" %}
+
+{% block title %}
+  Page d'accueil - {{ parent() }}
+  
+{% endblock %}
+{%block navigation %}
+
+ <ul class="nav flex-column nav-pills">
+ 
+          {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+            <li>Utilisateur :  {{ app.user.username }}</li>
+            {#<li><a href="{{ path('profile_show') }}">Voir le profil</a></li>
+            <li><a href="{{ path('logout') }}">Déconnexion</a></li>
+        {% else %}
+        <li><a href="{{ path('login') }}">Connectez vous</a> si vous avez un compte,</li>
+        <li>Ou <a href="{{ path('register') }}">créez un compte</a> si vous en souhaitez un</li>#}
+        <li>Sinon, entrez dans le menu</li>
+   
+        {% endif %}
+
+ </ul>
+    
+{% endblock %}  
+{% block body_gche %}
+
+   
+{% endblock %}
+{% block body %}
+
+
+
+  {# On affiche tous les messages flash dont le nom est « info » #}
+  {% for message in app.session.flashbag.get('info') %}
+    <div class="alert alert-info"> {{ message }}</div>
+  {% endfor %}
+   {% for message in app.session.flashbag.get('alert') %}
+    <div class="alert alert-danger"> {{ message }}</div>
+  {% endfor %}
+  {% for message in app.session.flashbag.get('success') %}
+    <div class="alert alert-info"> {{ message }}</div>
+  {% endfor %}
+  <h3></h3>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<ul class="navbar-nav">
+    <li>
+
+    <li>
+   {# {% if is_granted('ROLE_SUPER_ADMIN') %}
+      <button class="btn btn-outline-primary dropdown-toggle active" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Administration</button>
+           <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+               
+            <a class="dropdown-item"  href="{{ path('easyadmin') }}" role="button" aria-pressed="true">Tableau de bord</a>
+            <div class="dropdown-divider"></div>
+                <a class="dropdown-item"  href="{{ path('secretariatadmin_charge_user') }}" role="button" aria-pressed="true">Ajouter des utilisateurs</a>
+                <a class="dropdown-item"  href="{{ path('secretariatadmin_charge_eleves_inter') }}" role="button" aria-pressed="true">Ajouter des éleves</a>
+                <a class="dropdown-item"  href="{{ path('secretariatadmin_charge_equipeinter') }}" role="button" aria-pressed="true">Ajouter des équipes</a>
+                <a class="dropdown-item"  href="{{ path('secretariatadmin_charge_rne') }}" role="button" aria-pressed="true">Charger le RNE</a>
+                 <a class="dropdown-item" href="{{ path('secretariatadmin_charge_equipe_id_rne') }}" role="button" aria-pressed="true">Mise à jour id_rne</a> 
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item"  href=" {{ path('photos_deposephotos', {concours:'inter'}) }}" role="button" aria-pressed="true">Déposer des photos des interacadémiques</a>
+                <a  class="dropdown-item" href="{{ path('photos_deposephotos',{concours:'cn'}) }}" role="button" aria-pressed="true">Déposer des photos des épreuves nationales</a>
+                    <a class="dropdown-item"  href="{{ path('fichiers_afficherlesmemoiresinter_orgacia') }}" role="button">Liste des fichiers CIA</a>
+                <a class="dropdown-item" href="{{ path('fichiers_afficherlesmemoires_cn') }}" class="btn btn-outline-primary" role="button" aria-pressed="true"> Liste des mémoires et résumés CN</a>
+            <div class="dropdown-divider"></div>   
+                <a class="dropdown-item"  href="{{ path('secretariatjury_accueil') }}" role="button">Secrétariat du Jury</a>
+           <a class="dropdown-item"  href="{{ path('secretariatadmin_charge_equipe1') }}" role="button" aria-pressed="true">Remplissage de la table Totalequipes</a>
+                <a class="dropdown-item" href="{{ path('secretariatadmin_cree_equipes') }}" role="button" aria-pressed="true">Remplissage de la table Equipes</a> 
+                <a class="dropdown-item" href="{{ path('secretariatadmin_charge_jures') }}" role="button" aria-pressed="true">Remplissage de la table Jures</a> 
+            </div>
+        
+    {% elseif is_granted('ROLE_COMITE') %}
+       <button class="btn btn-outline-primary dropdown-toggle active" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Pages Comité</button>
+           <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+            <a  class="dropdown-item" href="{{ path('easyadmin') }}"role="button" aria-pressed="true">Gérer les  équipes et leurs documents</a>
+            <a  class="dropdown-item" href="{{ path('photos_deposephotos', {concours:'inter'}) }}" role="button" aria-pressed="true">Déposer des photos des interacadémiques</a>
+            <a  class="dropdown-item" href="{{ path('photos_deposephotos',{concours:'cn'}) }}" role="button" aria-pressed="true">Déposer des photos des épreuves nationales</a>
+            <a  class="dropdown-item" href="{{ path('fichiers_depose_memoire_orgacia') }}" role="button" aria-pressed="true">Déposer un mémoire</a>
+            <a  class="dropdown-item" href="{{ path('fichiers_afficherlesmemoiresinter_orgacia') }}" role="button" ria-pressed="true">Liste des fichiers CIA</a>
+            <a class="dropdown-item" href="{{ path('fichiers_afficherlesmemoires_cn') }}" class="btn btn-outline-primary" role="button" aria-pressed="true"> Liste des mémoires et résumés CN</a>
+           </div>       
+
+    {% elseif is_granted('ROLE_ORGACIA') %}
+       <button class="btn btn-outline-primary dropdown-toggle active" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Les mémoires des CIA</button>   
+        <div class="dropdown-menu" aria-labelledby="dropdownMenu3">
+            <a class="dropdown-item"  href="{{ path('fichiers_depose_memoire_orgacia') }}" role="button">Déposer un mémoire ou une annexe</a>
+            <a class="dropdown-item" href="{{ path('fichiers_charge_fiche_securite_resume',{type_fichier : 'fichesecur' })}}" class="btn btn-outline-primary" role="button" aria-pressed="true">Déposer la fiche sécurité d'une équipe</a>
+            <a  class="dropdown-item" href="{{ path('fichiers_charge_fiche_securite_resume', {type_fichier : 'resume'}) }}" class="btn btn-outline-primary"  role="button" aria-pressed="true">Déposer le résumé d'une équipe </a> 
+            <a class="dropdown-item"  href="{{ path('fichiers_afficherlesmemoiresinter_orgacia') }}" role="button">Liste des mémoires</a>       
+        </div>
+        
+    {% elseif is_granted('ROLE_JURYCIA') %}
+       <button class="btn btn-outline-primary dropdown-toggle active" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Les mémoires des CIA</button>   
+        <div class="dropdown-menu" aria-labelledby="dropdownMenu4">
+            <a class="dropdown-item"  href="{{ path('fichiers_afficherlesmemoiresinter_orgacia') }}" role="button">Liste des mémoires</a>       
+        </div>
+     {% elseif is_granted('ROLE_JURY') %}
+           <button class="btn btn-outline-primary dropdown-toggle active" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               Jury</button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenu5">
+                <a class="dropdown-item" href="{{ path('fichiers_afficherlesmemoires_cn') }}" class="btn btn-outline-primary" role="button" aria-pressed="true"> Voir les mémoires</a>
+                <a class="dropdown-item" href="{{ path('cyberjury_accueil') }}" class="btn btn-outline-primary" role="button" aria-pressed="true"> Accueil du Jury</a> 
+            </div>    
+    {% elseif is_granted('ROLE_PROF') %}
+            <button class="btn btn-outline-primary dropdown-toggle active" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Mes documents</button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenu5">
+                <a  class="dropdown-item" href="{{ path('fichiers_choix_equipe_prof',{type_fichier : 'fichesecur' })}}" class="btn btn-outline-primary" role="button" aria-pressed="true">Téléverser la fiche sécurité de mon équipe</a>
+                <a  class="dropdown-item" href="{{ path('fichiers_choix_equipe_prof',{type_fichier : 'memoire'}) }}" class="btn btn-outline-primary"  role="button" aria-pressed="true">Téléverser le mémoire ou l'annexe de mon équipe </a> 
+                <a  class="dropdown-item" href="{{ path('fichiers_choix_equipe_prof', {type_fichier : 'resume'}) }}" class="btn btn-outline-primary"  role="button" aria-pressed="true">Téléverser le résumé de mon équipe </a> 
+                <a  class="dropdown-item" href="{{ path('fichiers_choix_equipe_prof', {type_fichier : 'presentation'}) }}" class="btn btn-outline-primary"  role="button" aria-pressed="true">Téléverser la présentation de mon équipe </a>
+                <a  class="dropdown-item" href="{{ path('fichiers_voir_mesfichiers') }}" class="btn btn-outline-primary"  role="button" aria-pressed="true">Voir la liste de mes fichiers déposés </a>
+            </div>
+
+    {% endif %}
+    </li>
+    <li><a href="{{path('photos_choixedition')}}" class="btn btn-primary" role="button" aria-pressed="true">Galeries Photos</a></li>
+    <li><a href="{{path('fichiers_choixedition',{type_fichier:'memoire'})}}" class="btn btn-primary" role="button" aria-pressed="true">Mémoires</a></li>
+    <li><a href="{{path('fichiers_choixedition',{type_fichier:'presentation'})}}" class="btn btn-primary" role="button" aria-pressed="true">Présentations</a></li>#}
+    
+</ul>
+</nav>
+ {#   <font color='blue'> Le dépôt des documents n'est pas encore actif.<br></font>#}
+       <img class=img-fluid src="{{ asset('images/bandeau.jpg') }}">
+{% endblock %}
+
+
