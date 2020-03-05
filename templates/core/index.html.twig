@@ -11,11 +11,11 @@
  
           {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
             <li>Utilisateur :  {{ app.user.username }}</li>
-            {#<li><a href="{{ path('profile_show') }}">Voir le profil</a></li>
-            <li><a href="{{ path('logout') }}">Déconnexion</a></li>
+            {#<li><a href="{{ path('profile_show') }}">Voir le profil</a></li>#}
+             <li><a href="{{ path('logout') }}">Déconnexion</a></li>
         {% else %}
         <li><a href="{{ path('login') }}">Connectez vous</a> si vous avez un compte,</li>
-        <li>Ou <a href="{{ path('register') }}">créez un compte</a> si vous en souhaitez un</li>#}
+        {#<li>Ou <a href="{{ path('register') }}">créez un compte</a> si vous en souhaitez un</li>#}
         <li>Sinon, entrez dans le menu</li>
    
         {% endif %}
