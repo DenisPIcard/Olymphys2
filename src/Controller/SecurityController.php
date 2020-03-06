@@ -30,8 +30,17 @@ class SecurityController extends AbstractController
     {
         throw new \Exception('Sera intercepté avant d\'en arriver là !');
     }
+   
     protected function renderLogin(array $data)
     {
         return $this->render('security/login.html.twig', $data);
+    }
+    
+    /**
+     * @Route("/register", name="register")
+     */
+    public function register()
+    {
+        return $this->render('security/register.html.twig');
     }
 }

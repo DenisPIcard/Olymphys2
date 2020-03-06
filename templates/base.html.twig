@@ -18,6 +18,12 @@ Layout de départ du site #}
   </head>
 
   <body>
+    {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
+            <div class="alert alert-warning" style="margin-bottom: 0;">
+                Vous êtes switché à un compte User
+                <a href="{{ path('core_home', {'_switch_user': '_exit'}) }}">Sortie de l'Impersonation</a>
+            </div>
+    {% endif %}
   <div class="container_fluid">
     <div class="page-header">
         <img src="{{ asset('images/Phicomplet.png')}}" alt="logo des OdpF"  width="300"/> 
