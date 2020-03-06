@@ -1,5 +1,9 @@
-#easy_admin:
-#    entities:
+easy_admin:   
+    user:
+        name_property_path: 'Nom'
+    entities:
+        Utilisateurs: 
+            class: App\Entity\User
 #        # List the entity class name you want to manage
 #        - App\Entity\Product
 #        - App\Entity\Category

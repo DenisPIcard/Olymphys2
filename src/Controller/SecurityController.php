@@ -28,7 +28,7 @@ class SecurityController extends AbstractController
      */
     public function logout()
     {
-        return $this->redirectToRoute('core_home');
+        throw new \Exception('Sera intercepté avant d\'en arriver là !');
     }
     protected function renderLogin(array $data)
     {

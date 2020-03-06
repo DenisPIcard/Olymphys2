@@ -1,5 +1,7 @@
 security:
-    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    encoders:
+        App\Entity\User:
+            algorithm: auto
     providers:
         # used to reload user from session & other features (e.g. switch_user)
         app_user_provider:
@@ -16,7 +18,10 @@ security:
             guard:
                 authenticators:
                     - App\Security\LoginFormAuthenticator
-                            
+            remember_me:
+                secret:   '%kernel.secret%'
+                lifetime: 2592000 # 30 days in seconds
+                
             logout:
                 path: /logout
                 target: /
@@ -31,5 +36,5 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
+         - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
