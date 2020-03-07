@@ -20,6 +20,7 @@ class UserFixture extends BaseFixture
             $user = new User();
             $user->setEmail(sprintf('spacebar%d@example.com', $i));
             $user->setNom($this->faker->firstName);
+            $user->agreeTerms();
             $user->setPassword($this->passwordEncoder->encodePassword(
                 $user,
                 'engage'
@@ -30,6 +31,7 @@ class UserFixture extends BaseFixture
             $user = new User();
             $user->setEmail(sprintf('admin%d@thespacebar.com', $i));
             $user->setNom($this->faker->firstName);
+            $user->agreeTerms();
             $user->setRoles(['ROLE_ADMIN']);
             $user->setPassword($this->passwordEncoder->encodePassword(
                 $user,

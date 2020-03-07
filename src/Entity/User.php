@@ -2,11 +2,20 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ *  @UniqueEntity(
+ *     fields={"email"},
+ *     message="Je pense que vous êtes déjà enregistré!"
+ * )
  */
 class User implements UserInterface
 {
@@ -19,6 +28,9 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Groups("main")
+     * @Assert\NotBlank(message="Entrez un email, s'il vous plait")
+     * @Assert\Email()
      */
     private $email;
 
@@ -37,6 +49,11 @@ class User implements UserInterface
      */
     private $password;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $agreedTermsAt;
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -125,5 +142,22 @@ class User implements UserInterface
         $this->password = $password;
 
         return $this;
+    }
+
+    public function getAgreedTermsAt(): ?\DateTimeInterface
+    {
+        return $this->agreedTermsAt;
+    }
+
+    public function setAgreedTermsAt(\DateTimeInterface $agreedTermsAt): self
+    {
+        $this->agreedTermsAt = $agreedTermsAt;
+
+        return $this;
+    }
+    
+        public function agreeTerms()
+    {
+        $this->agreedTermsAt = new \DateTime();
     }
 }
