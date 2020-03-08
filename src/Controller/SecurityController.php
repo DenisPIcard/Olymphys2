@@ -12,6 +12,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Mime\Email;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 
 class SecurityController extends AbstractController
 {
@@ -46,7 +50,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/register", name="register")
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $formAuthenticator)
+    public function register(MailerInterface $mailer, Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $formAuthenticator)
     {
 
         $form = $this->createForm(UserRegistrationFormType::class);
@@ -57,13 +61,26 @@ class SecurityController extends AbstractController
                 $user,
                 $form['plainPassword']->getData()
             ));
+          
             // be absolutely sure they agree
             if (true === $form['agreeTerms']->getData()) {
                 $user->agreeTerms();
             }
             $em = $this->getDoctrine()->getManager();
+            
             $em->persist($user);
             $em->flush();
+            
+            $email = (new TemplatedEmail())
+                ->from(new Address('alienmailcarrier@example.com', 'The Space Bar'))
+                ->to(new Address($user->getEmail(), $user->getNom()))
+                ->subject('Welcome to the Space Bar!')
+                ->htmlTemplate('email/welcome.html.twig')
+                ->context([
+                    'user' => $user,
+                    ]);
+            $mailer->send($email);
+                    
             return $guardHandler->authenticateUserAndHandleSuccess(
                 $user,
                 $request,
