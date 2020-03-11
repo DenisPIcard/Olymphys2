@@ -12,9 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Symfony\Component\Mime\Email;
-use Symfony\Component\Mime\Address;
-use Symfony\Component\Mailer\MailerInterface;
+use App\Service\Mailer;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 
 class SecurityController extends AbstractController
@@ -50,7 +48,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/register", name="register")
      */
-    public function register(MailerInterface $mailer, Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $formAuthenticator)
+    public function register(Mailer $mailer, Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $formAuthenticator)
     {
 
         $form = $this->createForm(UserRegistrationFormType::class);
@@ -71,15 +69,7 @@ class SecurityController extends AbstractController
             $em->persist($user);
             $em->flush();
             
-            $email = (new TemplatedEmail())
-                ->from(new Address('alienmailcarrier@example.com', 'The Space Bar'))
-                ->to(new Address($user->getEmail(), $user->getNom()))
-                ->subject('Welcome to the Space Bar!')
-                ->htmlTemplate('email/welcome.html.twig')
-                ->context([
-                    'user' => $user,
-                    ]);
-            $mailer->send($email);
+            $mailer->sendWelcomeMessage($user);
                     
             return $guardHandler->authenticateUserAndHandleSuccess(
                 $user,
