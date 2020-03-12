@@ -12,8 +12,6 @@ class Mailer
 {
     private $mailer;
     private $twig;
-    private $pdf;
-    private $entrypointLookup;
 
     public function __construct(MailerInterface $mailer, Environment $twig)
     {

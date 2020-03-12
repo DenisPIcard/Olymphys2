@@ -53,6 +53,51 @@ class User implements UserInterface
      * @ORM\Column(type="datetime")
      */
     private $agreedTermsAt;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $rne;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isActive;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $token;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $passwordRequestedAt;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $prenom;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $adresse;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $ville;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $code;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $phone;
     
     public function getId(): ?int
     {
@@ -160,4 +205,112 @@ class User implements UserInterface
     {
         $this->agreedTermsAt = new \DateTime();
     }
+
+        public function getRne(): ?string
+        {
+            return $this->rne;
+        }
+
+        public function setRne(?string $rne): self
+        {
+            $this->rne = $rne;
+
+            return $this;
+        }
+
+        public function getIsActive(): ?bool
+        {
+            return $this->isActive;
+        }
+
+        public function setIsActive(bool $isActive): self
+        {
+            $this->isActive = $isActive;
+
+            return $this;
+        }
+
+        public function getToken(): ?string
+        {
+            return $this->token;
+        }
+
+        public function setToken(?string $token): self
+        {
+            $this->token = $token;
+
+            return $this;
+        }
+
+        public function getPasswordRequestedAt(): ?\DateTimeInterface
+        {
+            return $this->passwordRequestedAt;
+        }
+
+        public function setPasswordRequestedAt(?\DateTimeInterface $passwordRequestedAt): self
+        {
+            $this->passwordRequestedAt = $passwordRequestedAt;
+
+            return $this;
+        }
+
+        public function getPrenom(): ?string
+        {
+            return $this->prenom;
+        }
+
+        public function setPrenom(?string $prenom): self
+        {
+            $this->prenom = $prenom;
+
+            return $this;
+        }
+
+        public function getAdresse(): ?string
+        {
+            return $this->adresse;
+        }
+
+        public function setAdresse(?string $adresse): self
+        {
+            $this->adresse = $adresse;
+
+            return $this;
+        }
+
+        public function getVille(): ?string
+        {
+            return $this->ville;
+        }
+
+        public function setVille(?string $ville): self
+        {
+            $this->ville = $ville;
+
+            return $this;
+        }
+
+        public function getCode(): ?string
+        {
+            return $this->code;
+        }
+
+        public function setCode(?string $code): self
+        {
+            $this->code = $code;
+
+            return $this;
+        }
+
+        public function getPhone(): ?string
+        {
+            return $this->phone;
+        }
+
+        public function setPhone(?string $phone): self
+        {
+            $this->phone = $phone;
+
+            return $this;
+        }
 }

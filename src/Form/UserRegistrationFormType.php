@@ -8,6 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -21,19 +22,13 @@ class UserRegistrationFormType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class)
-            ->add('plainPassword',PasswordType::class, [
-                'mapped' => false,
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Choisissez un mot de passe !'
-                    ]),
-                    new Length([
-                        'min' => 5,
-                        'minMessage' => 'Allez, vous pouvez choisir un mot de passe plus long !!'
-                        ])
-                    ]
-                   ])
+            ->add('plainPassword', RepeatedType::class, array(
+                    'mapped' => false,
+                    'type' => PasswordType::class,
+                    'first_options'  => array('label' => 'Mot de passe'),
+                    'second_options' => array('label' => 'Confirmer le mot de passe'),))
             ->add('nom',TextType::class)
+            ->add('rne',TextType::class)
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [

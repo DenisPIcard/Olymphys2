@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil{% endblock %}
+
+{% block body %}
+
+   {# {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+#}
+
+    <h1 class="h3 mb-3 font-weight-normal">Profil de l'utilisateur {{ user.username }}</h1>
+
+ Vous souhatez changer votre mot de passe <a href="{{path('forgotten_password') }}">Cliquez ici</a> <br/><br />
+{{ form_start(form, { 'action': path('profile_edit'), 'attr': { 'class': 'profile_edit' } }) }}
+    {{ form_widget(form) }}
+    
+    <div>
+        <input type="submit" />
+    </div>
+{{ form_end(form) }}
+
+
+{% endblock %}
