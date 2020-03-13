@@ -206,7 +206,7 @@ class SecurityController extends AbstractController
         }
 
         return $this->render('security/password_request.html.twig', [
-            'form' => $form->createView()
+            'passwordRequestForm' => $form->createView()
         ]);
     }
     
@@ -252,7 +252,7 @@ class SecurityController extends AbstractController
         }
 
         return $this->render('security/reset_password.html.twig', [
-            'form' => $form->createView()
+            'resetPasswordForm' => $form->createView()
         ]);
     }
             /**
@@ -288,8 +288,9 @@ class SecurityController extends AbstractController
 
             return $this->redirectToRoute('core_home');
         }
+
         return $this->render('profile/edit.html.twig', array(
-            'form' => $form->createView(),
+            'editProfileForm' => $form->createView(),
             'user' => $user,
         ));
     }
