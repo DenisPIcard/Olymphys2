@@ -9,7 +9,12 @@ security:
                 class: App\Entity\User
                 property: email
     role_hierarchy:
-        ROLE_ADMIN: [ROLE_ADMIN_COMMENT, ROLE_ADMIN_ARTICLE, ROLE_ALLOWED_TO_SWITCH]
+        ROLE_COMITE: [ROLE_USER,ROLE_ADMIN] 
+        ROLE_ORGACIA: [ROLE_JURYCIA, ROLE_USER, ROLE_PROF]
+        ROLE_JURYCIA: [ROLE_PROF, ROLE_USER]
+        ROLE_JURY: [ROLE_PROF, ROLE_USER]
+        ROLE_ADMIN: [ROLE_PROF, ROLE_JURY, ROLE_COMITE, ROLE_ORGACIA]
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
    
     firewalls:
         dev:
@@ -43,4 +48,6 @@ security:
     access_control:
          - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
          - { path: ^/admin, roles: ROLE_ADMIN }
+         - { path: ^/core/index, roles: ROLE_SUPER_ADMIN,}
+         - { path :  ^/public, roles : ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
