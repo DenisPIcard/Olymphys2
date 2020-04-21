@@ -46,7 +46,15 @@
     <li>
 
     <li>
-   {# {% if is_granted('ROLE_SUPER_ADMIN') %}
+        {% if is_granted('ROLE_ADMIN') %}
+          <button class="btn btn-outline-primary dropdown-toggle active" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  
+           Administration</button>
+           <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+              
+              <a class="dropdown-item"  href="{{ path('mod_user') }}" role="button" aria-pressed="true">Modifier les user</a>
+           </div>
+         {% endif %}     
+              {# {% if is_granted('ROLE_SUPER_ADMIN') %}
       <button class="btn btn-outline-primary dropdown-toggle active" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Administration</button>
            <div class="dropdown-menu" aria-labelledby="dropdownMenu1">

@@ -11,13 +11,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- *  @UniqueEntity(
- *     fields={"email"},
- *     message="Je pense que vous êtes déjà enregistré!"
- * )
+ * @UniqueEntity(fields="email", message="Cet email est déjà enregistré en base.")
+ * @UniqueEntity(fields="username", message="Cet identifiant est déjà enregistré en base")
  */
-class User implements UserInterface
+class User implements UserInterface, \Serializable
 {
     /**
      * @ORM\Id()
@@ -27,95 +26,151 @@ class User implements UserInterface
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=180, unique=true)
-     * @Groups("main")
-     * @Assert\NotBlank(message="Entrez un email, s'il vous plait")
-     * @Assert\Email()
+     * @ORM\Column(type="string", length=50, unique=true)
+     * @Assert\NotBlank()
+     * @Assert\Length(max=50)
      */
-    private $email;
-
+    private $username;
+    
     /**
      * @ORM\Column(type="json")
      */
     private $roles = [];
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     /**
+     * * @var array
+     * @ORM\Column(type="array")
      */
-    private $nom;
+    private $roles_anc;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @var string The hashed password
+     * @ORM\Column(type="string")
      */
     private $password;
-
+    
     /**
      * @ORM\Column(type="datetime")
      */
     private $agreedTermsAt;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+    private $plainPassword;
+    
+     /**
+     * @ORM\Column(type="string", length=60, unique=true)
+     * @Assert\NotBlank()
+     * @Assert\Length(max=60)
+     * @Assert\Email()
      */
-    private $rne;
-
-    /**
-     * @ORM\Column(type="boolean")
+    private $email;
+ 
+     /**
+     * @ORM\Column(name="is_active", type="boolean")
      */
     private $isActive;
-
+    
     /**
+     * @var string le token qui servira lors de l'oubli de mot de passe
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $token;
-
-    /**
+    protected $token;
+    
+     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @var \DateTime
      */
     private $passwordRequestedAt;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $prenom;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $adresse;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $ville;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $code;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $phone;
     
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="rne", type="string", length=255, nullable=true)
+     */
+    protected $rne;
+    
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="nom", type="string", length=255, nullable=true)
+     */
+    protected $nom;
+    
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="prenom", type="string", length=255, nullable=true)
+     */
+    protected $prenom;  
+    
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="adresse", type="string", length=255, nullable=true)
+     */
+    protected $adresse;
+    
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="ville", type="string", length=255, nullable=true)
+     */
+    protected $ville;
+    
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="code", type="string", length=11, nullable=true)
+     */
+    protected $code;
+    
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="phone", type="string", length=15, nullable=true)
+     */
+    protected $phone;
+    
+     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="createdAt", type="datetime", nullable=true)
+     */
+    private $createdAt;
+    
+     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="updatedAt", type="datetime", nullable=true)
+     */
+    private $updatedAt;
+    
+     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="lastVisit", type="datetime", nullable=true)
+     */
+    private $lastVisit;
+    
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="civilite", type="string", length=15, nullable=true)
+     */
+    protected $civilite;
+    
+    public function __construct()
+    {
+        $this->isActive = true;
+        $this->roles = ['ROLE_USER'];
+       
+        
+    }
+     
+
     public function getId(): ?int
     {
         return $this->id;
     }
-
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): self
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
+   
     /**
      * A visual identifier that represents this user.
      *
@@ -123,10 +178,74 @@ class User implements UserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->email;
+        return (string) $this->username;
     }
 
+    public function setUsername(string $username): self
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+    
+    /*
+     * Get email
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+ 
+    /*
+     * Set email
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+        return $this;
+    }
+ 
     /**
+     * @return string
+     */
+    public function getToken(): string
+    {
+        return $this->token;
+    }
+    
+    /**
+     * @param string $token
+     */
+    public function setToken(?string $token): void
+    {
+        $this->token = $token;
+    }  
+    
+    /**
+     * @see UserInterface
+     */
+    public function getRoles_anc()
+    {
+        return $this->roles_anc; 
+    }
+
+    public function setRoles_anc(array $roles)
+    {
+        if (!in_array('ROLE_USER', $roles))
+        {
+            $roles[] = 'ROLE_USER';
+        }
+        foreach ($roles as $role)
+        {
+            if(substr($role, 0, 5) !== 'ROLE_') {
+                throw new InvalidArgumentException("Chaque rôle doit commencer par 'ROLE_'");
+            }
+        }
+        $this->rolesanc = $roles;
+        return $this;
+    }
+
+        /**
      * @see UserInterface
      */
     public function getRoles(): array
@@ -144,43 +263,13 @@ class User implements UserInterface
 
         return $this;
     }
-
     /**
      * @see UserInterface
      */
-    public function getPassword()
+    public function getPassword(): string
     {
-        return $this->password;
-    }
-
-    /**
-     * @see UserInterface
-     */
-    public function getSalt()
-    {
-        // pas nécessaire en utilisant argon
-    }
-
-    /**
-     * @see UserInterface
-     */
-    public function eraseCredentials()
-    {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
-    }
-
-    public function getNom(): ?string
-    {
-        return $this->nom;
-    }
-
-    public function setNom(?string $nom): self
-    {
-        $this->nom = $nom;
-
-        return $this;
-    }
+        return (string) $this->password;
+    }  
 
     public function setPassword(string $password): self
     {
@@ -188,7 +277,7 @@ class User implements UserInterface
 
         return $this;
     }
-
+    
     public function getAgreedTermsAt(): ?\DateTimeInterface
     {
         return $this->agreedTermsAt;
@@ -201,116 +290,315 @@ class User implements UserInterface
         return $this;
     }
     
-        public function agreeTerms()
+    /*
+     * Get isActive
+     */
+    public function getIsActive()
     {
-        $this->agreedTermsAt = new \DateTime();
+        return $this->isActive;
+    }
+ 
+    /*
+     * Set isActive
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+        return $this;
+    }
+    /**
+     * @see UserInterface
+     */
+    public function getSalt()
+    {
+        // not needed when using the "bcrypt" algorithm in security.yaml
     }
 
-        public function getRne(): ?string
-        {
-            return $this->rne;
-        }
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
+    }
+    
+    /*
+     * Get passwordRequestedAt
+     */
+    public function getPasswordRequestedAt()
+    {
+        return $this->passwordRequestedAt;
+    }
 
-        public function setRne(?string $rne): self
-        {
-            $this->rne = $rne;
+    /*
+     * Set passwordRequestedAt
+     */
+    public function setPasswordRequestedAt($passwordRequestedAt)
+    {
+        $this->passwordRequestedAt = $passwordRequestedAt;
+        return $this;
+    }
+    
+    /** @see \Serializable::serialize() */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->username,
+            $this->password,
+            $this->isActive,
+            // voir remarques sur salt plus haut
+            // $this->salt,
+        ));
+    }
+ 
+    /** @see \Serializable::unserialize() */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->username,
+            $this->password,
+            $this->isActive,
+            // voir remarques sur salt plus haut
+            // $this->salt
+        ) = unserialize($serialized);
+    }
+    
+        /**
+     * @Assert\NotBlank(groups={"registration"})
+     * @Assert\Length(max=4096)
+     */
+ 
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+ 
+    public function setPlainPassword($password)
+    {
+        $this->plainPassword = $password;
+    }
+    
+     /**
+     * Set rne
+     *
+     * @param string $rne
+     *
+     * @return User
+     */
+    public function setRne( $rne) {
+        $this->rne= $rne;
 
-            return $this;
-        }
+        return $this;
+    }
 
-        public function getIsActive(): ?bool
-        {
-            return $this->isActive;
-        }
+    /**
+     * Get Adresse
+     *
+     * @return string
+     */
+    public function getAdresse() {
+        return $this->adresse;
+    }
+    /**
+     * Set adresse
+     *
+     * @param string $adresse
+     *
+     * @return User
+     */
+    public function setAdresse( $adresse) {
+        $this->adresse= $adresse;
 
-        public function setIsActive(bool $isActive): self
-        {
-            $this->isActive = $isActive;
+        return $this;
+    }
 
-            return $this;
-        }
+    /**
+     * Get ville
+     *
+     * @return string
+     */
+    public function getVille() {
+        return $this->ville;
+    }
+    /**
+     * Set ville
+     *
+     * @param string $ville
+     *
+     * @return User
+     */
+    public function setVille( $ville) {
+        $this->ville= $ville;
 
-        public function getToken(): ?string
-        {
-            return $this->token;
-        }
+        return $this;
+    }
 
-        public function setToken(?string $token): self
-        {
-            $this->token = $token;
+    /**
+     * Get code
+     *
+     * @return string
+     */
+    public function getCode() {
+        return $this->code;
+    }
+    /**
+     * Set Code
+     *
+     * @param string $code
+     *
+     * @return User
+     */
+    public function setCode( $code) {
+        $this->code= $code;
 
-            return $this;
-        }
+        return $this;
+    }
+    
+    /**
+     * Get 
+     *
+     * @return string
+     */
+    public function getCivilite() {
+        return $this->civilite;
+    }
+    /**
+     * Set civilite
+     *
+     * @param string $civilite
+     *
+     * @return User
+     */
+    public function setCivilite( $civilite) {
+        $this->civilite= $civilite;
 
-        public function getPasswordRequestedAt(): ?\DateTimeInterface
-        {
-            return $this->passwordRequestedAt;
-        }
+        return $this;
+    }
+     /**
+     * Get phone
+     *
+     * @return string
+     */
+    public function getPhone() {
+        return $this->phone;
+    }
+    /**
+     * Set phone
+     *
+     * @param string $code
+     *
+     * @return User
+     */
+    public function setPhone( $phone) {
+        $this->phone= $phone;
 
-        public function setPasswordRequestedAt(?\DateTimeInterface $passwordRequestedAt): self
-        {
-            $this->passwordRequestedAt = $passwordRequestedAt;
+        return $this;
+    }
 
-            return $this;
-        }
+    /**
+     * Get rne
+     *
+     * @return string
+     */
+    public function getRne() {
+        return $this->rne;
+    }
+    
+    /**
+     * Get nom
+     *
+     * @return string
+     */
+    public function getNom() {
+        return $this->nom;
+    }
+    /**
+     * Set nom
+     *
+     * @param string $nom
+     *
+     * @return User
+     */
+    public function setNom( $nom) {
+        $this->nom= $nom;
 
-        public function getPrenom(): ?string
-        {
-            return $this->prenom;
-        }
+        return $this;
+    }
 
-        public function setPrenom(?string $prenom): self
-        {
-            $this->prenom = $prenom;
+    
+    /**
+     * Get prenom
+     *
+     * @return string
+     */
+    public function getPrenom() {
+        return $this->prenom;
+    }
+    /**
+     * Set prenom
+     *
+     * @param string $prenom
+     *
+     * @return User
+     */
+    public function setPrenom( $prenom) {
+        $this->prenom= $prenom;
 
-            return $this;
-        }
+        return $this;
+    }
 
-        public function getAdresse(): ?string
-        {
-            return $this->adresse;
-        }
+     /*
+     * Get createdAt
+     */
+    public function getCreatedAt()
+    {
+        return $this->creaatedAt;
+    }
 
-        public function setAdresse(?string $adresse): self
-        {
-            $this->adresse = $adresse;
+    /*
+     * Set updatedAt
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+        return $this;
+    }
+    
+    /*
+     * Get updatedAt
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
 
-            return $this;
-        }
+    /*
+     * Set updatedAt
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $passwordRequestedAt;
+        return $this;
+    }
+    
+     /* Get lastVisit
+     */
+    public function getLastVisit()
+    {
+        return $this->lastVisit;
+    }
 
-        public function getVille(): ?string
-        {
-            return $this->ville;
-        }
-
-        public function setVille(?string $ville): self
-        {
-            $this->ville = $ville;
-
-            return $this;
-        }
-
-        public function getCode(): ?string
-        {
-            return $this->code;
-        }
-
-        public function setCode(?string $code): self
-        {
-            $this->code = $code;
-
-            return $this;
-        }
-
-        public function getPhone(): ?string
-        {
-            return $this->phone;
-        }
-
-        public function setPhone(?string $phone): self
-        {
-            $this->phone = $phone;
-
-            return $this;
-        }
+    /*
+     * Set lastVisit
+     */
+    public function setLastVisit()
+    {
+        $this->lastVisit = $lastVisit;
+        return $this;
+    }
+    
+    
 }
