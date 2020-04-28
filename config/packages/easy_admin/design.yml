@@ -15,19 +15,21 @@ easy_admin :
                       children :
                          - { entity : 'Centrescia', 'label' : 'Centres interacadémiques', icon : 'city'}
                          - { entity : 'Equipesadmin', 'label' : 'Equipes des cia', icon : 'user-friends'}
+                         - { entity : 'Fichiersequipesmemoiresinter', 'label' : 'Les mémoires' , icon : 'book'}
+                         - { entity : 'Fichiersequipesresumes', 'label' : 'Les résumés' , icon : 'book'}
+                         - { entity : 'Fichiersequipesfichessecur', 'label' : 'Les fiches sécurités' , icon : 'book'}
                          - { entity : 'Elevesinter', 'label' : 'Elèves inscrits', icon : 'child' }
-                         - { entity : 'Memoiresinter', 'label' : ' Mémoires interacadémiques', icon : 'book'}
-                         - { entity : 'Resumes', 'label' : ' Les résumés', icon : 'book'}
-                         - { entity : 'Fichessecur', 'label' : ' Les fiches sécurités', icon : 'book'}
                          - { entity : 'Photosinter', 'label' : ' Lesphotos', icon : 'images'}
+                         
                     - label : 'Concours national'
                       icon : ''
                       children :
                         - label: 'Equipes'
                         - { label : 'Palmares des équipes', entity: 'Equipes' , icon : 'asterisk'}
                         - { label : 'Administration des équipes' , entity : 'Selectionnees', icon : 'user-friends'}
-                        - { entity: 'Memoires' , icon : 'asterisk'}
-                        - { label : 'Annexes' , entity : 'Annexes' , icon : 'asterisk'}
+                        - { entity : 'Fichiersequipesmemoires', 'label' : 'Les mémoires' , icon : 'book'}
+                        - { entity : 'Fichiersequipesresumes', 'label' : 'Les résumés' , icon : 'book'}
+                        - { entity : 'Fichiersequipespresentations', 'label' : 'Les présentations' , icon : 'book'}
                         - { entity: 'Eleves' , icon : 'asterisk'}
                         - { label : 'Les photos', entity: 'Photoscn' , icon : 'images'}
                         - label : 'Les recompenses'

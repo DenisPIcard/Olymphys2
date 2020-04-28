@@ -1,0 +1,52 @@
+easy_admin :
+     entities :
+         Fichiersequipesmemoires:
+             class : App\Entity\Fichiersequipes
+             templates :                 
+                 list: 'admin/customizations/memoires_list.html.twig'
+             actions :
+               - {name : 'new', label : 'Déposer un fichier'}
+               - {name : 'edit',  role : ROLE_SUPER_ADMIN }
+             collapse_actions: true
+               
+             
+             list :
+                  max_results: 30
+                  dql_filter : "entity.typefichier < 2  AND  entity.national = 1"
+                  filters: { property: 'typefichier' }
+                  actions: [{ name: 'Lire', icon: 'eye' ,label: ''},{name : 'edit', icon : 'pencil' }]
+                  batch_actions: 
+                      - {name : 'telechargernat', icon : 'download'}
+                    
+                  title : '<font color="red"><h2>Memoires</h2></font>' 
+                  fields:
+                    - {property : 'equipe.lettre', label: 'Lettre'}
+                    - {property: 'equipe.titreProjet', label : 'Projet'}
+                    - {property : 'fichier', label : 'Fichier', template : 'Admin\customizations\vich_uploader_memoires.html.twig', base_path: '%app.path.fichiers.localhost%/memoires', propertyFile: 'fichierFile'}
+                    - {property: 'updatedat', label : 'Déposé le ', type: 'datetime'} 
+                  sort: ['equipe.lettre','ASC']
+                 
+             edit :
+                  title: ' Les fichiers sont automatiquement renommés selon leur catégorie : memoire ou annexe' 
+                  role: ROLE_SUPER_ADMIN 
+                  fields :
+                      - { type: 'group', columns: 6, label: '<font color="red" > Choisir l''équipe </font> ' } 
+                      - {property : 'equipe', type: 'entity' , type_options : { class : 'App\Entity\Equipesadmin',query_builder : 'App\Repository\EquipesadminRepository::getEquipeNa', 'choice_label' : 'getInfoequipe'}}
+                      - { type: 'group', columns: 6, label: '<font color="red" > Choisir le type de fichier </font>'}  
+                      - { property : 'typefichier', type : 'choice', type_options :{ choices : { 'Mémoire' : 0, 'Annexe':1}}}
+                      - { property : 'fichierFile', label: Choisir le mémoire',  type : 'vich_file',  type_options : {'allow_delete' : false}}
+                  item_permission: 'ROLE_SUPER_ADMIN '     
+                 
+             new :
+                  title : ' Les fichiers sont automatiquement renommés selon leur catégorie : memoire ou annexe'
+                  fields: 
+                     
+                      - { type: 'group', columns: 6, label: '<font color="red" > Choisir le fichier à déposer </font> ' } 
+                      - {property : 'edition', type: 'entity' , type_options : { class : 'App\Entity\Edition',query_builder : 'App\Repository\EditionRepository::getLastEdition', 'choice_label':'getEd'}} 
+                      - {property : 'equipe', type: 'entity' , type_options : { class : 'App\Entity\Equipesadmin',query_builder : 'App\Repository\EquipesadminRepository::getEquipeNa', 'choice_label' : 'getInfoequipenat'}}
+                      - { property : 'fichierFile', label: 'Fichier',  type : 'vich_file',  type_options : {}}
+                      - { type: 'group', columns: 6, label: '<font color="red" > Choisir le type de fichier </font>'}  
+                      - { property : 'typefichier', type : 'choice', type_options :{ choices : { 'Mémoire' : 0, 'Annexe':1}}}
+                     # - {property : 'memoire', label: 'Fichier', type : 'file', data_class : 'null'}
+             delete:
+                role: ROLE_SUPER_ADMIN

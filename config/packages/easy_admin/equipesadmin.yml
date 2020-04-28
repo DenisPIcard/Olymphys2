@@ -3,8 +3,16 @@ easy_admin :
         Equipesadmin :
             class : App\Entity\Equipesadmin
             label : '<h2> Les équipes des CIA</h2>'
-
+            controller: App\Controller\EquipesadminController 
             list : 
+                filters : 
+                    
+                    - property : 'edition' 
+                      
+                    - property : 'centre'  
+                      #type: 'App\Form\Filter\EquipeFilterType'
+                      mapped: false
+                dql_filter : " entity.numero < 100 "
                 actions : 
                     - { name : 'new' , label  : 'Ajouter une équipe', icon : 'plus-square'}
                     - { name: 'edit', icon: 'pencil', label: false }
@@ -13,6 +21,7 @@ easy_admin :
                 max_results: 50
                 sort: ['centre.centre', 'ASC']
                 fields :
+                  - { property : 'edition.ed', label : 'Edition'}
                   - {property : 'centre.centre', label : 'Centre'}
                   - 'numero'
                   - 'lettre'
@@ -22,7 +31,7 @@ easy_admin :
                   - { property : 'selectionnee' , type : 'toggle'}
                   - { property : 'Prof1', label : 'Professeur1'}
                   - { property : 'Prof2', label : 'Professeur2'}
-                         
+                     
             new :
                 title : 'Ajouter une équipe'
                 fields : 

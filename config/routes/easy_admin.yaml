@@ -2,3 +2,4 @@ easy_admin_bundle:
     resource: 'App\Controller\AdminController'  # sur le site '/home/olymphys/public_html/src/Controller/AdminController.php'
     prefix: /admin
     type: annotation
+    
