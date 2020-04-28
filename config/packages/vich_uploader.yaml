@@ -2,6 +2,20 @@ vich_uploader:
     db_driver: orm
     
     mappings:
+        
+        fichiersequipes:
+            uri_prefix: '%app.path.fichiers%'
+            upload_destination: '%app.path.fichiers%'
+            inject_on_load: false
+            delete_on_update: true
+            delete_on_remove: true
+            directory_namer: 
+                service: vich_uploader.namer_directory_property
+                options: { property: 'directoryName'}
+            namer: 
+                service: vich_uploader.namer_property
+                options: { property: 'personalNamer'}       
+                
         memoiresinter:
             uri_prefix: '%app.path.memoires_inter%'
             upload_destination: '%app.path.memoires_inter%'
@@ -84,8 +98,8 @@ vich_uploader:
                 options: { property: 'personalNamer'}
                 
         presentation :
-            uri_prefix: '%app.path.presentation%'
-            upload_destination: '%app.path.presentation%'
+            uri_prefix: '%app.path.presentations%'
+            upload_destination: '%app.path.presentations%'
             inject_on_load: true
             delete_on_update: true
             delete_on_remove: true

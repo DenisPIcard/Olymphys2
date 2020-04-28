@@ -16,7 +16,18 @@ parameters:
     app.path.photosinterthumb:  '%kernel.project_dir%/public/upload/images/27/int/thumb'     #sur le site /../public/upload/images/27/int/thumb 
     app.path.photosnatthumb: '%kernel.project_dir%/public/upload/images/27/nat/thumb'      #sur le site /../public/upload/images/27/nat/thumb
     app.path.photosnat :  '%kernel.project_dir%/public/upload/images/27/nat'      #sur le site /../public/upload/images/27/nat
-    app.path.presentation :  '%kernel.project_dir%/public/upload/equipes/presentations' 
+    app.path.presentations :  '%kernel.project_dir%/public/upload/equipes/presentations' 
+    app.path.fichiers : '%kernel.project_dir%/public/fichiers'
+    app.path.fichiers.localhost : /fichiers
+    app.path.tempdirectory :  '%kernel.project_dir%/public/temp'
+    type_fichier : ['memoires','annexes','resumes','presentations','fichessecur']
+    type_fichier_lit : ['mémoire','annexe','résume','présentation','fiche securité']
+    
+    
+    
+    
+    
+    
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -34,6 +45,10 @@ services:
     App\Controller\:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
+    
+    
+
+
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
