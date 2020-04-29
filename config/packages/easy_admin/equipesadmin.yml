@@ -10,8 +10,7 @@ easy_admin :
                     - property : 'edition' 
                       
                     - property : 'centre'  
-                      #type: 'App\Form\Filter\EquipeFilterType'
-                      mapped: false
+                      
                 dql_filter : " entity.numero < 100 "
                 actions : 
                     - { name : 'new' , label  : 'Ajouter une équipe', icon : 'plus-square'}
@@ -20,6 +19,7 @@ easy_admin :
                 batch_actions: ['delete']  
                 max_results: 50
                 sort: ['centre.centre', 'ASC']
+                template : 'Admin\customizations\list.html.twig'
                 fields :
                   - { property : 'edition.ed', label : 'Edition'}
                   - {property : 'centre.centre', label : 'Centre'}
