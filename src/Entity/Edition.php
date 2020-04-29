@@ -58,7 +58,20 @@ class Edition
         *  @ORM\Column(name="date_ouverture_site", type="datetime",nullable=true)
         */    
         protected $dateouverturesite;
-    
+     
+        
+        /**
+        * @var \datetime
+        *  @ORM\Column(name="concours_cia", type="datetime",nullable=true)
+        */    
+        protected $concourscia;
+       
+        
+         /**
+        * @var \datetime
+        *  @ORM\Column(name="concours_cn", type="datetime",nullable=true)
+        */    
+        protected $concourscn;
     
 
     public function getId(): ?int
@@ -153,6 +166,24 @@ class Edition
     public function getDateouverturesite()
     {
         return $this->dateouverturesite;
+    }
+      public function setConcourscia($Date)
+    {
+        $this->concourscia = $Date;
+    }
+
+    public function getConcourscia()
+    {
+        return $this->concourscia;
+    }
+     public function setConcourscn($Date)
+    {
+        $this->concourscn = $Date;
+    }
+
+    public function getConcourscn()
+    {
+        return $this->concourscn;
     }
     
     

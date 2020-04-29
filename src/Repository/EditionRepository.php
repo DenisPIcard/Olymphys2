@@ -30,4 +30,14 @@ public function getEdition(EditionRepository $er): QueryBuilder
                     return $er ->createQueryBuilder('e')->select('e');
     
                 }
+public function getLastEdition(EditionRepository $er): QueryBuilder
+                {   $edition=$er->findOneBy([], ['id' => 'desc']);  
+	   $lastid=$edition->getId(); 	
+                    return $er ->createQueryBuilder('e')->select('e')
+                                    ->where('e.id=:lastid')
+                                    ->setParameter('lastid',$lastid);
+    
+                }     
+
+                
 }

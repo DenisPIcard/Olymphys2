@@ -23,7 +23,7 @@ class FichessecurType extends AbstractType
 
         $builder
             // ..
-          ->add('fiche', FileType::class, [
+          ->add('fichier', FileType::class, [
                                 'label' => 'Choisir le fichier de votre fiche securité(.doc, .docx, .odt, .pdf, .xpdf, .jpeg  acceptés )',
                           'mapped' => false,
 
@@ -59,7 +59,7 @@ class FichessecurType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(['data_class' => Fichessecur::class,
+        $resolver->setDefaults(['data_class' => null,
         ]);
     }
 }

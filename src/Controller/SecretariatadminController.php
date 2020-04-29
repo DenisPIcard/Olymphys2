@@ -670,5 +670,34 @@ class SecretariatadminController extends AbstractController
             
           
                    }
+       /**
+         * @Security("is_granted('ROLE_SUPER_ADMIN')")
+         * 
+         * @Route("/secretariatadmin/set_editon_equipe", name="secretariatadmin_set_editon_equipe")
+         * 
+         */                  
+       public function  set_edition_equipe(Request $request)
+       {
+            $repositoryEquipes=$this->getDoctrine()
+			->getManager()
+			->getRepository('App:Equipesadmin');
+             $repositoryEdition=$this->getDoctrine()
+			->getManager()
+			->getRepository('App:Edition');
+           $Equipes=$repositoryEquipes->findAll();
+           $edition=$repositoryEdition->findOneBy([], ['id' => 'desc']);
+           
+           foreach($Equipes as $equipe){
+               if (null==$equipe->getEdition()){
+                   
+                           $em=$this->getDoctrine()->getManager();
+                           $equipe->setEdition($edition);
+                           $em->persist($equipe);
+                           $em->flush();
+                             }
+                 
+       }
+          return $this->redirectToRoute('core_home'); 
+       }
         
 }

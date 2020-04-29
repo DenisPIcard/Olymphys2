@@ -6,6 +6,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use App\Entity\User;
+use App\Entity\Fichiersequipes;
 use App\Entity\Memoires;
 use App\Entity\Memoiresinter;
 use App\Entity\Equipes;
@@ -34,7 +35,7 @@ class AdminController extends EasyAdminController
 {
      private $passwordEncoder;
      public $password;
-    
+   
     /**
      * @Route("/", name="easyadmin")
      *
@@ -48,6 +49,7 @@ class AdminController extends EasyAdminController
     {
         //$this->initialize($request);
         // if the URL doesn't include the entity name, this is the index page  // if the URL doesn't include the entity name, this is the index page
+        //dd($request);
         if (null === $request->query->get('entity')) {
             // define this route in any of your own controllers
              $content = $this->renderView('Admin/content.html.twig',array());
@@ -65,6 +67,10 @@ class AdminController extends EasyAdminController
          $this->passwordEncoder = $passwordEncoder;
      }
      
+     
+     
+     
+     
      public function LireAction()
      {    $fichier='';
           $class = $this->entity['class'];
@@ -72,15 +78,23 @@ class AdminController extends EasyAdminController
          $id = $this->request->query->get('id');
          $entity = $repository->find($id);
         
-         if ($class==Fichessecur::class) {
-                 $fichier= $this->getParameter('repertoire_fiches_securite').'/'.$entity->getFiche();
+         if ($class==Fichiersequipes::class) {
+             
+             if(($entity->getTypefichier() ==0) or ($entity->getTypefichier() ==1)  ){
+                 
+                 $fichier= $this->getParameter('app.path.fichiers').'/'.$this->getParameter('type_fichier')[0].'/'.$entity->getFichier();
+             }
+             else{
+                 $fichier= $this->getParameter('app.path.fichiers').'/'.$this->getParameter('type_fichier')[$entity->getTypefichier()].'/'.$entity->getFichier();
+             }
+               
                  $file=new File($fichier);
                     $response = new BinaryFileResponse($fichier);
          
                     $disposition = HeaderUtils::makeDisposition(
                       HeaderUtils::DISPOSITION_ATTACHMENT,
 
-                     $entity->getFiche()
+                     $entity->getFichier()
                             );
                     $response->headers->set('Content-Type', $file->guessExtension()); 
                     $response->headers->set('Content-Disposition', $disposition);
@@ -88,29 +102,14 @@ class AdminController extends EasyAdminController
                   return $response; 
                
                   }
-         else{
-         if ($class==Memoires::class) {
-         $fichier=$this->getParameter('repertoire_memoire_national').'/'.$entity->getMemoire();
-          $name=$entity->getMemoire();
-         $application= 'application/pdf';
-         }
-         if ($class==Memoiresinter::class) {
-                 $fichier=$this->getParameter('repertoire_memoire_interacademiques').'/'.$entity->getMemoire();
-                 $name=$entity->getMemoire();
-                 $application= 'application/pdf';
-                  }
+     
          if ($class==Photosinter::class)
          {
               $fichier=$this->getParameter('repertoire_photosinter').'/'.$entity->getPhoto();
               $application= 'image/jpeg';
               $name=$entity->getPhoto();
          }
-           if ($class==Resumes::class)
-         {       
-              $fichier=$this->getParameter('repertoire_resumes').'/'.$entity->getResume();
-              $name=$entity->getResume();
-              $application=  'application/pdf';
-         }
+          
          if ($class==Photoscn::class)
          {
               $fichier=$this->getParameter('app.path.photosnat').'/'.$entity->getPhoto();
@@ -132,7 +131,7 @@ class AdminController extends EasyAdminController
         
          //$content = $this->render('secretariat\lire_memoire.html.twig', array('repertoirememoire' => $this->getParameter('repertoire_memoire_national'),'memoire'=>$fichier));
          return $response; 
-         }
+         
     }
     public function EnregistrerAction() {
         $fichier='';
@@ -173,14 +172,9 @@ class AdminController extends EasyAdminController
         
         
     }
-    
-    
-    
-    
-    
-    
-    public function updateMemoiresinterEntity($entity)
-            {   $repositoryMemoiresinter = $this->getDoctrine()->getRepository('App:Memoiresinter');
+   
+    public function updateFichiersequipesEntity(Request $request, $entity)
+            {   $repositoryFichiersequipes = $this->getDoctrine()->getRepository('App:Fichiersequipes');
                  $repositoryEdition = $this->getDoctrine()->getRepository('App:Edition');
                 if(!$entity->getEdition()){
                  
@@ -189,13 +183,15 @@ class AdminController extends EasyAdminController
                 }
                  $equipe = $entity->getEquipe();
                  
-                 $memoires= $repositoryMemoiresinter->findByEquipe(['equipe' =>$equipe]);
-                 if ($memoires){
-                          foreach($memoires as $memoire) {
+                 $fichiers= $repositoryFichiersequipes->findByEquipe(['equipe' =>$equipe]);
+                 dd($fichiers);
+                 
+                 if ($fichiers){
+                          foreach($fichiers as $fichier) {
                               
-                              if($memoire->getAnnexe() ==true and $entity->getAnnexe() ==true){
+                              if($fichier->getTypefichier() == 1  and $entity->getTypefichier() ==1){
                                   
-                                  $memoire->setMemoireFile($entity->getMemoireFile());
+                                  $fichier->setMemoireFile($entity->getMemoireFile());
                                   
                               }
                               if($memoire->getAnnexe() ==false and $entity->getAnnexe() ==false){
@@ -211,38 +207,7 @@ class AdminController extends EasyAdminController
                  }
                  
             }
-    public function updateMemoiresEntity($entity)
-            {   $repositoryMemoires = $this->getDoctrine()->getRepository('App:Memoires');
-                 $repositoryEdition = $this->getDoctrine()->getRepository('App:Edition');
-                if(!$entity->getEdition()){
-                 
-                  $edition=$repositoryEdition->findOneBy([], ['id' => 'desc']);
-                  $entity->setEdition($edition);
-                }
-                 $equipe = $entity->getEquipe();
-                 
-                 $memoires= $repositoryMemoires->findByEquipe(['equipe' =>$equipe]);
-                 if ($memoires){
-                          foreach($memoires as $memoire) {
-                              
-                              if($memoire->getAnnexe() ==true and $entity->getAnnexe() ==true){
-                                  
-                                  $memoire->setMemoireFile($entity->getMemoireFile());
-                                  
-                              }
-                              if($memoire->getAnnexe() ==false and $entity->getAnnexe() ==false){
-                                  $memoire->setMemoireFile($entity->getMemoireFile());
-                                  
-                              }
-                              parent::persistEntity($entity);
-                          }              
-                     
-                 }
-                 if(!$memoires){
-                     parent::persistEntity($entity);
-                 }
-                 
-            }
+   
     
     public function persistMemoiresinterEntity($entity)
             {   $repositoryMemoiresinter = $this->getDoctrine()->getRepository('App:Memoiresinter');
@@ -273,112 +238,7 @@ class AdminController extends EasyAdminController
                  }
                  
             }
-  public function persistMemoiresEntity($entity)
-            {   $repositoryMemoires = $this->getDoctrine()->getRepository('App:Memoires');
-                 $repositoryEdition = $this->getDoctrine()->getRepository('App:Edition');
-                  $edition=$repositoryEdition->findOneBy([], ['id' => 'desc']);
-                  $entity->setEdition($edition);
-                 $equipe = $entity->getEquipe();
-                 
-                 $memoires= $repositoryMemoires->findByEquipe(['equipe' =>$equipe]);
-                 if ($memoires){
-                          $flag=0;
-                          foreach($memoires as $memoire) {
-                              
-                              if($memoire->getAnnexe() ==true and $entity->getAnnexe() ==true){
-                                  $memoire->setMemoireFile($entity->getMemoireFile());
-                                 
-                                  parent::persistEntity($memoire);
-                                  $flag=1;
-                              }
-                              if($memoire->getAnnexe() ==false and $entity->getAnnexe() ==false){
-                                  $memoire->setMemoireFile($entity->getMemoireFile());
-                                    parent::persistEntity($memoire);
-                                    $flag=1;
-                              }
-                              if ($flag==0){
-                                   
-                                   parent::persistEntity($entity);    
-                          
-                              }
-                          }              
-                 }
-                 if(!$memoires){
-                     parent::persistEntity($entity);
-                 }
-                 
-            }      
- public function persistAnnexesEntity($entity)
-            {   $repositoryMemoires = $this->getDoctrine()->getRepository('App:Memoires');
-                 $repositoryEdition = $this->getDoctrine()->getRepository('App:Edition');
-                  $edition=$repositoryEdition->findOneBy([], ['id' => 'desc']);
-                  $entity->setEdition($edition);
-                 $equipe = $entity->getEquipe();
-                 
-                 $memoires= $repositoryMemoires->findByEquipe(['equipe' =>$equipe]);
-                 if ($memoires){
-                          $flag=0;
-                          foreach($memoires as $memoire) {
-                              
-                              if($memoire->getAnnexe() ==true and $entity->getAnnexe() ==true){
-                                  $memoire->setMemoireFile($entity->getMemoireFile());
-                                 
-                                  parent::persistEntity($memoire);
-                                  $flag=1;
-                              }
-                              if($memoire->getAnnexe() ==false and $entity->getAnnexe() ==false){
-                                  $memoire->setMemoireFile($entity->getMemoireFile());
-                                    parent::persistEntity($memoire);
-                                    $flag=1;
-                              }
-                              if ($flag==0){
-                                   
-                                   parent::persistEntity($entity);    
-                          
-                              }
-                          }              
-                 }
-                 if(!$memoires){
-                     parent::persistEntity($entity);
-                 }
-            }
-    public function updateFichessecurEntity($entity)
-            
-            {     $repositoryFichessecur = $this->getDoctrine()->getRepository('App:Fichessecur');
-        $repositoryEdition = $this->getDoctrine()->getRepository('App:Edition');
-         $equipe = $entity->getEquipe();
-         $edition=$repositoryEdition->findOneBy([], ['id' => 'desc']);  
-         $entity->setEdition($edition);        
-                 $Fiche= $repositoryFichessecur->findOneByEquipe(['equipe' =>$equipe]);
-                  if($Fiche){
-                     $Fiche->setFicheFile($entity->getFicheFile());
-                      
-                  
-                  }
-                
-                  
-                  
-                   parent::persistEntity($entity);
-            }        
-            
-            
-            
-    public function persistFichessecurEntity($entity)
-            {     $repositoryEdition = $this->getDoctrine()->getRepository('App:Edition');
-                  $edition=$repositoryEdition->findOneBy([], ['id' => 'desc']);
-                  $entity->setEdition($edition);
-                   
-                parent::persistEntity($entity);
-            
-            }     
-       
-    public function persistResumesEntity($entity)
-            { $repositoryEdition = $this->getDoctrine()->getRepository('App:Edition');
-                  $edition=$repositoryEdition->findOneBy([], ['id' => 'desc']);
-                  $entity->setEdition($edition);
-                            
-              parent::persistEntity($entity);
-         } 
+  
     
    public function persistPhotosinterEntity($entity)
             {     $edition=$entity->getEdition();

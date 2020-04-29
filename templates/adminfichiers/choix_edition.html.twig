@@ -1,10 +1,9 @@
 {% extends "base.html.twig" %}
- {% if type_fichier=='presentation' %}
-  {% set type_fichier = 'présentation' %}
-  {% endif %}
 
-{% block title %} Choix des {{type_fichier}}s{% endblock %}
-{% block titre3 %} Choisir les {{type_fichier}}s{% endblock %}
+
+
+{% block title %} Choix des {{type_fichier_lit[num_type_fichier]}}s{% endblock %}
+{% block titre3 %} Choisir les {{type_fichier_lit[num_type_fichier]}}s{% endblock %}
 
 {% if type_fichier=='présentation' %}
   {% set type_fichier = 'presentation' %}
@@ -19,10 +18,10 @@
 
   {% for edition in editions %}
       <h2>La {{ edition.ed}}<sup>e</sup>  édition </h2>
-      {% if type_fichier != 'presentation' %}
-      <li><a  class="button" href="{{ path('fichiers_voir'~type_fichier~'s',{editionId_concours : edition.id~'-cia'})}}" >Concours interacadémiques</a> 
+      {% if num_type_fichier != 3 %}
+      <li><a  class="button" href="{{ path('fichiers_voirfichiers',{editionId_concours : edition.id~'-cia-'~num_type_fichier})}}" >Concours interacadémiques</a> 
           {% endif %}
-      <li><a  class="button" href="{{ path('fichiers_voir'~type_fichier~'s',{editionId_concours : edition.id~'-cn'})}}" >Concours national</a>
+      <li><a  class="button" href="{{ path('fichiers_voirfichiers',{editionId_concours : edition.id~'-cn-'~num_type_fichier})}}" >Concours national</a>
       <hr>
  {% endfor %}
       

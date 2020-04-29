@@ -37,13 +37,13 @@ class Equipesadmin
      /**
      * @var int
      *
-     * @ORM\Column(name="numero", type="smallint",unique=true,nullable=true)
+     * @ORM\Column(name="numero", type="smallint", nullable=true)
      */
     private $numero; 
           
      /**
      * @var string
-     * //@ORM\Column(name="centre", type="string", nullable=true)
+     * 
      * @ORM\ManyToOne(targetEntity="App\Entity\Centrescia")
      * @ORM\JoinColumn(name ="centre_id", referencedColumnName = "id", nullable=true)
      */
@@ -156,7 +156,11 @@ class Equipesadmin
      */
     private $idProf2; 
     
-    
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Edition")
+     * @ORM\JoinColumn(name ="edition_id",referencedColumnName = "id", nullable=true)
+     */
+    private $edition;
    
     
   
@@ -334,24 +338,19 @@ class Equipesadmin
     {   
         if ($this->getSelectionnee()==TRUE){
              
-            
-            
-            $infoequipe=$this->getTitreProjet() ;
-          
-        
-        }
         $lettre=$this->getLettre();
-        if ($lettre) 
+        if (isset($lettre)) 
         {
         $Lettre=$this->getLettre();
         
         $nom_equipe=$this->getTitreProjet() ;
-        $ville=$this->getLyceeLocalite();
+        $ville=$this->getRneId()->getCommune();
         
         $infoequipe= 'Eq '.$Lettre.' - '.$nom_equipe.'-'.$ville;   
         }   
-        if ($infoequipe){
+        if (isset($infoequipe)){
         return $infoequipe;
+        }
         }
     }
     
@@ -645,5 +644,18 @@ class Equipesadmin
 
        return $this;
    }
+   
+   public function getEdition()
+   {
+       return $this->edition;
+   }
+
+   public function setEdition($edition)
+   {
+       $this->edition = $edition;
+
+       return $this;
+   }
+   
    
 }

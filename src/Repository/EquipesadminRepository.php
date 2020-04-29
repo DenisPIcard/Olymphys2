@@ -39,7 +39,14 @@ class EquipesadminRepository extends ServiceEntityRepository
                           
                              
                 }
-                
+    public function getEquipesNatSansMemoire(EquipesadminRepository $er): QueryBuilder
+    {
+                 return $er ->createQueryBuilder('e')->select('e')
+                                       ->where('e.selectionnee= TRUE')
+                                       ->orderBy('e.lettre','ASC');
+        
+        
+    }
                 
        
 }

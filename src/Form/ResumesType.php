@@ -24,7 +24,7 @@ class ResumesType extends AbstractType
 
         $builder
             // ..
-          ->add('fiche', FileType::class, [
+          ->add('fichier', FileType::class, [
                                 'label' => 'Choisir le fichier du résume( .pdf, .xpdf acceptés uniquement  avec moins de 1 M, une seule page )',
                           'mapped' => false,
 
@@ -57,7 +57,7 @@ class ResumesType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(['data_class' => Resumes::class,
+        $resolver->setDefaults(['data_class' => null,
         ]);
     }
 }

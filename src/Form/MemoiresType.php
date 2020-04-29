@@ -25,7 +25,7 @@ class MemoiresType extends AbstractType
       
         $builder
             // ...
-          ->add('memoire', FileType::class, [
+          ->add('fichier', FileType::class, [
                                 'label' => 'Choisir le mémoire de votre équipe  (de type PDF de taille inférieure à 2,5 M )',
                           'mapped' => false,
 
@@ -59,7 +59,7 @@ class MemoiresType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(['data_class' => Memoires::class,
+        $resolver->setDefaults(['data_class' => null,
         ]);
     }
 }

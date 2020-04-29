@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 use App\Entity\Fichessecur;
+use App\Entity\Fichiersequipes;
 use App\Entity\Totalequipes;
 use App\Entity\Presentation;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -24,7 +25,7 @@ class PresentationType extends AbstractType
 
         $builder
             // ..
-          ->add('fiche', FileType::class, [
+          ->add('fichier', FileType::class, [
                                 'label' => 'Choisir le fichier de la présentation( .pdf, .xpdf acceptés uniquement  avec moins de 1 M, une seule page )',
                           'mapped' => false,
 
@@ -57,7 +58,7 @@ class PresentationType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(['data_class' =>Presentation::class,
+        $resolver->setDefaults(['data_class' =>Fichiersequipes::class,
         ]);
     }
 }

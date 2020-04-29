@@ -4,6 +4,7 @@
 /.env.local.php
 /.env.*.local
 /.env
+/public/fichiers/
 /public/bundles/
 /public/upload/
 /var/

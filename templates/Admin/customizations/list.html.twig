@@ -1,0 +1,20 @@
+{% extends '@!EasyAdmin/default/list.html.twig' %}
+{% block content_header %}
+   
+          
+    {% if filters is defined and filters is not null %}
+        <div class="row">
+            <div class="col-sm-8">
+                <div class="pull-right collapse" id="applied-request-filters">
+                    
+                    
+                    
+                    {{ form(filters) }}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    
+    
+    
+{% endblock %}

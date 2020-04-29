@@ -39,7 +39,19 @@ class Adminsite
         *  @ORM\Column(name="datelimite_nat", type="datetime",nullable=true)
         */    
         protected $datelimnat;
-    
+        
+        /**
+        * @var \datetime
+        *  @ORM\Column(name="concours_cia", type="datetime",nullable=true)
+        */    
+        protected $concourscia;
+       
+        
+         /**
+        * @var \datetime
+        *  @ORM\Column(name="concours_cn", type="datetime",nullable=true)
+        */    
+        protected $concourscn;
        
     
     public function getId()
@@ -79,7 +91,24 @@ class Adminsite
         return $this->datelimnat;
     }
     
-   
+    public function setConcourscia($Date)
+    {
+        $this->concourscia = $Date;
+    }
+
+    public function getConcourscia()
+    {
+        return $this->concourscia;
+    }
+     public function setConcourscn($Date)
+    {
+        $this->concourscn = $Date;
+    }
+
+    public function getConcourscn()
+    {
+        return $this->concourscn;
+    }
     
     
 }

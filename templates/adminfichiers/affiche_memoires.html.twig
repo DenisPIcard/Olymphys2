@@ -26,26 +26,26 @@
                   {% set memoire=null %}{% set annexe=null %} {% set  resume= null %}
                 {% for fichier in fichiers %}
                     
-                    {% if fichier.annexe is defined%}
-                    {% if fichier.annexe==0 %}
+                   
+                    {% if fichier.typefichier==0 %}
                       {% set memoire=fichier %}
                         
                     {% endif %}
-                     {% if fichier.annexe==1 %}
+                     {% if fichier.typefichier==1 %}
                        {% set annexe=fichier %}                        
-                    {% endif %}
-                 {% else %}
+                   {% endif %}
+                {% if fichier.typefichier==2 %}
                     {% set resume=fichier %}
                     {%endif %}
                   {% endfor %}  
                 
                   {% if memoire is not null %}
-                    {% if concours=='cia' %}
-                    <a href="{{asset('/upload/equipes/memoires/inter/'~memoire.memoire)}}">{{memoire.equipe.titreProjet}}</a>
-                      {% endif %}
+                   
+                    <a href="{{asset('/fichiers/memoires/'~memoire.fichier)}}">{{memoire.equipe.titreProjet}}</a>
+                   
                     {% if concours=='cn' %}
                         {{memoire.equipe.lettre}} - 
-                     <a href="{{asset('/upload/equipes/memoires/nat/'~memoire.memoire)}}">{{memoire.equipe.titreProjet}}</a>
+                     <a href="{{asset('/fichiers/memoires/'~memoire.fichier)}}">{{memoire.equipe.titreProjet}}</a>
                     {% endif %}
                     <h8><i>Lycée {{memoire.equipe.rneId.nom}}, {{memoire.equipe.rneId.commune}} </i> </h8>
                   {% endif %}
@@ -58,17 +58,10 @@
                     
                     (
                     {% if annexe is not null %}
-                        
-                     {% if concours=='cia' %}
-                    <a href="{{asset('/upload/equipes/memoires/inter/'~annexe.memoire)}}">annexe</a>
-                      {% endif %}
-                    {% if concours=='cn' %}
-                     <a href="{{asset('/upload/equipes/memoires/nat/'~annexe.memoire)}}">annexe</a>
-                    {% endif %}
-                      ,
+                              <a href="{{asset('/fichiers/memoires/'~annexe.fichier)}}">annexe</a>
                     {% endif %}
                     {% if resume is not null %}
-                  <a href="{{asset('/upload/equipes/resumes/'~resume.resume)}}">resumé</a>   
+                               <a href="{{asset('/fichiers/resumes/'~resume.fichier)}}">resumé</a>   
                   {% endif %}
                   )
                   
@@ -82,7 +75,7 @@
  
     <div class="well" >
        
-            <center><a href="{{ path('fichiers_choixedition',{type_fichier:'memoire'})  }}" >Retour au choix des mémoires</a></center>
+            <center><a href="{{ path('fichiers_choixedition',{num_type_fichier : 0})}}" >Retour au choix des mémoires</a></center>
         
     </div>
        

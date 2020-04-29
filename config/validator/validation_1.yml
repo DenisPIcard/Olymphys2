@@ -1,0 +1,42 @@
+# config/validator/validation.yaml
+App\Entity\Fichiersequipes:
+    properties:
+       fichierFile:
+            - File:
+                mimeTypes: [application/pdf, application/x-pdf,  "application/msword",
+                        application/octet-stream,
+                           application/vnd.oasis.opendocument.text,
+                           image/jpeg]
+                mimeTypesMessage: Veuillez télécharger un fichier du bon format
+    
+
+                
+App\Entity\Photosinter:
+    properties:
+       photoFile:
+            - File:
+                mimeTypes: [image/jpeg] 
+                mimeTypesMessage: Veuillez télécharger un fichier du bon format
+                
+App\Entity\Photosinterthumb:
+    properties:
+       photoFile:
+            - File:
+                mimeTypes: [image/jpeg] 
+                mimeTypesMessage: Veuillez télécharger un fichier du bon format                
+                
+App\Entity\Photoscn:
+    properties:
+       photoFile:
+            - File:
+                mimeTypes: [image/jpeg] 
+                mimeTypesMessage: Veuillez télécharger un fichier du bon format
+                
+App\Entity\Photoscnthumb:
+    properties:
+       photoFile:
+            - File:
+                mimeTypes: [image/jpeg] 
+                mimeTypesMessage: Veuillez télécharger un fichier du bon format
+                
+
