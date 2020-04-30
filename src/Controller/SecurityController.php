@@ -35,6 +35,7 @@ class SecurityController extends AbstractController
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
+       // dd($lastUsername);
         return $this->render('security/login.html.twig', [
             'last_username' => $lastUsername,
             'error'         => $error,
@@ -64,6 +65,7 @@ class SecurityController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $form->getData();
+            //dump($user);
             $user->setPassword($passwordEncoder->encodePassword(
                 $user,
                 $form['plainPassword']->getData()
@@ -72,11 +74,13 @@ class SecurityController extends AbstractController
             $user->setToken($tokenGenerator->generateToken());
             // enregistrement de la date de création du token
             $user->setPasswordRequestedAt(new \Datetime());
+            $user->setCreatedAt(new \Datetime());
             // Enregistre le membre en base
             // be absolutely sure they agree
             if (true === $form['agreeTerms']->getData()) {
                 $user->agreeTerms();
             }
+            //dd($user);
             $em = $this->getDoctrine()->getManager();
             
             $em->persist($user);

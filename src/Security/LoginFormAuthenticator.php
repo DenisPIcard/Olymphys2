@@ -37,21 +37,24 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     
     public function supports(Request $request)
     {
+        
         return $request->attributes->get('_route') === 'login'
-            && $request->isMethod('POST');
+            and $request->isMethod('POST');
     }
 
     public function getCredentials(Request $request)
     {
         $credentials = [
+            'username' => $request->get('username'),
             'email' => $request->request->get('email'),
             'password' => $request->request->get('password'),
             'csrf_token' => $request->request->get('_csrf_token'),
         ];
         $request->getSession()->set(
             Security::LAST_USERNAME,
-            $credentials['email']
+            $credentials['username']
         );
+        //dd($credentials);
         return $credentials;
     }
 
@@ -61,7 +64,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         if (!$this->csrfTokenManager->isTokenValid($token)) {
             throw new InvalidCsrfTokenException();
         }
-        return $this->userRepository->findOneBy(['email' => $credentials['email']]);
+        return $this->userRepository->findOneBy(['username' => $credentials['username']]);
     }
 
     public function checkCredentials($credentials, UserInterface $user)
@@ -71,9 +74,10 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
-        if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
-             return new RedirectResponse($targetPath);
-        }
+         //    if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
+           //  return new RedirectResponse($targetPath);
+        //}
+        dump($token);
         return new RedirectResponse($this->router->generate('core_home'));
     }
      

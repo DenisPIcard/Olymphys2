@@ -10,8 +10,8 @@
             <div  class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
         {% endif %}
         <h1 class="h3 mb-3 font-weight-normal">Connectez vous</h1>
-        <label for="inputEmail" class="sr-only">Adresse Mail</label>
-        <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" placeholder="Adresse Mail" required autofocus>
+        <label for="inputUsername" class="sr-only">Pseudo</label>
+        <input type=username" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" placeholder="Pseudo"required autofocus>
         <label for="inputPassword" class="sr-only">Password</label>
         <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Mot de Passe" required>
         <div class="checkbox mb-3">

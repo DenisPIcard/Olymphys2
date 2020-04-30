@@ -1,23 +1,15 @@
-# config/packages/easy_admin.yaml
-
-imports :
-    - { resource: easy_admin/basic.yml } 
-    - { resource: easy_admin/design.yml }
-easy_admin:   
-    user:
-        name_property_path: 'Nom'
-    entities:
+easy_admin :
+    entities :
         User :
             class :  App\Entity\User
             label : 'Utilisateurs'
             list :
                 permission: 'ROLE_SUPER_ADMIN'
-                fields : ['username', 'nom', 'prenom', 'email', 'roles',{ property: 'is_active',  type: 'boolean' }]
+                fields : ['email', 'roles',{ property: 'is_active',  type: 'boolean' }]
             
                 #form:  # <-- 'form' is applied to both 'new' and 'edit' views
             new :
                   fields:
-                      - 'username'
                       - 'email'
                       - { property: 'roles', type: 'choice',type_options: { multiple: true, choices:{ 'ROLE_SUPER_ADMIN':'ROLE_SUPER_ADMIN','ROLE_ADMIN':'ROLE_ADMIN','ROLE_PROF': 'ROLE_PROF', 'ROLE_COMITE': 'ROLE_COMITE', 'ROLE_JURY': 'ROLE_JURY', 'ROLE_ORGACIA':'ROLE_ORGACIA', 'ROLE_JURYCIA':'ROLE_JURYCIA'} } }
                       - { property: 'password', type : 'password',}
@@ -26,11 +18,7 @@ easy_admin:
              
             edit :
                fields: 
-                       - 'username'
                        - 'email'
                        - { property: 'roles',required: false, type: 'choice', type_options: { multiple: true, choices: { 'ROLE_SUPER_ADMIN':'ROLE_SUPER_ADMIN', 'ROLE_ADMIN':'ROLE_ADMIN', 'ROLE_PROF' : 'ROLE_PROF',  'ROLE_COMITE': 'ROLE_COMITE' , 'ROLE_JURY': 'ROLE_JURY', 'ROLE_ORGACIA':'ROLE_ORGACIA', 'ROLE_JURYCIA':'ROLE_JURYCIA'} } }
                        - { property: 'is_active', type: 'checkbox'}
-    site_name: <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/Logo_odpf_long.png"" alt="logo des OdpF"  width="160"/>
-    design:
-        assets:
-            favicon: '/assets/backend/favicon.ico'
+            

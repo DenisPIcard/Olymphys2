@@ -14,9 +14,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @UniqueEntity(fields="email", message="Cet email est déjà enregistré en base.")
- * @UniqueEntity(fields="username", message="Cet identifiant est déjà enregistré en base")
  */
-class User implements UserInterface, \Serializable
+class User implements UserInterface ,\Serializable
 {
     /**
      * @ORM\Id()
@@ -36,11 +35,6 @@ class User implements UserInterface, \Serializable
      * @ORM\Column(type="json")
      */
     private $roles = [];
-     /**
-     * * @var array
-     * @ORM\Column(type="array")
-     */
-    private $roles_anc;
 
     /**
      * @var string The hashed password
@@ -160,35 +154,32 @@ class User implements UserInterface, \Serializable
     public function __construct()
     {
         $this->isActive = true;
-        $this->roles = ['ROLE_USER'];
-       
-        
+        $this->roles = ['ROLE_USER'];   
     }
      
-
     public function getId(): ?int
     {
         return $this->id;
     }
-   
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
+
+    /*
+     * Get username
      */
     public function getUsername(): string
     {
         return (string) $this->username;
     }
-
+ 
+    /*
+     * Set username
+     */
     public function setUsername(string $username): self
     {
         $this->username = $username;
 
         return $this;
     }
-    
-    /*
+     /*
      * Get email
      */
     public function getEmail()
@@ -204,7 +195,7 @@ class User implements UserInterface, \Serializable
         $this->email = $email;
         return $this;
     }
- 
+    
     /**
      * @return string
      */
@@ -224,30 +215,6 @@ class User implements UserInterface, \Serializable
     /**
      * @see UserInterface
      */
-    public function getRoles_anc()
-    {
-        return $this->roles_anc; 
-    }
-
-    public function setRoles_anc(array $roles)
-    {
-        if (!in_array('ROLE_USER', $roles))
-        {
-            $roles[] = 'ROLE_USER';
-        }
-        foreach ($roles as $role)
-        {
-            if(substr($role, 0, 5) !== 'ROLE_') {
-                throw new InvalidArgumentException("Chaque rôle doit commencer par 'ROLE_'");
-            }
-        }
-        $this->rolesanc = $roles;
-        return $this;
-    }
-
-        /**
-     * @see UserInterface
-     */
     public function getRoles(): array
     {
         $roles = $this->roles;
@@ -263,6 +230,7 @@ class User implements UserInterface, \Serializable
 
         return $this;
     }
+    
     /**
      * @see UserInterface
      */
@@ -276,6 +244,11 @@ class User implements UserInterface, \Serializable
         $this->password = $password;
 
         return $this;
+    }
+    
+    public function agreeTerms()
+    {
+        $this->agreedTermsAt = new \DateTime();
     }
     
     public function getAgreedTermsAt(): ?\DateTimeInterface
@@ -306,6 +279,7 @@ class User implements UserInterface, \Serializable
         $this->isActive = $isActive;
         return $this;
     }
+    
     /**
      * @see UserInterface
      */
@@ -366,12 +340,11 @@ class User implements UserInterface, \Serializable
         ) = unserialize($serialized);
     }
     
-        /**
+     /**
      * @Assert\NotBlank(groups={"registration"})
      * @Assert\Length(max=4096)
      */
- 
-    public function getPlainPassword()
+     public function getPlainPassword()
     {
         return $this->plainPassword;
     }
@@ -379,6 +352,15 @@ class User implements UserInterface, \Serializable
     public function setPlainPassword($password)
     {
         $this->plainPassword = $password;
+    }
+    
+    /**
+     * Get rne
+     *
+     * @return string
+     */
+    public function getRne() {
+        return $this->rne;
     }
     
      /**
@@ -402,6 +384,7 @@ class User implements UserInterface, \Serializable
     public function getAdresse() {
         return $this->adresse;
     }
+    
     /**
      * Set adresse
      *
@@ -423,6 +406,7 @@ class User implements UserInterface, \Serializable
     public function getVille() {
         return $this->ville;
     }
+    
     /**
      * Set ville
      *
@@ -444,6 +428,7 @@ class User implements UserInterface, \Serializable
     public function getCode() {
         return $this->code;
     }
+    
     /**
      * Set Code
      *
@@ -465,6 +450,7 @@ class User implements UserInterface, \Serializable
     public function getCivilite() {
         return $this->civilite;
     }
+    
     /**
      * Set civilite
      *
@@ -477,6 +463,7 @@ class User implements UserInterface, \Serializable
 
         return $this;
     }
+    
      /**
      * Get phone
      *
@@ -485,6 +472,7 @@ class User implements UserInterface, \Serializable
     public function getPhone() {
         return $this->phone;
     }
+    
     /**
      * Set phone
      *
@@ -499,15 +487,6 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * Get rne
-     *
-     * @return string
-     */
-    public function getRne() {
-        return $this->rne;
-    }
-    
-    /**
      * Get nom
      *
      * @return string
@@ -515,6 +494,7 @@ class User implements UserInterface, \Serializable
     public function getNom() {
         return $this->nom;
     }
+    
     /**
      * Set nom
      *
@@ -527,7 +507,6 @@ class User implements UserInterface, \Serializable
 
         return $this;
     }
-
     
     /**
      * Get prenom

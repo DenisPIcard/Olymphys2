@@ -1,0 +1,17 @@
+easy_admin :
+    design:
+                brand_color: '#FF0000'
+                assets:
+                    css:
+                        # ...
+                        - 'css/admin.css'
+                menu:
+                    - { entity: 'User', label : 'Utilisateurs', permission: 'ROLE_SUPER_ADMIN', icon : 'user' }
+ 
+                        
+                    - { label: 'Retour à la page d''accueil', route: 'core_home' , icon : 'home'}
+                    - { label : 'Deconnexion' , route: 'logout', icon : 'door-open'}
+
+                form_theme:
+                - '@EasyAdmin/form/bootstrap_4.html.twig'
+

@@ -15,14 +15,14 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
-use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\NotBlank;
+
 
 class UserRegistrationFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('username',TextType::class)
             ->add('email', EmailType::class)
             ->add('plainPassword', RepeatedType::class, array(
                     'mapped' => false,
@@ -46,7 +46,7 @@ class UserRegistrationFormType extends AbstractType
                 $data = $event->getData();
                 
                 if (!$data) {return;}  
-                dd($data);
+                //dd($data);
               });
     }
     
