@@ -20,13 +20,13 @@ use EasyCorp\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 class EquipesadminController extends EasyAdminController
 {   
     
-    /*protected function createListQueryBuilder($entityClass, $sortDirection, $sortField = null, $dqlFilter = null)
+   protected function createListQueryBuilder($entityClass, $sortDirection, $sortField = null, $dqlFilter = null)
                 {
     /* @var EntityManager */
-   /* $em = $this->getDoctrine()->getManagerForClass($this->entity['class']);
+   $em = $this->getDoctrine()->getManagerForClass($this->entity['class']);
 
     /* @var QueryBuilder */
-    /*$queryBuilder = $em->createQueryBuilder()
+   $queryBuilder = $em->createQueryBuilder()
         ->select('entity')
         ->from($this->entity['class'], 'entity')
         ;
@@ -39,7 +39,7 @@ class EquipesadminController extends EasyAdminController
     $queryBuilder->addOrderBy('entity.edition', 'DESC');
 
     return $queryBuilder;
-}*/
+}
    
      
 
@@ -62,9 +62,10 @@ class EquipesadminController extends EasyAdminController
                                                  ->orderBy('u.centre', 'ASC');
 
                                                   },
-                        'choice_label' => function($centre){return $centre->getCentre();},
-                         'multiple'=>false,]);
-           
+                        'choice_label' => 'getCentre',
+                         'multiple'=>false,
+                                ]);
+            
         return $form;
     }
     public function persistEntity($entity)

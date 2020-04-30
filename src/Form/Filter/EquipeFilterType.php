@@ -21,31 +21,50 @@ class EquipeFilterType extends FilterType
     public function filter(QueryBuilder $queryBuilder, FormInterface $form, array $metadata)
     { 
         
-       $data =$form->getData();
-     
-       if($data instanceof Edition){
-          
-          
-         $queryBuilder->Where('entity.edition =:edition')
-                              ->setParameter('edition',$data);
-        
+       $datas =$form->getParent()->getData();
+       
+      
+       
+      if(isset($datas['edition'])){
+            
+         $queryBuilder->Where( 'entity.edition=:edition')
+                              ->setParameter('edition',$datas['edition']);
+       }     
+       if(isset($datas['centre'])){
+                    
+           $queryBuilder->andWhere( 'entity.edition=:centre')
+                              ->setParameter('centre',$datas['centre']);
+           
        }
-       if($data instanceof Centrescia){
-          
-          
-         $queryBuilder->leftJoin('entity.centre','c')
-                                ->Where('centre =:centre')
-                                ->setParameter('centre',$data);
-         
-          
-              
-       }
-
-        // ...
+      /* $listparam=[];
+        if(isset($datas['edition'])){
+            
+         $queryBuilder->join('entity.edition','e')
+                               ->Where( 'e.edition=:edition');
+                              $listparam['edition']=$datas['edition'];
+       }     
+         if(isset($datas['centre'])){
+                             $centres = $datas['centre'];
+                              $n=0;
+                            foreach($centres as $centre){
+                                $listparam['centre'.$n]=$centre;
+                               
+                              $queryBuilder->join('entity.centre','c'.$n)
+                                      ->andWhere('c'.$n.'.centre =:centre'.$n);
+                           $n++;} 
+                                                      
+                                $queryBuilder->setParameters($listparam);
+         }*/
     }
     
      public function configureOptions(OptionsResolver $resolver)
-    {    
+    {    $resolver->setDefaults([
+            'choice_label' => [
+                'Edition' => 'edition',
+                'Centre' => 'centre',
+                // ...
+            ],
+        ]);
        
     }
 
