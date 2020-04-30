@@ -32,11 +32,11 @@ class EquipeFilterType extends FilterType
        }
        if($data instanceof Centrescia){
           
-          if (null!==$form->getData()){
+          
          $queryBuilder->leftJoin('entity.centre','c')
                                 ->Where('centre =:centre')
                                 ->setParameter('centre',$data);
-          }
+         
           
               
        }

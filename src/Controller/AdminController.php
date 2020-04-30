@@ -43,7 +43,7 @@ class AdminController extends EasyAdminController
      *
      * @return RedirectResponse|Response
      *
-     * @Security("is_granted('ROLE_COMITE')")
+     * @Security("is_granted('ROL&E_COMITE')")
      */
     public function indexAction(Request $request)
     {
