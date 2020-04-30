@@ -27,12 +27,12 @@ class EquipeFilterType extends FilterType
        
       if(isset($datas['edition'])){
             
-         $queryBuilder->Where( 'entity.edition=:edition')
+         $queryBuilder->Where( 'entity.edition =:edition')
                               ->setParameter('edition',$datas['edition']);
        }     
        if(isset($datas['centre'])){
                     
-           $queryBuilder->andWhere( 'entity.edition=:centre')
+           $queryBuilder->andWhere( 'entity.centre =:centre')
                               ->setParameter('centre',$datas['centre']);
            
        }
