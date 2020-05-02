@@ -1,0 +1,18 @@
+easy_admin :
+    entities :
+        Selectionnees :
+            class : App\Entity\Equipesadmin
+            label : '<h2> Les équipes du CN</h2>'
+
+            list : 
+                dql_filter: "entity.selectionnee = '1' "
+                max_results: 50
+                sort: ['lettre', 'ASC']
+                fields :
+                  - 'numero'
+                  - 'lettre'
+                  - { property : 'titreProjet', label : 'Projet'}
+                  - { property : 'lyceeAcademie' , label : 'Académie'}
+                  - { property : 'Lycee', label : 'Lycée'}
+                  - { property : 'Prof1', label : 'Professeur1'}
+                  - { property : 'Prof2', label : 'Professeur2'}

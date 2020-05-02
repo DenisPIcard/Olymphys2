@@ -1,0 +1,64 @@
+easy_admin :
+    entities :
+        Equipesadmin :
+            class : App\Entity\Equipesadmin
+            label : '<h2> Les équipes des CIA</h2>'
+            controller: App\Controller\EquipesadminController 
+            list : 
+                filters : 
+                    
+                    - property : 'edition' 
+                      
+                    - property : 'centre'  
+                      
+                dql_filter : " entity.numero < 100 "
+                actions : 
+                    - { name : 'new' , label  : 'Ajouter une équipe', icon : 'plus-square'}
+                    - { name: 'edit', icon: 'pencil', label: false }
+                    - { name: 'delete', icon: 'trash-alt', label: false }
+                batch_actions: ['delete']  
+                max_results: 50
+                sort: ['centre.centre', 'ASC']
+                template : 'Admin\customizations\list.html.twig'
+                fields :
+                  - { property : 'edition.ed', label : 'Edition'}
+                  - {property : 'centre.centre', label : 'Centre'}
+                  - 'numero'
+                  - 'lettre'
+                  - { property : 'titreProjet', label : 'Projet'}
+                  - { property : 'lyceeAcademie' , label : 'Académie'}
+                  - { property : 'Lycee', label : 'Lycée'}
+                  - { property : 'selectionnee' , type : 'toggle'}
+                  - { property : 'Prof1', label : 'Professeur1'}
+                  - { property : 'Prof2', label : 'Professeur2'}
+                     
+            new :
+                title : 'Ajouter une équipe'
+                fields : 
+                  - { property :  'numero'}
+                  - { property : 'lettre', type : 'choice', type_options :{choices : { 'A':'A','B':'B','C':'C','D':'D','E':'E','F':'F','G':'G','H':'H','I':'I','J':'J','K':'K','L':'L','M':'M','N':'N','O':'O','P':'P','Q':'Q','R':'R','S':'S','T':'T','U':'U','V':'V','W':'W','X':X','Y':'Y','Z':'Z'}} }
+                  - { property : 'titreProjet'}  
+                  - {property : 'centre', type: 'entity' , type_options : { class : 'App\Entity\Centrescia', query_builder : 'App\Repository\CentresciaRepository::getCentres', 'choice_label' : 'getCentre'}}
+                  - 'idProf1'
+                  - 'nomProf1'
+                  - 'prenomProf1'
+                  - 'idProf2'
+                  - 'nomProf2'
+                  - 'prenomProf2'
+                               
+                                   
+            edit :        
+                title : 'modifier une équipe'
+                fields : 
+                  - { property :  'numero', type_options :{disabled: true}}
+                  - { property : 'lettre',type : 'choice', type_options :{choices :{ 'A':'A','B':'B','C':'C','D':'D','E':'E','F':'F','G':'G','H':'H','I':'I','J':'J','K':'K','L':'L','M':'M','N':'N','O':'O','P':'P','Q':'Q','R':'R','S':'S','T':'T','U':'U','V':'V','W':'W','X':X','Y':'Y'}}}
+                  - 'titreProjet'
+                  - {property : 'centre', type: 'entity' , type_options : { class : 'App\Entity\Centrescia',query_builder : 'App\Repository\CentresciaRepository::getCentres', 'choice_label' : 'getCentre'}}
+                  - { property : 'selectionnee' , type : 'checkbox'}
+                  - 'idProf1'
+                  - 'nomProf1'
+                  - 'prenomProf1'
+                  - 'idProf2'
+                  - 'nomProf2'
+                  - 'prenomProf2'
+                                  

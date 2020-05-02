@@ -3,6 +3,10 @@
 imports :
     - { resource: easy_admin/basic.yml } 
     - { resource: easy_admin/design.yml }
+    - { resource: easy_admin/centrescia.yml }
+    - { resource: easy_admin/edition.yml }
+    - { resource: easy_admin/equipesadmin.yml }
+    - { resource: easy_admin/selectionnees.yml }
 easy_admin:   
     user:
         name_property_path: 'Nom'
