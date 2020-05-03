@@ -3,7 +3,10 @@
 imports :
     - { resource: easy_admin/basic.yml } 
     - { resource: easy_admin/design.yml }
+    - { resource: easy_admin/jures.yml }
+
     - { resource: easy_admin/centrescia.yml }
+    - { resource: easy_admin/elevesinter.yml }
     - { resource: easy_admin/edition.yml }
     - { resource: easy_admin/equipesadmin.yml }
     - { resource: easy_admin/selectionnees.yml }
@@ -34,6 +37,9 @@ easy_admin:
                        - 'email'
                        - { property: 'roles',required: false, type: 'choice', type_options: { multiple: true, choices: { 'ROLE_SUPER_ADMIN':'ROLE_SUPER_ADMIN', 'ROLE_ADMIN':'ROLE_ADMIN', 'ROLE_PROF' : 'ROLE_PROF',  'ROLE_COMITE': 'ROLE_COMITE' , 'ROLE_JURY': 'ROLE_JURY', 'ROLE_ORGACIA':'ROLE_ORGACIA', 'ROLE_JURYCIA':'ROLE_JURYCIA'} } }
                        - { property: 'is_active', type: 'checkbox'}
+        Eleves :
+            class : App\Entity\Eleves
+
     site_name: <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/Logo_odpf_long.png"" alt="logo des OdpF"  width="160"/>
     design:
         assets:

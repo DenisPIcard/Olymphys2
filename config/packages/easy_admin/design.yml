@@ -8,17 +8,20 @@ easy_admin :
                 menu:
                     - { entity: 'Adminsite' , permission: 'ROLE_SUPER_ADMIN', icon : 'cogs'}
                     - { entity: 'User', label : 'Utilisateurs', permission: 'ROLE_SUPER_ADMIN', icon : 'user' }
+                    - { entity: 'Jures' , permission: 'ROLE_SUPER_ADMIN', icon : 'graduation-cap'}
                     - label : 'Concours interacadémique'
                       icon : 
                       css_class: 'text-bold'
                       children :
                          - { entity : 'Centrescia', 'label' : 'Centres interacadémiques', icon : 'city'}
                          - { entity : 'Equipesadmin', 'label' : 'Equipes des cia', icon : 'user-friends'}
+                         - { entity : 'Elevesinter', 'label' : 'Elèves inscrits', icon : 'child' }
                     - label : 'Concours national'
                       icon : ''
                       children :
                         - label: 'Equipes'
                         - { label : 'Administration des équipes' , entity : 'Selectionnees', icon : 'user-friends'}
+                        - { entity: 'Eleves' , icon : 'asterisk'}
                         
                     - { label: 'Retour à la page d''accueil', route: 'core_home' , icon : 'home'}
                     - { label : 'Deconnexion' , route: 'logout', icon : 'door-open'}

@@ -1,0 +1,27 @@
+easy_admin :
+    entities :
+        Elevesinter :
+            class :  App\Entity\Elevesinter
+            label : 'Eleves'
+            list :
+                permission: 'ROLE_COMITE'
+                
+                batch_actions: ['delete']
+                fields : 
+                    - {property : 'nom'}
+                    - {property : 'prenom '}
+                    - {property : 'genre'}
+                    - {property : 'courriel'}
+                    - {property :  'equipe.numero', label : ' Numéro équipe'}
+                    - {property : 'equipe.titreProjet', label : 'Projet'}
+                    - {property : 'equipe.lyceeLocalite', label : 'ville'}
+                sort : ['equipe.numero', ASC]
+                #form:  # <-- 'form' is applied to both 'new' and 'edit' views
+            form :
+                  fields: 
+                       - 'nom'
+                       - 'prenom'
+                       - 'genre'
+                       - 'courriel'
+                       - { property: 'equipe', type: 'entity' , type_options : { class : 'App\Entity\Equipesadmin',query_builder : 'App\Repository\EquipesadminRepository::getEquipeInter', 'choice_label' : 'getInfoequipe'}}
+            
