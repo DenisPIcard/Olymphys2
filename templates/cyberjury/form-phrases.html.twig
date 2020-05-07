@@ -1,0 +1,71 @@
+  <div class="well">
+  {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+
+  {# Les erreurs générales du formulaire. #}
+  {{ form_errors(form) }}
+
+  {# Génération manuelle et éclatée : #}
+  <div class="form-group">
+    {# Génération du label. #}
+    {{ form_label(form.phrases, "Racontez en une phrase amusante cette équipe et décernez lui un prix amusant. ", {'label_attr': {'class': 'col-sm-10 control-label'}}) }}
+    {# Affichage des erreurs pour ce champ précis. #}
+    {{ form_errors(form.phrases) }}
+  </div>
+
+  {# Génération manuelle et éclatée : #}
+  <div class="form-group">
+    {# Génération du label. #}
+    {{ form_label(form.phrases.phrase, "Phrase amusante", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+    {# Affichage des erreurs pour ce champ précis. #}
+    {{ form_errors(form.phrases.phrase) }}
+    <span class="col-sm-10">
+      {# Génération de l'input. #}
+    {{ form_widget(form.phrases.phrase, {'attr': {'class': 'form-control'}}) }}
+  </span>
+
+  </div>
+
+  {# Génération manuelle et éclatée : #}
+  <div class="form-group">
+    {# Génération du label. #}
+    {{ form_label(form.liaison, "", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+    {#  Affichage des erreurs pour ce champ précis. #}
+    {{ form_errors(form.liaison) }}
+    <span class="col-sm-10">
+      {# Génération de l'input. #}
+    {{ form_widget(form.liaison, {'attr': {'class': 'form-control'}}) }}
+  </span>
+
+  </div>
+ 
+
+  {# Génération manuelle et éclatée : #}
+  <div class="form-group">
+    {# Génération du label. #}
+    {{ form_label(form.phrases.prix, "Prix amusant", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+    {# Affichage des erreurs pour ce champ précis. #}
+    {{ form_errors(form.phrases.prix) }}
+    <span class="col-sm-10">
+      {# Génération de l'input. #}
+      {{ form_widget(form.phrases.prix, {'attr': {'class': 'form-control'}}) }}
+  </span>
+
+  </div>
+
+  <div>
+    {# Pour le bouton, pas de label ni d'erreur, on affiche juste le widget #}
+    {{ form_widget(form.Enregistrer, {'attr': {'class': 'btn btn-primary'}}) }}
+
+  </div>
+
+  {# Génération automatique des champs pas encore écrits.
+     Dans cet exemple, ce serait le champ CSRF (géré automatiquement par Symfony !)
+     et tous les champs cachés (type « hidden »). #}
+  {{ form_rest(form) }}
+
+  {# Fermeture de la balise <form> du formulaire HTML #}
+  {{ form_end(form) }}
+
+</div>
+
+  

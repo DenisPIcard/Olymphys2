@@ -1,0 +1,19 @@
+<nav class="navbar navbar-default">
+
+
+<div class="list-group">
+  <a href="{{ path('cyberjury_accueil') }}" class="fas fa-home list-group-item list-group-item-action"> Accueil du Jury</a>
+  <a href="{{ path('cyberjury_tableau_de_bord') }}" type="button" class="fas fa-list list-group-item list-group-item-action"> Tableau de bord</a>
+  
+  <button class="far fa-bookmark btn btn-outline btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+         Informations</button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+        <a class="fas fa-list-alt dropdown-item" href="{{ path('cyberjury_lesprix') }}"> Les Prix</a>
+        <a class="fas fa-gift dropdown-item" href="{{ path('cyberjury_lescadeaux') }}"> Les cadeaux</a>
+        <a class="fas fa-leaf dropdown-item" href="{{ path('cyberjury_palmares') }}"> Le palmarès</a>      
+        </div>
+  <a href="{{ path('logout') }}" type="button" class="fas fa-procedures list-group-item list-group-item-action"> Déconnexion</a>
+</div>
+
+    
+</nav>

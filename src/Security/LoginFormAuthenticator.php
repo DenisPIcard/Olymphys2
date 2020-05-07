@@ -20,7 +20,7 @@ use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
 class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 {
-    use TargetPathTrait;
+   // use TargetPathTrait;
     
     private $userRepository;
     private $router;
@@ -37,7 +37,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     
     public function supports(Request $request)
     {
-        
+        //dump($request);
         return $request->attributes->get('_route') === 'login'
             and $request->isMethod('POST');
     }
@@ -45,16 +45,15 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     public function getCredentials(Request $request)
     {
         $credentials = [
-            'username' => $request->get('username'),
-            'email' => $request->request->get('email'),
-            'password' => $request->request->get('password'),
+            'username' => $request->request->get('_username'),
+            'password' => $request->request->get('_password'),
             'csrf_token' => $request->request->get('_csrf_token'),
-        ];
+        ]; 
+        //dd($credentials);
         $request->getSession()->set(
             Security::LAST_USERNAME,
             $credentials['username']
-        );
-        //dd($credentials);
+            );
         return $credentials;
     }
 
